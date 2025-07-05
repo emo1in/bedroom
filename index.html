@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>纵向全屏图片</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>sadboismokee.baby</title>
     <style>
         * {
             margin: 0;
@@ -17,7 +19,7 @@
             width: 100%;
             height: 100%;
             position: fixed;
-            background: black;
+            background: #000;
         }
         
         #image-container {
@@ -27,51 +29,59 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
         }
         
         #fullscreen-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
-            width: auto;
-            object-fit: contain;
+            object-fit: cover;
+            object-position: center;
         }
         
-        /* 界面元素样式保持不变 */
+        /* 精确匹配图二样式 */
         .menu {
             position: fixed;
-            top: max(20px, env(safe-area-inset-top));
-            left: max(20px, env(safe-area-inset-left));
+            top: env(safe-area-inset-top, 15px);
+            left: env(safe-area-inset-left, 15px);
             z-index: 100;
             color: white;
-            font-size: 18px;
-            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 17px;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
         .site-url {
             position: fixed;
-            bottom: max(20px, env(safe-area-inset-bottom));
-            right: max(20px, env(safe-area-inset-right));
+            bottom: env(safe-area-inset-bottom, 15px);
+            right: env(safe-area-inset-right, 15px);
             z-index: 100;
             color: white;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 14px;
-            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+            font-weight: 400;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
         .time {
             position: fixed;
-            top: max(20px, env(safe-area-inset-top));
-            right: max(20px, env(safe-area-inset-right));
+            top: env(safe-area-inset-top, 15px);
+            right: env(safe-area-inset-right, 15px);
             z-index: 100;
             color: white;
-            font-size: 18px;
-            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 17px;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
     </style>
 </head>
 <body>
     <div id="image-container">
-        <img id="fullscreen-image" src="bedroom.jpg" alt="纵向全屏图片">
+        <img id="fullscreen-image" src="bedroom.jpg" alt="全屏图片">
     </div>
     
     <div class="menu">Menu</div>
@@ -79,78 +89,70 @@
     <div class="site-url">sadboismokee.baby</div>
 
     <script>
-        // 确保图片纵向填满
-        function adjustImage() {
+        // 强制Safari全屏显示
+        function forceFullScreen() {
+            document.documentElement.style.height = '100%';
+            document.body.style.height = '100%';
+            
+            // 针对iOS 15+的特殊处理
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+            
+            // 确保图片容器填满屏幕
+            const container = document.getElementById('image-container');
+            container.style.height = window.innerHeight + 'px';
+        }
+        
+        // 精确时间更新
+        function updateTime() {
+            const now = new Date();
+            const options = { hour: 'numeric', minute: '2-digit' };
+            document.getElementById('current-time').textContent = 
+                now.toLocaleTimeString('en-US', options).replace(/^(\d+:\d{2}).*/, '$1');
+        }
+        
+        // 图片加载处理
+        function handleImageLoad() {
             const img = document.getElementById('fullscreen-image');
             const container = document.getElementById('image-container');
             
-            // 强制设置图片高度为100%
+            // 确保图片覆盖整个容器
+            img.style.width = '100%';
             img.style.height = '100%';
-            img.style.width = 'auto';
+            img.style.objectFit = 'cover';
             
-            // 计算并居中图片
-            const imgRatio = img.naturalWidth / img.naturalHeight;
-            const screenRatio = window.innerWidth / window.innerHeight;
-            
-            if (imgRatio > screenRatio) {
-                // 如果图片比屏幕宽，调整宽度使高度保持100%
-                img.style.width = 'auto';
-                img.style.height = '100%';
-            } else {
-                // 如果图片比屏幕窄，调整宽度填满屏幕（会有部分图片超出可视区域）
-                img.style.width = '100%';
-                img.style.height = 'auto';
+            // 针对动态岛设备调整
+            if (window.innerHeight / window.innerWidth > 2) {
+                container.style.marginTop = 'env(safe-area-inset-top)';
+                container.style.marginBottom = 'env(safe-area-inset-bottom)';
             }
-        }
-        
-        // 拖动功能
-        const image = document.getElementById('fullscreen-image');
-        let isDragging = false;
-        let startX, startY, translateX = 0, translateY = 0;
-        
-        image.addEventListener('touchstart', (e) => {
-            isDragging = true;
-            startX = e.touches[0].clientX - translateX;
-            startY = e.touches[0].clientY - translateY;
-            e.preventDefault();
-        });
-        
-        image.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            translateX = e.touches[0].clientX - startX;
-            translateY = e.touches[0].clientY - startY;
-            image.style.transform = `translate(${translateX}px, ${translateY}px)`;
-            e.preventDefault();
-        });
-        
-        image.addEventListener('touchend', () => {
-            isDragging = false;
-        });
-        
-        // 更新时间
-        function updateTime() {
-            const now = new Date();
-            const hours = now.getHours();
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            document.getElementById('current-time').textContent = `${hours}:${minutes}`;
         }
         
         // 初始化
         window.addEventListener('load', () => {
+            forceFullScreen();
             updateTime();
-            adjustImage();
+            setInterval(updateTime, 30000); // 每30秒更新
             
-            // 图片加载完成后重新调整
             const img = document.getElementById('fullscreen-image');
             if (img.complete) {
-                adjustImage();
+                handleImageLoad();
             } else {
-                img.onload = adjustImage;
+                img.onload = handleImageLoad;
             }
         });
         
-        window.addEventListener('resize', adjustImage);
-        setInterval(updateTime, 60000);
+        window.addEventListener('resize', () => {
+            forceFullScreen();
+            handleImageLoad();
+        });
+        
+        // 添加到主屏幕提示
+        if (window.navigator.standalone === false) {
+            setTimeout(() => {
+                alert('为了最佳体验，请添加到主屏幕：\n1. 点击分享按钮\n2. 选择"添加到主屏幕"');
+            }, 3000);
+        }
     </script>
 </body>
 </html>
