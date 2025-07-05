@@ -1,149 +1,35 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>sadboismokee.baby</title>
-    <style>
-        /* 完全重置所有默认样式 */
-        * {
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-text-size-adjust: none;
-            box-sizing: border-box;
-        }
-        
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            position: fixed;
-            background: #000;
-        }
-        
-        /* 图片容器 - 精确全屏 */
-        #image-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            height: -webkit-fill-available;
-            overflow: hidden;
-        }
-        
-        /* 图片元素 - 强制覆盖全屏 */
-        #fullscreen-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
-        
-        /* 精确匹配图二UI样式 */
-        .menu {
-            position: fixed;
-            top: constant(safe-area-inset-top, 15px);
-            top: env(safe-area-inset-top, 15px);
-            left: 15px;
-            z-index: 100;
-            color: white;
-            font: 500 17px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-        }
-        
-        .site-url {
-            position: fixed;
-            bottom: constant(safe-area-inset-bottom, 15px);
-            bottom: env(safe-area-inset-bottom, 15px);
-            right: 15px;
-            z-index: 100;
-            color: white;
-            font: 400 14px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-        }
-        
-        .time {
-            position: fixed;
-            top: constant(safe-area-inset-top, 15px);
-            top: env(safe-area-inset-top, 15px);
-            right: 15px;
-            z-index: 100;
-            color: white;
-            font: 500 17px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bedroom</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .scroll-container {
+      width: 100vw;
+      height: 100vh;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch; /* iOS 惯性滚动 */
+    }
+
+    .scroll-image {
+      height: 100vh;
+    }
+  </style>
 </head>
 <body>
-    <!-- 图片容器 -->
-    <div id="image-container">
-        <img id="fullscreen-image" src="bedroom.jpg" alt="全屏背景">
-    </div>
-    
-    <!-- UI元素 -->
-    <div class="menu">Menu</div>
-    <div class="time" id="current-time">6:02</div>
-    <div class="site-url">sadboismokee.baby</div>
-
-    <script>
-        // 强制全屏函数
-        function enforceFullscreen() {
-            const vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
-            
-            // 确保元素尺寸正确
-            document.getElementById('image-container').style.height = 
-                `${window.innerHeight}px`;
-        }
-        
-        // 精确时间更新
-        function updateTime() {
-            const now = new Date();
-            const hours = now.getHours();
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            document.getElementById('current-time').textContent = `${hours}:${minutes}`;
-        }
-        
-        // 图片加载处理
-        function handleImage() {
-            const img = document.getElementById('fullscreen-image');
-            img.style.width = '100%';
-            img.style.height = '100%';
-            img.style.objectFit = 'cover';
-        }
-        
-        // 初始化
-        function init() {
-            enforceFullscreen();
-            updateTime();
-            setInterval(updateTime, 1000);
-            
-            const img = document.getElementById('fullscreen-image');
-            if (img.complete) {
-                handleImage();
-            } else {
-                img.onload = handleImage;
-            }
-        }
-        
-        // 事件监听
-        window.addEventListener('load', init);
-        window.addEventListener('resize', enforceFullscreen);
-        
-        // 添加到主屏幕提示
-        if (window.navigator.standalone === false && 
-            /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-            setTimeout(() => {
-                alert('请通过Safari的"分享"按钮，选择"添加到主屏幕"以获得最佳全屏体验');
-            }, 3000);
-        }
-    </script>
+  <div class="scroll-container">
+    < img class="scroll-image" src="bedroom.jpg" alt="宽图" />
+  </div>
 </body>
 </html>
