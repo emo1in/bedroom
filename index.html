@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Bedroom</title>
+    <title>纵向全屏图片</title>
     <style>
         * {
             margin: 0;
@@ -29,16 +27,17 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
+            display: flex;
+            justify-content: center;
         }
         
         #fullscreen-image {
-            position: absolute;
-            width: 100%;
             height: 100%;
-            object-fit: cover;
-            object-position: center;
+            width: auto;
+            object-fit: contain;
         }
         
+        /* 界面元素样式保持不变 */
         .menu {
             position: fixed;
             top: max(20px, env(safe-area-inset-top));
@@ -72,7 +71,7 @@
 </head>
 <body>
     <div id="image-container">
-        <img id="fullscreen-image" src="bedroom.jpg" alt="卧室全屏图片">
+        <img id="fullscreen-image" src="bedroom.jpg" alt="纵向全屏图片">
     </div>
     
     <div class="menu">Menu</div>
@@ -80,55 +79,34 @@
     <div class="site-url">sadboismokee.baby</div>
 
     <script>
-        // 强制全屏模式（某些浏览器支持）
-        function requestFullScreen() {
-            const docEl = document.documentElement;
-            const requestFS = docEl.requestFullscreen || 
-                             docEl.webkitRequestFullscreen || 
-                             docEl.mozRequestFullScreen || 
-                             docEl.msRequestFullscreen;
-            
-            if (requestFS) {
-                requestFS.call(docEl).catch(e => {
-                    console.log("全屏模式不可用:", e);
-                });
-            }
-        }
-        
-        // 调整图片容器尺寸以填满整个屏幕
-        function resizeContainer() {
-            const container = document.getElementById('image-container');
+        // 确保图片纵向填满
+        function adjustImage() {
             const img = document.getElementById('fullscreen-image');
+            const container = document.getElementById('image-container');
             
-            // 获取实际可视区域高度
-            const visualHeight = window.innerHeight;
-            const visualWidth = window.innerWidth;
+            // 强制设置图片高度为100%
+            img.style.height = '100%';
+            img.style.width = 'auto';
             
-            // 设置容器尺寸
-            container.style.height = visualHeight + 'px';
-            container.style.width = visualWidth + 'px';
+            // 计算并居中图片
+            const imgRatio = img.naturalWidth / img.naturalHeight;
+            const screenRatio = window.innerWidth / window.innerHeight;
             
-            // 根据图片比例调整显示方式
-            if (img.naturalWidth && img.naturalHeight) {
-                const imgRatio = img.naturalWidth / img.naturalHeight;
-                const screenRatio = visualWidth / visualHeight;
-                
-                if (imgRatio > screenRatio) {
-                    img.style.width = 'auto';
-                    img.style.height = '100%';
-                } else {
-                    img.style.width = '100%';
-                    img.style.height = 'auto';
-                }
+            if (imgRatio > screenRatio) {
+                // 如果图片比屏幕宽，调整宽度使高度保持100%
+                img.style.width = 'auto';
+                img.style.height = '100%';
+            } else {
+                // 如果图片比屏幕窄，调整宽度填满屏幕（会有部分图片超出可视区域）
+                img.style.width = '100%';
+                img.style.height = 'auto';
             }
         }
         
-        // 拖动图片功能
+        // 拖动功能
         const image = document.getElementById('fullscreen-image');
         let isDragging = false;
         let startX, startY, translateX = 0, translateY = 0;
-        
-        image.style.transform = `translate(${translateX}px, ${translateY}px)`;
         
         image.addEventListener('touchstart', (e) => {
             isDragging = true;
@@ -160,17 +138,19 @@
         // 初始化
         window.addEventListener('load', () => {
             updateTime();
-            resizeContainer();
-            requestFullScreen();
+            adjustImage();
             
-            // 确保图片加载后重新调整
-            image.onload = function() {
-                resizeContainer();
-            };
+            // 图片加载完成后重新调整
+            const img = document.getElementById('fullscreen-image');
+            if (img.complete) {
+                adjustImage();
+            } else {
+                img.onload = adjustImage;
+            }
         });
         
-        window.addEventListener('resize', resizeContainer);
-        setInterval(updateTime, 60000); // 每分钟更新一次时间
+        window.addEventListener('resize', adjustImage);
+        setInterval(updateTime, 60000);
     </script>
 </body>
 </html>
