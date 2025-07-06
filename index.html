@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SADBOISMOKEE – The Official Website of SADBOISMOKEE</title>
-<meta property="og:title" content="SADBOISMOKEE – The Official Website of SADBOISMOKEE"/>
+  <meta property="og:title" content="SADBOISMOKEE – The Official Website of SADBOISMOKEE"/>
     <meta property="twitter:title" content="SADBOISMOKEE – The Official Website of SADBOISMOKEE"/>
     <meta property="twitter:site" content="@sadboismokee"/>
     <meta property="twitter:creator" content="@sadboismokee"/>
+
   <style>
     body { margin: 0; padding: 0; overflow: hidden; background-color: #000; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
 
@@ -172,9 +173,8 @@
   function loadPointsFromStorage() {
     const storedData = localStorage.getItem('productPointsData');
     if (storedData) return JSON.parse(storedData);
-    return [{ x: 18, y: 66, name: 'EMOTIONAL' link: 'http://163cn.tv/GR6ygc6' }, { x: 74, y: 69, name: 'BLUE HOUR(Prelude)' link: 'http://163cn.tv/GQbcYzj }];
+    return [{ x: 18, y: 66, name: 'EMOTIONAL' }, { x: 74, y: 69, name: 'BLUE HOUR(Prelude)' }];
   }
-
 
 
   // --- 页面加载和事件绑定 ---
