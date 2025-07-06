@@ -3,42 +3,212 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>sadboismokee.baby</title>
+  <title>商品标记系统（智能布局版）</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
+    body { margin: 0; padding: 0; overflow: hidden; background-color: #000; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+
+    .scroll-wrapper {
+      width: 100vw;
+      height: 100vh;
+      /* overflow由JS动态控制 */
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .scroll-wrapper::-webkit-scrollbar { display: none; }
 
     .box {
       position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow-x: auto;
-      overflow-y: hidden;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+      /* 宽高由JS动态设定 */
+      background-image: url('https://calm-charity-0631d2bca7.media.strapiapp.com/20230508_closet_light_object_2560x_2x_72e2b61a18.jpg');
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      cursor: default;
     }
 
-    .box::-webkit-scrollbar {
-      display: none;
-    }
+    .point { position: absolute; width: 12px; height: 12px; background-color: white; border-radius: 50%; cursor: pointer; transition: transform 0.2s ease; z-index: 10; transform: translate(-50%, -50%); }
+    .point::before, .point::after { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background-color: rgba(255, 255, 255, 0.3); border-radius: 50%; transform: translate(-50%, -50%); animation: ripple 2s infinite; }
+    .point::after { animation: ripple 2s infinite 1s; }
+    .point:hover { transform: translate(-50%, -50%) scale(1.5); }
+    .point.admin-mode:hover { background-color: #ff4757; }
+    @keyframes ripple { 0% { width: 0; height: 0; opacity: 1; } 100% { width: 40px; height: 40px; opacity: 0; } }
 
-    .box-img {
-      display: block;
-      height: 100vh;
-      min-width: 100vw;
-      width: auto;
-      object-fit: cover;
-    }
+    .admin-ui { position: fixed; top: 15px; right: 15px; z-index: 101; background: rgba(0,0,0,0.7); color: white; padding: 10px 15px; border-radius: 8px; display: none; }
+    .admin-ui p { margin: 0 0 10px 0; font-size: 14px; }
+    .admin-ui button { background: #007bff; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
+
+    .tooltip { position: absolute; background-color: rgba(0, 0, 0, 0.8); color: white; padding: 8px 12px; border-radius: 6px; font-size: 15px; z-index: 100; display: none; transform: translate(-50%, -120%); white-space: nowrap; pointer-events: none; }
+    .tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent; }
   </style>
 </head>
 <body>
-<div class="box">
-  <img class="box-img" src="https://calm-charity-0631d2bca7.media.strapiapp.com/20230508_closet_light_object_2560x_2x_72e2b61a18.jpg?w=100" alt="背景" />
+
+<div class="scroll-wrapper">
+  <div id="image-box" class="box">
+    <div id="tooltip" class="tooltip"></div>
+  </div>
 </div>
+
+<div id="admin-panel" class="admin-ui">
+  <p>管理员模式</p>
+  <button id="save-button">保存坐标</button>
+</div>
+
+<script>
+  // --- 全局变量和初始化 ---
+  const wrapper = document.querySelector('.scroll-wrapper');
+  const box = document.getElementById('image-box');
+  const tooltip = document.getElementById('tooltip');
+  const image = new Image();
+  let pointsData = [];
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const isAdmin = urlParams.get('admin') === 'true';
+
+  // --- 核心功能函数 ---
+
+  /**
+   * @description 新增：智能布局函数，根据图片和屏幕比例决定最佳显示方案
+   */
+  function updateLayout() {
+    if (!image.naturalWidth) return; // 确保图片已加载
+
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const viewportAspectRatio = viewportWidth / viewportHeight;
+    const imageAspectRatio = image.naturalWidth / image.naturalHeight;
+
+    // 比较图片和视口的宽高比
+    if (imageAspectRatio > viewportAspectRatio) {
+      // --- 宽图模式 ---
+      // 图片比视口更宽，使其高度撑满，宽度超出部分可滚动
+      const dynamicWidth = viewportHeight * imageAspectRatio;
+      box.style.width = `${dynamicWidth}px`;
+      box.style.height = `${viewportHeight}px`;
+      wrapper.style.overflowX = 'auto'; // 允许横向滚动
+    } else {
+      // --- 窄图模式 ---
+      // 图片比视口更窄或同宽，使其宽度撑满，高度超出部分被裁剪
+      const dynamicHeight = viewportWidth / imageAspectRatio;
+      box.style.width = `${viewportWidth}px`;
+      box.style.height = `${dynamicHeight}px`;
+      wrapper.style.overflowX = 'hidden'; // 禁止横向滚动
+    }
+
+    // 布局更新后，重新定位所有点
+    positionPoints();
+    hideTooltip();
+  }
+
+
+  function renderPoints() {
+    box.querySelectorAll('.point').forEach(p => p.remove());
+    pointsData.forEach((pointInfo, index) => {
+      const pointEl = document.createElement('div');
+      pointEl.className = 'point';
+      if (isAdmin) pointEl.classList.add('admin-mode');
+      pointEl.dataset.index = index;
+      box.appendChild(pointEl);
+    });
+    positionPoints();
+  }
+
+  function positionPoints() {
+    const boxWidth = box.offsetWidth;
+    const boxHeight = box.offsetHeight;
+    document.querySelectorAll('.point').forEach(pointEl => {
+      const index = parseInt(pointEl.dataset.index, 10);
+      const pointInfo = pointsData[index];
+      if (pointInfo) {
+        pointEl.style.left = `${boxWidth * pointInfo.x / 100}px`;
+        pointEl.style.top = `${boxHeight * pointInfo.y / 100}px`;
+      }
+    });
+  }
+
+  function showTooltip(pointElement, name) {
+    tooltip.textContent = name;
+    tooltip.style.left = pointElement.style.left;
+    tooltip.style.top = pointElement.style.top;
+    tooltip.style.display = 'block';
+  }
+
+  function hideTooltip() {
+    tooltip.style.display = 'none';
+  }
+
+  // ... (管理员相关函数 handleAdminClick, save, load 保持不变) ...
+  function handleAdminClick(event) {
+    hideTooltip();
+    if (event.target.classList.contains('point')) {
+      const indexToRemove = parseInt(event.target.dataset.index, 10);
+      const pointName = pointsData[indexToRemove].name;
+      if (confirm(`确定要删除标记点 "${pointName}" 吗？`)) {
+        pointsData.splice(indexToRemove, 1);
+        renderPoints();
+      }
+      return;
+    }
+    if (event.target !== box) return;
+    const boxRect = box.getBoundingClientRect();
+    const clickX_in_box = event.clientX - boxRect.left;
+    const clickY_in_box = event.clientY - boxRect.top;
+    const percentX = (clickX_in_box / box.offsetWidth) * 100;
+    const percentY = (clickY_in_box / box.offsetHeight) * 100;
+    const name = prompt('请输入该标记点的商品名称：', '新款商品');
+    if (name) {
+      pointsData.push({ x: percentX, y: percentY, name: name });
+      renderPoints();
+    }
+  }
+  function savePointsToStorage() {
+    localStorage.setItem('productPointsData', JSON.stringify(pointsData));
+    alert('坐标和名称已成功保存！');
+  }
+  function loadPointsFromStorage() {
+    const storedData = localStorage.getItem('productPointsData');
+    if (storedData) return JSON.parse(storedData);
+    return [{ x: 20, y: 30, name: '潮流双肩包' }, { x: 60, y: 50, name: '经典款卫衣' }];
+  }
+
+
+  // --- 页面加载和事件绑定 ---
+  window.addEventListener('load', () => {
+    pointsData = loadPointsFromStorage();
+
+    const imageUrl = getComputedStyle(box).backgroundImage.replace(/url\((['"])?(.*?)\1\)/gi, '$2');
+    image.src = imageUrl;
+
+    image.onload = () => {
+      // 图片加载完成后，执行首次智能布局
+      updateLayout();
+      renderPoints();
+    };
+
+    if (isAdmin) {
+      document.getElementById('admin-panel').style.display = 'block';
+      box.addEventListener('click', handleAdminClick);
+      document.getElementById('save-button').addEventListener('click', savePointsToStorage);
+    } else {
+      box.addEventListener('click', (event) => {
+        if (event.target.classList.contains('point')) {
+          const index = parseInt(event.target.dataset.index, 10);
+          const name = pointsData[index].name;
+          if (tooltip.style.display === 'block' && tooltip.textContent === name) {
+            hideTooltip();
+          } else {
+            showTooltip(event.target, name);
+          }
+        } else {
+          hideTooltip();
+        }
+      });
+    }
+
+    // 窗口大小变化时，重新计算布局
+    window.addEventListener('resize', updateLayout);
+  });
+</script>
+
 </body>
 </html>
