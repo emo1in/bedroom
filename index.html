@@ -4,11 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SADBOISMOKEE – The Official Website of SADBOISMOKEE</title>
-  <meta property="og:title" content="SADBOISMOKEE – The Official Website of SADBOISMOKEE"/>
+<meta property="og:title" content="SADBOISMOKEE – The Official Website of SADBOISMOKEE"/>
     <meta property="twitter:title" content="SADBOISMOKEE – The Official Website of SADBOISMOKEE"/>
     <meta property="twitter:site" content="@sadboismokee"/>
     <meta property="twitter:creator" content="@sadboismokee"/>
-
   <style>
     body { margin: 0; padding: 0; overflow: hidden; background-color: #000; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
 
@@ -25,7 +24,7 @@
     .box {
       position: relative;
       /* 宽高由JS动态设定 */
-      background-image: url('https://calm-charity-0631d2bca7.media.strapiapp.com/230118_bedroom_dark_object_2560x_2x_b33b21c325.jpg?w=100');
+      background-image: url('https://calm-charity-0631d2bca7.media.strapiapp.com/20230508_closet_light_object_2560x_2x_72e2b61a18.jpg');
       background-repeat: no-repeat;
       background-size: 100% 100%;
       cursor: default;
@@ -169,63 +168,12 @@
   function savePointsToStorage() {
     localStorage.setItem('productPointsData', JSON.stringify(pointsData));
     alert('坐标和名称已成功保存！');
- }
-function loadPointsFromStorage() {
+  }
+  function loadPointsFromStorage() {
     const storedData = localStorage.getItem('productPointsData');
     if (storedData) return JSON.parse(storedData);
-    return [{ x: 20, y: 30, name: 'EMOTIONAL' link: 'http://163cn.tv/GR6ygc6' }, { x: 60, y: 50, name: 'BLUE HOUR(Prelude)' link: 'http://163cn.tv/GQbcYzj' }];
-}
-
-// 新增函数：为每个点获取对应的链接
-function getLinkForPoint(pointName) {
-    const linkMap = {
-        'EMOTIONAL': 'http://163cn.tv/GR6ygc6',
-        'BLUE HOUR(Prelude)': 'http://163cn.tv/GQbcYzj'
-        // 可以继续添加其他点的链接映射
-    };
-    return linkMap[pointName] || '#'; // 默认返回#如果找不到对应链接
-}
-
-// 新增函数：在图片上创建标记和链接
-function createMarkersWithLinks() {
-    const points = loadPointsFromStorage();
-    const container = document.getElementById('image-container'); // 假设你的图片容器有这个ID
-    const img = document.getElementById('product-image'); // 假设你的图片有这个ID
-    
-    // 确保图片已加载
-    if (img.complete) {
-        initMarkers();
-    } else {
-        img.onload = initMarkers;
-    }
-    
-    function initMarkers() {
-        const imgWidth = img.offsetWidth;
-        const imgHeight = img.offsetHeight;
-        
-        points.forEach(point => {
-            // 创建链接元素
-            const link = document.createElement('a');
-            link.href = getLinkForPoint(point.name);
-            link.className = 'product-marker';
-            link.title = point.name;
-            
-            // 设置位置（你的坐标似乎是百分比）
-            link.style.left = `${(point.x / 100) * imgWidth}px`;
-            link.style.top = `${(point.y / 100) * imgHeight}px`;
-            
-            // 可以添加标记图标或样式
-            link.innerHTML = '📍'; // 或使用自定义图标
-            
-            // 添加到容器
-            container.appendChild(link);
-        });
-    }
-}
-
-// 页面加载完成后调用
-document.addEventListener('DOMContentLoaded', createMarkersWithLinks);
-
+    return [{ x: 20, y: 30, name: 'EMOTIONAL' }, { x: 60, y: 50, name: 'BLUE HOUE(Prelide)' }];
+  }
 
 
   // --- 页面加载和事件绑定 ---
