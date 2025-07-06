@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SADBOISMOKEE – The Official Website of SADBOISMOKEE</title>
   <meta property="og:title" content="SADBOISMOKEE – The Official Website of SADBOISMOKEE"/>
-  <meta property="twitter:title" content="SADBOISMOKEE – The Official Website of SADBOISMOKEE"/>
-  <meta property="twitter:site" content="@sadboismokee"/>
-  <meta property="twitter:creator" content="@sadboismokee"/>
+    <meta property="twitter:title" content="SADBOISMOKEE – The Official Website of SADBOISMOKEE"/>
+    <meta property="twitter:site" content="@sadboismokee"/>
+    <meta property="twitter:creator" content="@sadboismokee"/>
 
   <style>
     body { margin: 0; padding: 0; overflow: hidden; background-color: #000; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
@@ -15,6 +15,7 @@
     .scroll-wrapper {
       width: 100vw;
       height: 100vh;
+      /* overflow由JS动态控制 */
       overflow-y: hidden;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
@@ -23,90 +24,26 @@
 
     .box {
       position: relative;
+      /* 宽高由JS动态设定 */
       background-image: url('https://calm-charity-0631d2bca7.media.strapiapp.com/230118_bedroom_dark_object_2560x_2x_b33b21c325.jpg?w=100');
       background-repeat: no-repeat;
       background-size: 100% 100%;
       cursor: default;
     }
 
-    .point {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      background-color: white;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-      z-index: 10;
-      transform: translate(-50%, -50%);
-      text-decoration: none;
-      color: transparent;
-      display: block;
-    }
-    .point::before, .point::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background-color: rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      animation: ripple 2s infinite;
-    }
+    .point { position: absolute; width: 12px; height: 12px; background-color: white; border-radius: 50%; cursor: pointer; transition: transform 0.2s ease; z-index: 10; transform: translate(-50%, -50%); }
+    .point::before, .point::after { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background-color: rgba(255, 255, 255, 0.3); border-radius: 50%; transform: translate(-50%, -50%); animation: ripple 2s infinite; }
     .point::after { animation: ripple 2s infinite 1s; }
     .point:hover { transform: translate(-50%, -50%) scale(1.5); }
     .point.admin-mode:hover { background-color: #ff4757; }
-    @keyframes ripple {
-      0% { width: 0; height: 0; opacity: 1; }
-      100% { width: 40px; height: 40px; opacity: 0; }
-    }
+    @keyframes ripple { 0% { width: 0; height: 0; opacity: 1; } 100% { width: 40px; height: 40px; opacity: 0; } }
 
-    .admin-ui {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      z-index: 101;
-      background: rgba(0,0,0,0.7);
-      color: white;
-      padding: 10px 15px;
-      border-radius: 8px;
-      display: none;
-    }
+    .admin-ui { position: fixed; top: 15px; right: 15px; z-index: 101; background: rgba(0,0,0,0.7); color: white; padding: 10px 15px; border-radius: 8px; display: none; }
     .admin-ui p { margin: 0 0 10px 0; font-size: 14px; }
-    .admin-ui button {
-      background: #007bff;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
+    .admin-ui button { background: #007bff; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
 
-    .tooltip {
-      position: absolute;
-      background-color: rgba(0, 0, 0, 0.8);
-      color: white;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 15px;
-      z-index: 100;
-      display: none;
-      transform: translate(-50%, -120%);
-      white-space: nowrap;
-      pointer-events: none;
-    }
-    .tooltip::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -5px;
-      border-width: 5px;
-      border-style: solid;
-      border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
-    }
+    .tooltip { position: absolute; background-color: rgba(0, 0, 0, 0.8); color: white; padding: 8px 12px; border-radius: 6px; font-size: 15px; z-index: 100; display: none; transform: translate(-50%, -120%); white-space: nowrap; pointer-events: none; }
+    .tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent; }
   </style>
 </head>
 <body>
@@ -134,39 +71,46 @@
   const isAdmin = urlParams.get('admin') === 'true';
 
   // --- 核心功能函数 ---
+
+  /**
+   * @description 新增：智能布局函数，根据图片和屏幕比例决定最佳显示方案
+   */
   function updateLayout() {
-    if (!image.naturalWidth) return;
+    if (!image.naturalWidth) return; // 确保图片已加载
 
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const viewportAspectRatio = viewportWidth / viewportHeight;
     const imageAspectRatio = image.naturalWidth / image.naturalHeight;
 
+    // 比较图片和视口的宽高比
     if (imageAspectRatio > viewportAspectRatio) {
+      // --- 宽图模式 ---
+      // 图片比视口更宽，使其高度撑满，宽度超出部分可滚动
       const dynamicWidth = viewportHeight * imageAspectRatio;
       box.style.width = `${dynamicWidth}px`;
       box.style.height = `${viewportHeight}px`;
-      wrapper.style.overflowX = 'auto';
+      wrapper.style.overflowX = 'auto'; // 允许横向滚动
     } else {
+      // --- 窄图模式 ---
+      // 图片比视口更窄或同宽，使其宽度撑满，高度超出部分被裁剪
       const dynamicHeight = viewportWidth / imageAspectRatio;
       box.style.width = `${viewportWidth}px`;
       box.style.height = `${dynamicHeight}px`;
-      wrapper.style.overflowX = 'hidden';
+      wrapper.style.overflowX = 'hidden'; // 禁止横向滚动
     }
 
+    // 布局更新后，重新定位所有点
     positionPoints();
     hideTooltip();
   }
 
+
   function renderPoints() {
     box.querySelectorAll('.point').forEach(p => p.remove());
     pointsData.forEach((pointInfo, index) => {
-      const pointEl = document.createElement(isAdmin ? 'div' : 'a');
+      const pointEl = document.createElement('div');
       pointEl.className = 'point';
-      if (!isAdmin) {
-        pointEl.href = pointInfo.link || '#';
-        pointEl.target = '_blank';
-      }
       if (isAdmin) pointEl.classList.add('admin-mode');
       pointEl.dataset.index = index;
       box.appendChild(pointEl);
@@ -198,6 +142,7 @@
     tooltip.style.display = 'none';
   }
 
+  // ... (管理员相关函数 handleAdminClick, save, load 保持不变) ...
   function handleAdminClick(event) {
     hideTooltip();
     if (event.target.classList.contains('point')) {
@@ -217,30 +162,71 @@
     const percentY = (clickY_in_box / box.offsetHeight) * 100;
     const name = prompt('请输入该标记点的商品名称：', '新款商品');
     if (name) {
-      const link = prompt('请输入该标记点的链接URL：', 'http://');
-      pointsData.push({ 
-        x: percentX, 
-        y: percentY, 
-        name: name,
-        link: link || '#'
-      });
+      pointsData.push({ x: percentX, y: percentY, name: name });
       renderPoints();
     }
   }
-
   function savePointsToStorage() {
     localStorage.setItem('productPointsData', JSON.stringify(pointsData));
     alert('坐标和名称已成功保存！');
-  }
-
-  function loadPointsFromStorage() {
+ }
+function loadPointsFromStorage() {
     const storedData = localStorage.getItem('productPointsData');
     if (storedData) return JSON.parse(storedData);
-    return [
-      { x: 20, y: 30, name: 'EMOTIONAL', link: 'http://163cn.tv/GR6ygc6' },
-      { x: 60, y: 50, name: 'BLUE HOUR(Prelude)', link: 'http://163cn.tv/GQbcYzj' }
-    ];
-  }
+    return [{ x: 20, y: 30, name: 'EMOTIONAL' link: 'http://163cn.tv/GR6ygc6' }, { x: 60, y: 50, name: 'BLUE HOUR(Prelude)' link: 'http://163cn.tv/GQbcYzj' }];
+}
+
+// 新增函数：为每个点获取对应的链接
+function getLinkForPoint(pointName) {
+    const linkMap = {
+        'EMOTIONAL': 'http://163cn.tv/GR6ygc6',
+        'BLUE HOUR(Prelude)': 'http://163cn.tv/GQbcYzj'
+        // 可以继续添加其他点的链接映射
+    };
+    return linkMap[pointName] || '#'; // 默认返回#如果找不到对应链接
+}
+
+// 新增函数：在图片上创建标记和链接
+function createMarkersWithLinks() {
+    const points = loadPointsFromStorage();
+    const container = document.getElementById('image-container'); // 假设你的图片容器有这个ID
+    const img = document.getElementById('product-image'); // 假设你的图片有这个ID
+    
+    // 确保图片已加载
+    if (img.complete) {
+        initMarkers();
+    } else {
+        img.onload = initMarkers;
+    }
+    
+    function initMarkers() {
+        const imgWidth = img.offsetWidth;
+        const imgHeight = img.offsetHeight;
+        
+        points.forEach(point => {
+            // 创建链接元素
+            const link = document.createElement('a');
+            link.href = getLinkForPoint(point.name);
+            link.className = 'product-marker';
+            link.title = point.name;
+            
+            // 设置位置（你的坐标似乎是百分比）
+            link.style.left = `${(point.x / 100) * imgWidth}px`;
+            link.style.top = `${(point.y / 100) * imgHeight}px`;
+            
+            // 可以添加标记图标或样式
+            link.innerHTML = '📍'; // 或使用自定义图标
+            
+            // 添加到容器
+            container.appendChild(link);
+        });
+    }
+}
+
+// 页面加载完成后调用
+document.addEventListener('DOMContentLoaded', createMarkersWithLinks);
+
+
 
   // --- 页面加载和事件绑定 ---
   window.addEventListener('load', () => {
@@ -250,6 +236,7 @@
     image.src = imageUrl;
 
     image.onload = () => {
+      // 图片加载完成后，执行首次智能布局
       updateLayout();
       renderPoints();
     };
@@ -274,6 +261,7 @@
       });
     }
 
+    // 窗口大小变化时，重新计算布局
     window.addEventListener('resize', updateLayout);
   });
 </script>
