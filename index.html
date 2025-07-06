@@ -170,11 +170,61 @@
     localStorage.setItem('productPointsData', JSON.stringify(pointsData));
     alert('坐标和名称已成功保存！');
  }
-  function loadPointsFromStorage() {
+function loadPointsFromStorage() {
     const storedData = localStorage.getItem('productPointsData');
     if (storedData) return JSON.parse(storedData);
     return [{ x: 20, y: 30, name: 'EMOTIONAL' }, { x: 60, y: 50, name: 'BLUE HOUR(Prelude)' }];
-  }
+}
+
+// 新增函数：为每个点获取对应的链接
+function getLinkForPoint(pointName) {
+    const linkMap = {
+        'EMOTIONAL': 'http://163cn.tv/GR6ygc6',
+        'BLUE HOUR(Prelude)': 'http://163cn.tv/GQbcYzj'
+        // 可以继续添加其他点的链接映射
+    };
+    return linkMap[pointName] || '#'; // 默认返回#如果找不到对应链接
+}
+
+// 新增函数：在图片上创建标记和链接
+function createMarkersWithLinks() {
+    const points = loadPointsFromStorage();
+    const container = document.getElementById('image-container'); // 假设你的图片容器有这个ID
+    const img = document.getElementById('product-image'); // 假设你的图片有这个ID
+    
+    // 确保图片已加载
+    if (img.complete) {
+        initMarkers();
+    } else {
+        img.onload = initMarkers;
+    }
+    
+    function initMarkers() {
+        const imgWidth = img.offsetWidth;
+        const imgHeight = img.offsetHeight;
+        
+        points.forEach(point => {
+            // 创建链接元素
+            const link = document.createElement('a');
+            link.href = getLinkForPoint(point.name);
+            link.className = 'product-marker';
+            link.title = point.name;
+            
+            // 设置位置（你的坐标似乎是百分比）
+            link.style.left = `${(point.x / 100) * imgWidth}px`;
+            link.style.top = `${(point.y / 100) * imgHeight}px`;
+            
+            // 可以添加标记图标或样式
+            link.innerHTML = '📍'; // 或使用自定义图标
+            
+            // 添加到容器
+            container.appendChild(link);
+        });
+    }
+}
+
+// 页面加载完成后调用
+document.addEventListener('DOMContentLoaded', createMarkersWithLinks);
 
 
 
