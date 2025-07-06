@@ -247,19 +247,18 @@ document.addEventListener('DOMContentLoaded', createMarkersWithLinks);
       document.getElementById('save-button').addEventListener('click', savePointsToStorage);
     } else {
       box.addEventListener('click', (event) => {
-  if (event.target.classList.contains('point')) {
-    const index = parseInt(event.target.dataset.index, 10);
-    const pointInfo = pointsData[index];
-    if (tooltip.style.display === 'block' && activePointIndex === index) {
-      hideTooltip(); // 如果已显示则隐藏
-    } else {
-      showTooltip(event.target, pointInfo); // 显示工具提示（名称）
-    }
-    event.stopPropagation(); // 阻止事件冒泡
-  } else {
-    hideTooltip(); // 点击其他区域隐藏
-  }
-});
+        if (event.target.classList.contains('point')) {
+          const index = parseInt(event.target.dataset.index, 10);
+          const name = pointsData[index].name;
+          if (tooltip.style.display === 'block' && tooltip.textContent === name) {
+            hideTooltip();
+          } else {
+            showTooltip(event.target, name);
+          }
+        } else {
+          hideTooltip();
+        }
+      });
     }
 
     // 窗口大小变化时，重新计算布局
