@@ -1,214 +1,474 @@
+
 <!DOCTYPE html>
-<html lang="zh">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Walk-in closet</title>
-  <style>
-    body { margin: 0; padding: 0; overflow: hidden; background-color: #000; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
-
-    .scroll-wrapper {
-      width: 100vw;
-      height: 100vh;
-      /* overflow由JS动态控制 */
-      overflow-y: hidden;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-    .scroll-wrapper::-webkit-scrollbar { display: none; }
-
-    .box {
-      position: relative;
-      /* 宽高由JS动态设定 */
-      background-image: url('https://calm-charity-0631d2bca7.media.strapiapp.com/20230508_closet_light_object_2560x_2x_72e2b61a18.jpg');
-      background-repeat: no-repeat;
-      background-size: 100% 100%;
-      cursor: default;
-    }
-
-    .point { position: absolute; width: 12px; height: 12px; background-color: white; border-radius: 50%; cursor: pointer; transition: transform 0.2s ease; z-index: 10; transform: translate(-50%, -50%); }
-    .point::before, .point::after { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background-color: rgba(255, 255, 255, 0.3); border-radius: 50%; transform: translate(-50%, -50%); animation: ripple 2s infinite; }
-    .point::after { animation: ripple 2s infinite 1s; }
-    .point:hover { transform: translate(-50%, -50%) scale(1.5); }
-    .point.admin-mode:hover { background-color: #ff4757; }
-    @keyframes ripple { 0% { width: 0; height: 0; opacity: 1; } 100% { width: 40px; height: 40px; opacity: 0; } }
-
-    .admin-ui { position: fixed; top: 15px; right: 15px; z-index: 101; background: rgba(0,0,0,0.7); color: white; padding: 10px 15px; border-radius: 8px; display: none; }
-    .admin-ui p { margin: 0 0 10px 0; font-size: 14px; }
-    .admin-ui button { background: #007bff; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; }
-
-    .tooltip { position: absolute; background-color: rgba(0, 0, 0, 0.8); color: white; padding: 8px 12px; border-radius: 6px; font-size: 15px; z-index: 100; display: none; transform: translate(-50%, -120%); white-space: nowrap; pointer-events: none; }
-    .tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent; }
-  </style>
-</head>
-<body>
-
-<div class="scroll-wrapper">
-  <div id="image-box" class="box">
-    <div id="tooltip" class="tooltip"></div>
-  </div>
-</div>
-
-<div id="admin-panel" class="admin-ui">
-  <p>管理员模式</p>
-  <button id="save-button">保存坐标</button>
-</div>
-
-<script>
-  // --- 全局变量和初始化 ---
-  const wrapper = document.querySelector('.scroll-wrapper');
-  const box = document.getElementById('image-box');
-  const tooltip = document.getElementById('tooltip');
-  const image = new Image();
-  let pointsData = [];
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const isAdmin = urlParams.get('admin') === 'true';
-
-  // --- 核心功能函数 ---
-
-  /**
-   * @description 新增：智能布局函数，根据图片和屏幕比例决定最佳显示方案
-   */
-  function updateLayout() {
-    if (!image.naturalWidth) return; // 确保图片已加载
-
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    const viewportAspectRatio = viewportWidth / viewportHeight;
-    const imageAspectRatio = image.naturalWidth / image.naturalHeight;
-
-    // 比较图片和视口的宽高比
-    if (imageAspectRatio > viewportAspectRatio) {
-      // --- 宽图模式 ---
-      // 图片比视口更宽，使其高度撑满，宽度超出部分可滚动
-      const dynamicWidth = viewportHeight * imageAspectRatio;
-      box.style.width = `${dynamicWidth}px`;
-      box.style.height = `${viewportHeight}px`;
-      wrapper.style.overflowX = 'auto'; // 允许横向滚动
-    } else {
-      // --- 窄图模式 ---
-      // 图片比视口更窄或同宽，使其宽度撑满，高度超出部分被裁剪
-      const dynamicHeight = viewportWidth / imageAspectRatio;
-      box.style.width = `${viewportWidth}px`;
-      box.style.height = `${dynamicHeight}px`;
-      wrapper.style.overflowX = 'hidden'; // 禁止横向滚动
-    }
-
-    // 布局更新后，重新定位所有点
-    positionPoints();
-    hideTooltip();
+<html lang="EN">
+  <head><meta charSet="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="google-site-verification" content="aXLLfov_Lm4EeeWysgFr7PbmNmsoTuEsXseQLLlTty4"/>
+    <title>Drake Related – The Official Website of Drake</title>
+    <meta property="og:title" content="Drake Related – The Official Website of Drake"/>
+    <meta property="twitter:title" content="Drake Related – The Official Website of Drake"/>
+    <meta property="og:image" content="https://cdn.shopify.com/s/files/1/0454/5616/2972/files/cover-image_1b6f9254-77d4-4b0a-abdf-e3119f0ff44a.webp?v=1686597752"/>
+    <meta name="description" content="Drake Related is the official website of Drake. Shop Drake products • Certified Lover Boy • NOCTA • Better World Fragrance House • El Chico Studios"/>
+    <meta property="og:description" content="Drake Related is the official website of Drake. Shop Drake products • Certified Lover Boy • NOCTA • Better World Fragrance House • El Chico Studios"/>
+    <meta property="twitter:description" content="Drake Related is the official website of Drake. Shop Drake products • Certified Lover Boy • NOCTA • Better World Fragrance House • El Chico Studios"/>
+    <meta property="twitter:site" content="@drakerelated"/>
+    <meta property="twitter:creator" content="@drakerelated"/>
+    <link rel="canonical" href="https://drakerelated.com/rooms/bedroom-night"/>
+    <meta property="og:url" content="https://drakerelated.com/rooms/bedroom-night"/>
+    <meta name="robots" content="index,follow"/>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Drake Related","logo":"https://cdn.shopify.com/s/files/1/0454/5616/2972/files/favicon.webp?v=1686597638","sameAs":["https://www.instagram.com/drakerelated/","https://www.facebook.com/Drakerelated/","https://www.instagram.com/drakerelated/"],"url":"https://drakerelated.com/rooms/bedroom-night","potentialAction":{"@type":"SearchAction","target":"https://drakerelated.com/rooms/bedroom-nightsearch?q={search_term}","query":"required name='search_term'"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Drake Related","logo":"https://cdn.shopify.com/s/files/1/0454/5616/2972/files/favicon.webp?v=1686597638","sameAs":["https://www.instagram.com/drakerelated/","https://www.facebook.com/Drakerelated/","https://www.instagram.com/drakerelated/"],"url":"https://drakerelated.com/rooms/bedroom-night","potentialAction":{"@type":"SearchAction","target":"https://drakerelated.com/rooms/bedroom-nightsearch?q={search_term}","query":"required name='search_term'"}}</script>
+    <link rel="stylesheet" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_assets/app-BJ32K7T7.css"/>
+    <link rel="preconnect" href="https://cdn.shopify.com"/><link rel="preconnect" href="https://shop.app"/>
+    <link rel="icon" type="image/png" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_assets/favicon-BRDYDZH2.png"/>
+    <link rel="stylesheet" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_assets/room-X2RF2FUT.css"/></head>
+  <body>
+    <noscript>
+      <iframe src="https://www.googletagmanager.com/ns.html?id=G-013B5N24VS"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+      <div class="flex flex-col min-h-[70vh] bg-black"><div class="">
+        <a href="#mainContent" class="sr-only">Skip to content</a>
+      </div>
+        <header role="banner" class="fixed left-0 bottom-6 md:bottom-auto md:top-0 w-full md:h-full z-50 pointer-events-none -type-alternate">
+          <div class="flex justify-between items-center md:h-[72px] pointer-events-auto mx-6 text-white">
+            <nav><ul class="header-nav-list flex items-center gap-7 relative z-20">
+              <li class="hidden md:block">
+                <button class="text-base font-semibold transition-opacity duration-300 px-2.5 z-10" aria-disabled="false">Albums</button>
+              </li>
+              <li class="hidden md:block">
+                <button class="text-base font-semibold transition-opacity duration-300 px-2.5 z-10" aria-disabled="false">Projects</button>
+              </li>
+              <li class="hidden md:block">
+                <a class="text-base font-semibold transition-opacity duration-300 px-2.5 z-10" href="/pages/tour" aria-disabled="false" data-discover="true">Tour</a>
+              </li>
+              <li class="hidden md:block">
+                <a class="text-base font-semibold transition-opacity duration-300 px-2.5 z-10" href="/collections/shop-all" aria-disabled="false" data-discover="true">Shop All</a>
+              </li>
+              <li class="hidden md:block">
+                <button class="text-base font-semibold transition-opacity duration-300 px-2.5 z-10 fixed bottom-6 left-6" aria-disabled="false">Explore</button>
+              </li>
+              <li class="hidden md:block">
+                <button class="text-base font-semibold transition-opacity duration-300 px-2.5 z-10 fixed bottom-6 right-6">®</button>
+              </li>
+              <li class="md:hidden">
+                <button class="text-neutral-300 border-neutral-300 font-bold antialiased cursor-pointer px-2 h-8 relative border block">Menu</button>
+              </li>
+            </ul>
+              <div role="dialog" aria-modal="true" class="fixed md:absolute top-0 bottom-0 max-w-[353px] w-full transition-all left-0 text-left invisible -translate-x-full duration-[500ms] ease-[cubic-bezier(.165,.84,.44,1)]" style="width:calc(100vw - 135px)">
+                <div class="absolute left-0 top-0 bottom-0 h-full w-full flex flex-col justify-between items-start transition-[opacity,visibility] ease-in-out duration-[350ms] py-28 px-6 invisible opacity-0">
+                  <ul class="header-nav-list">
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:250ms">
+                      <button aria-disabled="false">Albums</button>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:300ms">
+                      <button aria-disabled="false">Projects</button>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:350ms">
+                      <a href="/pages/tour" aria-disabled="false" data-discover="true">Tour</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 mt-6 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:400ms">
+                        <a href="/collections/shop-all" aria-disabled="false" data-discover="true">Shop All</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:450ms">
+                      <a class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-100 visible translate-x-0" data-discover="true" href="/submissions">Submissions</a>
+                    </li>
+                  </ul>
+                  <ul class="header-nav-list">
+                    <li class="md:hidden mb-6 font-bold transition-[opacity,visibility,transform] ease-in-out duration-1000 delay-[200ms] opacity-0 invisible -translate-x-[10px] pointer-events-none">
+                      <h3>Explore</h3>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:250ms">
+                      <a href="/rooms/front" aria-disabled="false" data-discover="true">Front</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:300ms">
+                      <a href="/rooms/studio" aria-disabled="false" data-discover="true">Studio</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:350ms">
+                      <a href="/rooms/lounge" aria-disabled="false" data-discover="true">Lounge</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:400ms">
+                      <a href="/rooms/bedroom" aria-disabled="false" data-discover="true">Bedroom</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:450ms">
+                      <a href="/rooms/closet" aria-disabled="false" data-discover="true">Closet</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:500ms">
+                      <a href="/rooms/el-chico-studios" aria-disabled="false" data-discover="true">El Chico Studios</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:550ms">
+                      <a href="/rooms/air-drake" aria-disabled="false" data-discover="true">Air Drake</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:600ms">
+                      <a href="/rooms/pool" aria-disabled="false" data-discover="true">Pool</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:650ms">
+                      <a href="/rooms/kitchen" aria-disabled="false" data-discover="true">Kitchen</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:700ms">
+                      <a class="undefined opacity-20 pointer-events-none" href="/" aria-disabled="true" data-discover="true">Court</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:750ms">
+                      <a class="undefined opacity-20 pointer-events-none" href="/" aria-disabled="true" data-discover="true">Garage</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="absolute left-0 top-0 bottom-0 h-full w-full transition-[opacity,visibility] ease-in-out duration-[350ms] px-6 pt-28 pb-24 invisible opacity-0">
+                  <ul class="header-nav-list">
+                    <li class="md:hidden mb-6 font-bold transition-[opacity,visibility,transform] ease-in-out duration-1000 delay-[200ms] opacity-0 invisible -translate-x-[10px] pointer-events-none">
+                      <h3>Albums</h3>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:250ms">
+                      <a class="block" href="/collections/some-sexy-songs-4-u" aria-disabled="false" data-discover="true">$ome $exy $ongs 4 U</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:300ms">
+                      <a class="block" href="/collections/for-all-the-dogs" aria-disabled="false" data-discover="true">For All The Dogs</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:350ms">
+                      <a class="block" href="/collections/her-loss" aria-disabled="false" data-discover="true">Her Loss</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:400ms">
+                      <a class="block" href="/collections/honestly-nevermind" aria-disabled="false" data-discover="true">Honestly, Nevermind</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:450ms">
+                      <a class="block" href="/collections/certified-lover-boy" aria-disabled="false" data-discover="true">Certified Lover Boy</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:500ms">
+                      <a class="block" href="/collections/dark-lane-demo-tapes" aria-disabled="false" data-discover="true">Dark Lane Demo Tapes</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:550ms">
+                      <a class="block" href="/collections/scorpion" aria-disabled="false" data-discover="true">Scorpion</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:600ms">
+                      <a class="block" href="/collections/more-life" aria-disabled="false" data-discover="true">More Life</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:650ms">
+                      <a class="block" href="/collections/views" aria-disabled="false" data-discover="true">Views</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:700ms">
+                      <a class="block" href="/collections/take-care" aria-disabled="false" data-discover="true">Take Care</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:750ms">
+                      <a class="block" href="/collections/thank-me-later" aria-disabled="false" data-discover="true">Thank Me Later</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:800ms">
+                      <a class="block" href="/collections/so-far-gone" aria-disabled="false" data-discover="true">So Far Gone</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:850ms">
+                      <a class="block opacity-20 pointer-events-none" href="/" aria-disabled="true" data-discover="true">If You’re Reading This…</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:900ms">
+                      <a class="block opacity-20 pointer-events-none" href="/" aria-disabled="true" data-discover="true">Nothing Was The Same</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 mt-6 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:950ms">
+                      <a class="block" href="/collections/shop-all" aria-disabled="false" data-discover="true">Shop All</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="absolute left-0 top-0 bottom-0 h-full w-full transition-[opacity,visibility] ease-in-out duration-[350ms] px-6 pt-28 pb-24 invisible opacity-0">
+                  <ul class="header-nav-list">
+                    <li class="md:hidden mb-6 font-bold transition-[opacity,visibility,transform] ease-in-out duration-1000 delay-[200ms] opacity-0 invisible -translate-x-[10px] pointer-events-none">
+                      <h3>Projects</h3>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:250ms">
+                      <a class="block" to="https://dreamcrew.com/" href="https://dreamcrew.com/" aria-disabled="false">DreamCrew</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:300ms">
+                      <a class="block" href="/collections/el-chico-studios" aria-disabled="false" data-discover="true">El Chico Studios</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:350ms">
+                      <a class="block" to="https://www.nocta.com/" href="https://www.nocta.com/" aria-disabled="false">NOCTA</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:400ms">
+                      <a class="block" to="https://octobersveryown.com" href="https://octobersveryown.com" aria-disabled="false">October&#x27;s Very Own</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:450ms">
+                      <a class="block" to="https://www.ovosound.com/" href="https://www.ovosound.com/" aria-disabled="false">OVO Sound</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:500ms">
+                      <a class="block" to="https://player.siriusxm.com/sound42" href="https://player.siriusxm.com/sound42" aria-disabled="false">Sound42</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:550ms">
+                      <a class="block" to="https://www.betterworldfragrancehouse.co/" href="https://www.betterworldfragrancehouse.co/" aria-disabled="false">Better World Fragrance House</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="absolute left-0 top-0 bottom-0 h-full w-full transition-[opacity,visibility] ease-in-out duration-[350ms] px-6 pt-28 pb-24 invisible opacity-0">
+                  <ul class="header-nav-list">
+                    <li class="md:hidden mb-6 font-bold transition-[opacity,visibility,transform] ease-in-out duration-1000 delay-[200ms] opacity-0 invisible -translate-x-[10px] pointer-events-none">
+                      <h3>Tour</h3>
+                    </li>
+                  </ul>
+                </div>
+                <div class="absolute left-0 top-0 bottom-0 h-full w-full transition-[opacity,visibility] ease-in-out duration-[350ms] px-6 pt-28 pb-24 invisible opacity-0">
+                  <ul class="header-nav-list">
+                    <li class="md:hidden mb-6 font-bold transition-[opacity,visibility,transform] ease-in-out duration-1000 delay-[200ms] opacity-0 invisible -translate-x-[10px] pointer-events-none">
+                      <h3>Shop All</h3>
+                    </li>
+                  </ul>
+                </div>
+                <div class="absolute left-0 top-0 bottom-0 h-full w-full transition-[opacity,visibility] ease-in-out duration-[350ms] flex items-end justify-start px-6 pt-28 pb-20 invisible opacity-0">
+                  <ul class="header-nav-list">
+                    <li class="md:hidden mb-6 font-bold transition-[opacity,visibility,transform] ease-in-out duration-1000 delay-[200ms] opacity-0 invisible -translate-x-[10px] pointer-events-none">
+                      <h3>Explore</h3>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:250ms">
+                      <a class="block" href="/rooms/front" aria-disabled="false" data-discover="true">Front</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:300ms">
+                      <a class="block" href="/rooms/studio" aria-disabled="false" data-discover="true">Studio</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:350ms">
+                      <a class="block" href="/rooms/lounge" aria-disabled="false" data-discover="true">Lounge</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:400ms">
+                      <a class="block" href="/rooms/bedroom" aria-disabled="false" data-discover="true">Bedroom</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:450ms">
+                      <a class="block" href="/rooms/closet" aria-disabled="false" data-discover="true">Closet</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:500ms">
+                      <a class="block" href="/rooms/el-chico-studios" aria-disabled="false" data-discover="true">El Chico Studios</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:550ms">
+                      <a class="block" href="/rooms/air-drake" aria-disabled="false" data-discover="true">Air Drake</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:600ms">
+                      <a class="block" href="/rooms/pool" aria-disabled="false" data-discover="true">Pool</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:650ms">
+                      <a class="block" href="/rooms/kitchen" aria-disabled="false" data-discover="true">Kitchen</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:700ms">
+                      <a class="block opacity-20 pointer-events-none" href="/" aria-disabled="true" data-discover="true">Court</a>
+                    </li>
+                    <li class="font-bold text-2xl leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:750ms">
+                      <a class="block opacity-20 pointer-events-none" href="/" aria-disabled="true" data-discover="true">Garage</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="absolute left-0 top-0 bottom-0 h-full w-full transition-[opacity,visibility] ease-in-out duration-[350ms] px-6 pt-28 pb-24 invisible opacity-0">
+                  <ul class="header-nav-list">
+                    <li class="md:hidden mb-6 font-bold transition-[opacity,visibility,transform] ease-in-out duration-1000 delay-[200ms] opacity-0 invisible -translate-x-[10px] pointer-events-none">
+                      <h3>Submissions</h3>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div role="dialog" aria-modal="true" class="fixed md:absolute top-0 bottom-0 max-w-[353px] w-full transition-all right-0 text-right invisible translate-x-full duration-[500ms] ease-[cubic-bezier(.165,.84,.44,1)]" style="max-width:135px">
+                <div class="absolute left-0 top-0 bottom-0 h-full w-full flex flex-col justify-between items-end transition-[opacity,visibility] ease-in-out duration-[350ms] py-28 px-6 md:pb-20 invisible opacity-0">
+                  <span>
+                    
+                  </span>
+                  <ul class="header-nav-list">
+                    <li class="font-bold text-base leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px]" style="transition-delay:250ms">
+                      <a to="https://www.instagram.com/drakerelated/" href="https://www.instagram.com/drakerelated/" aria-disabled="false">Instagram</a>
+                    </li>
+                    <li class="font-bold text-base leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px]" style="transition-delay:300ms">
+                      <a to="https://www.facebook.com/Drakerelated/" href="https://www.facebook.com/Drakerelated/" aria-disabled="false">Facebook</a>
+                    </li>
+                    <li class="font-bold text-base leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px]" style="transition-delay:350ms">
+                      <a to="https://twitter.com/drakerelated" href="https://twitter.com/drakerelated" aria-disabled="false">Twitter</a>
+                    </li>
+                    <br/>
+                    <li class="font-bold text-base leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:250ms">
+                      <a href="/pages/subscribe" aria-disabled="false" data-discover="true">Subscribe</a>
+                    </li>
+                    <li class="font-bold text-base leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:300ms">
+                      <a href="/policies/terms-of-service" aria-disabled="false" data-discover="true">Terms</a>
+                    </li>
+                    <li class="font-bold text-base leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:350ms">
+                      <a href="/policies/privacy-policy" aria-disabled="false" data-discover="true">Privacy</a>
+                    </li>
+                    <li class="font-bold text-base leading-tight transition-[opacity,visibility,transform] ease-in-out duration-1000 opacity-0 invisible -translate-x-[10px] pointer-events-none" style="transition-delay:400ms">
+                      <a href="/pages/faqs" aria-disabled="false" data-discover="true">FAQ</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="md:w-2/5 w-4/5 max-w-sm p-6 pt-[10px] pb-20 bg-white md:border-l md:border-l-black transition-all fixed shadow-2xl shadow-neutral-800 text-black top-0 h-full z-[41] -right-full duration-1000 ease-in invisible">
+                <div class="grid"><!--$-->
+                  <div class="h-screen flex flex-col">
+                    <div class="h-18 px-1 border-b-black flex items-center justify-between ">
+                      <button class="font-semibold hidden cursor-pointer md:block antialiased">Close</button>
+                      <button class="font-semibold cursor-pointer hidden md:block antialiased">Cart (<!-- -->0<!-- -->)</button>
+                      <button class="font-semibold block md:hidden antialiased">Cart</button>
+                      <button class="font-semibold cursor-pointer block md:hidden text-neutral-300 antialiased">Close</button>
+                    </div>
+                    <section aria-labelledby="cart-contents" class="overflow-y-scroll scrollbar-hidden antialiased">
+                      <ul class="flex flex-col"></ul>
+                    </section>
+                  </div>
+                  <!--/$-->
+                </div>
+              </div>
+            </nav>
+            <h1 class="left-1/2 -translate-x-1/2 fixed top-10  md:absolute md:top-auto">
+              <a class="font-bold" data-discover="true" href="/">Drake Related</a>
+            </h1>
+            <div class="flex items-center">
+              <a class="text-base font-semibold transition-opacity duration-300 px-2.5 z-10 hidden md:block" data-discover="true" href="/submissions">Submissions</a>
+              <button id="close-btn-cart" type="button" class="text-neutral-300 border-neutral-300 md:text-[inherit] md:border-none font-bold cursor px-2 h-8 relative border block">Cart 
+                <span class="hidden md:inline">( </span>0<span class="hidden md:inline"> )
+              </span>
+              </button>
+            </div>
+          </div>
+        </header>
+        <main role="main" id="mainContent" class="flex-grow">
+          <script>((s,l)=>{if(!window.history.state||!window.history.state.key){let u=Math.random().toString(32).slice(2);window.history.replaceState({key:u},"")}try{let d=JSON.parse(sessionStorage.getItem(s)||"{}")[l||window.history.state.key];typeof d=="number"&&window.scrollTo(0,d)}catch(u){console.error(u),sessionStorage.removeItem(s)}})("positions", "/rooms/bedroom-night")</script>
+          <!--$-->
+          <link rel="prefetch" as="fetch" href="/rooms/undefined?_data=routes%2F%28%24lang%29.rooms.%24roomHandle"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/routes/($lang).rooms.$roomHandle-XB4ZHOB2.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-LN5QPCJC.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-3NTIV5YB.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6YZ3VS7E.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XXOSYBN.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-WTGORG7T.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6TDXSAN4.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-MV6O2VAH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XQ7CRVH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-UWEUPLXG.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-XVXD5GDV.js"/>
+          <link rel="prefetch" as="fetch" href="/rooms/undefined?_data=routes%2F%28%24lang%29.rooms.%24roomHandle"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/routes/($lang).rooms.$roomHandle-XB4ZHOB2.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-LN5QPCJC.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-3NTIV5YB.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6YZ3VS7E.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XXOSYBN.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-WTGORG7T.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6TDXSAN4.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-MV6O2VAH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XQ7CRVH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-UWEUPLXG.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-XVXD5GDV.js"/>
+          <link rel="prefetch" as="fetch" href="/rooms/undefined?_data=routes%2F%28%24lang%29.rooms.%24roomHandle"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/routes/($lang).rooms.$roomHandle-XB4ZHOB2.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-LN5QPCJC.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-3NTIV5YB.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6YZ3VS7E.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XXOSYBN.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-WTGORG7T.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6TDXSAN4.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-MV6O2VAH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XQ7CRVH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-UWEUPLXG.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-XVXD5GDV.js"/>
+          <link rel="prefetch" as="fetch" href="/rooms/undefined?_data=routes%2F%28%24lang%29.rooms.%24roomHandle"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/routes/($lang).rooms.$roomHandle-XB4ZHOB2.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-LN5QPCJC.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-3NTIV5YB.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6YZ3VS7E.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XXOSYBN.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-WTGORG7T.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6TDXSAN4.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-MV6O2VAH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XQ7CRVH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-UWEUPLXG.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-XVXD5GDV.js"/>
+          <link rel="prefetch" as="fetch" href="/rooms/undefined?_data=routes%2F%28%24lang%29.rooms.%24roomHandle"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/routes/($lang).rooms.$roomHandle-XB4ZHOB2.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-LN5QPCJC.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-3NTIV5YB.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6YZ3VS7E.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XXOSYBN.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-WTGORG7T.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6TDXSAN4.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-MV6O2VAH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XQ7CRVH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-UWEUPLXG.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-XVXD5GDV.js"/>
+          <link rel="prefetch" as="fetch" href="/rooms/undefined?_data=routes%2F%28%24lang%29.rooms.%24roomHandle"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/routes/($lang).rooms.$roomHandle-XB4ZHOB2.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-LN5QPCJC.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-3NTIV5YB.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6YZ3VS7E.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XXOSYBN.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-WTGORG7T.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6TDXSAN4.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-MV6O2VAH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XQ7CRVH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-UWEUPLXG.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-XVXD5GDV.js"/>
+          <link rel="prefetch" as="fetch" href="/rooms/undefined?_data=routes%2F%28%24lang%29.rooms.%24roomHandle"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/routes/($lang).rooms.$roomHandle-XB4ZHOB2.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-LN5QPCJC.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-3NTIV5YB.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6YZ3VS7E.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XXOSYBN.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-WTGORG7T.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6TDXSAN4.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-MV6O2VAH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XQ7CRVH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-UWEUPLXG.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-XVXD5GDV.js"/>
+          <link rel="prefetch" as="fetch" href="/rooms/undefined?_data=routes%2F%28%24lang%29.rooms.%24roomHandle"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/routes/($lang).rooms.$roomHandle-XB4ZHOB2.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-LN5QPCJC.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-3NTIV5YB.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6YZ3VS7E.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XXOSYBN.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-WTGORG7T.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6TDXSAN4.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-MV6O2VAH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XQ7CRVH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-UWEUPLXG.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-XVXD5GDV.js"/>
+          <link rel="prefetch" as="fetch" href="/rooms/undefined?_data=routes%2F%28%24lang%29.rooms.%24roomHandle"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/routes/($lang).rooms.$roomHandle-XB4ZHOB2.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-LN5QPCJC.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-3NTIV5YB.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6YZ3VS7E.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XXOSYBN.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-WTGORG7T.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6TDXSAN4.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-MV6O2VAH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XQ7CRVH.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-UWEUPLXG.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-XVXD5GDV.js"/>
+          <link rel="prefetch" as="fetch" href="/rooms/undefined?_data=routes%2F%28%24lang%29.rooms.%24roomHandle"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/routes/($lang).rooms.$roomHandle-XB4ZHOB2.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-LN5QPCJC.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-3NTIV5YB.js"/>
+          <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6YZ3VS7E.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XXOSYBN.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-WTGORG7T.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6TDXSAN4.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-MV6O2VAH.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XQ7CRVH.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-UWEUPLXG.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-XVXD5GDV.js"/><link rel="prefetch" as="fetch" href="/rooms/undefined?_data=routes%2F%28%24lang%29.rooms.%24roomHandle"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/routes/($lang).rooms.$roomHandle-XB4ZHOB2.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-LN5QPCJC.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-3NTIV5YB.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6YZ3VS7E.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XXOSYBN.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-WTGORG7T.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6TDXSAN4.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-MV6O2VAH.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XQ7CRVH.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-UWEUPLXG.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-XVXD5GDV.js"/><!--/$--><div class="bg-black"><div style="transition-property:visibility,opacity;opacity:1;visibility:visible" class="bg-white flex items-center justify-center fixed top-0 left-0 right-0 bottom-0 w-screen h-screen h-screen-ios duration-1000 z-[51]"><h2 class="loader-title font-semibold">Drake Related</h2></div><div style="filter:blur(25px)"><section><div class="room-wrapper h-screen h-screen-ios"><div class="relative min-w-full min-h-full overflow-hidden" id="room" style="width:0px;height:0px"><img alt="" src="https://calm-charity-0631d2bca7.media.strapiapp.com/230118_bedroom_dark_object_2560x_2x_b33b21c325.jpg?w=100" class="w-full h-full absolute top-0 left-0 pointer-events-none blur-xl transition-opacity duration-200 ease-in-out z-10 opacity-1"/><picture><source media="(min-width: 1024px)" srcSet=""/><source media="(min-height: 600px)" srcSet=""/><source media="(min-height: 500px)" srcSet=""/><img class="w-full pointer-events-none" src="" srcSet="" alt=""/></picture><div class="absolute top-0 left-0 w-full h-full"><a class="absolute before:block before:h-14 before:w-14 before:absolute before:-top-4 md:before:hidden z-20 before:-left-4" style="left:5.900324081503379%;top:32.48903447866244%" href="/rooms/lounge" aria-disabled="false" data-discover="true"><span class="border  h-6 w-6 overflow-hidden transition-all duration-500   flex items-center justify-between ease-in-out font-bold" style="border-radius:12.5px;box-shadow:0 0 10px 0 rgba(0, 0, 0, 0.2);text-shadow:0 0 10px rgba(0, 0, 0, 0.3);width:24px;position:absolute;border-color:white;color:white"><span class="block absolute" style="top:6px;left:5px;right:auto"><svg width="13" height="11" viewBox="0 0 13 11" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="white" class="-scale-x-100"><line x1="11.7052" y1="4.77742" x2="6.8748" y2="9.60777" stroke-width="2"></line><path d="M10.2912 4.77745L6.89487 1.38135" stroke-width="2"></path><line x1="10.5151" y1="5.45581" x2="0.998047" y2="5.45581" stroke-width="2"></line></svg></span><span class="opacity-0 transition-opacity duration-500 ease-in-out block antialiased  " style="white-space:nowrap;position:absolute;top:0;line-height:1;opacity:0;padding:3px 15px 3px 22px">Enter Lounge</span></span></a><a class="block z-20 w-[11px] h-[11px]" style="position:absolute;left:46.59417750655673%;top:28.779737607221666%" to="https://betterworldfragrancehouse.co/" href="https://betterworldfragrancehouse.co/"><span class="block p-4 md:p-0 absolute -top-4 -left-4 md:static  before:block before:bg-white before:rounded-full before:w-[11px] before:h-[11px] before:shadow-[0_0_10px_5px_#00000040]" aria-disabled="false"></span><span class="block absolute bg-white/5 border border-white rounded-full pointer-events-none -top-[40px] -bottom-[40px] -left-[40px] -right-[40px]"></span><div class="transition duration-150 ease-in-out block absolute top-full bg-white font-bold text-base py-2 px-4 rounded-full left-1/2 -translate-x-1/2  opacity-0 pointer-events-none" style="white-space:nowrap;line-height:1;box-shadow:0 0 10px #00000040;transform:translateX(-50%) translateY(12px)"><span class="block absolute -top-1 left-1/2 -translate-x-1/2 z-10 rotate-45 w-2 h-2 bg-white rounded-[2px_0_0] shadow-[0_0_10px_#0000001a]"></span>Better World Fragrance House</div></a><a class="absolute before:block before:h-14 before:w-14 before:absolute before:-top-4 md:before:hidden z-20 before:-right-4" style="left:54.535450399515476%;top:13.578716443176967%" href="/rooms/closet" aria-disabled="false" data-discover="true"><span class="border  h-6 w-6 overflow-hidden transition-all duration-500   flex items-center justify-between ease-in-out font-bold" style="border-radius:12.5px;box-shadow:0 0 10px 0 rgba(0, 0, 0, 0.2);text-shadow:0 0 10px rgba(0, 0, 0, 0.3);width:24px;position:absolute;right:0;left:auto;border-color:white;color:white"><span class="block absolute" style="top:6px;left:auto;right:5px"><svg width="13" height="11" viewBox="0 0 13 11" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="white" class="rotate-0"><line x1="11.7052" y1="4.77742" x2="6.8748" y2="9.60777" stroke-width="2"></line><path d="M10.2912 4.77745L6.89487 1.38135" stroke-width="2"></path><line x1="10.5151" y1="5.45581" x2="0.998047" y2="5.45581" stroke-width="2"></line></svg></span><span class="opacity-0 transition-opacity duration-500 ease-in-out block antialiased  " style="white-space:nowrap;position:absolute;top:0;line-height:1;opacity:0;padding:3px 22px 3px 15px;right:0;left:auto">Enter Closet</span></span></a><a class="absolute before:block before:h-14 before:w-14 before:absolute before:-top-4 md:before:hidden z-20 before:-right-4" style="left:94.76275817089707%;top:77.96411188425398%" href="/rooms/studio" aria-disabled="false" data-discover="true"><span class="border  h-6 w-6 overflow-hidden transition-all duration-500   flex items-center justify-between ease-in-out font-bold" style="border-radius:12.5px;box-shadow:0 0 10px 0 rgba(0, 0, 0, 0.2);text-shadow:0 0 10px rgba(0, 0, 0, 0.3);width:24px;position:absolute;right:0;left:auto;border-color:white;color:white"><span class="block absolute" style="top:6px;left:auto;right:5px"><svg width="13" height="11" viewBox="0 0 13 11" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="white" class="rotate-0"><line x1="11.7052" y1="4.77742" x2="6.8748" y2="9.60777" stroke-width="2"></line><path d="M10.2912 4.77745L6.89487 1.38135" stroke-width="2"></path><line x1="10.5151" y1="5.45581" x2="0.998047" y2="5.45581" stroke-width="2"></line></svg></span><span class="opacity-0 transition-opacity duration-500 ease-in-out block antialiased  " style="white-space:nowrap;position:absolute;top:0;line-height:1;opacity:0;padding:3px 22px 3px 15px;right:0;left:auto">Enter Studio</span></span></a><a class="block z-20 w-[11px] h-[11px]" style="position:absolute;left:93.5807164329214%;top:40.576554213678115%" href="/rooms/bedroom" data-discover="true"><span class="block p-4 md:p-0 absolute -top-4 -left-4 md:static  before:block before:bg-white before:rounded-full before:w-[11px] before:h-[11px] before:shadow-[0_0_10px_5px_#00000040]" aria-disabled="false"></span><span class="block absolute bg-white/5 border border-white rounded-full pointer-events-none -top-[40px] -bottom-[40px] -left-[40px] -right-[40px]"></span><div class="transition duration-150 ease-in-out block absolute top-full bg-white font-bold text-base py-2 px-4 rounded-full left-1/2 -translate-x-1/2  opacity-0 pointer-events-none" style="white-space:nowrap;line-height:1;box-shadow:0 0 10px #00000040;transform:translateX(-50%) translateY(12px)"><span class="block absolute -top-1 left-1/2 -translate-x-1/2 z-10 rotate-45 w-2 h-2 bg-white rounded-[2px_0_0] shadow-[0_0_10px_#0000001a]"></span>Lights On</div></a></div></div></div></section></div></div></main></div><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/manifest-AEFF3D31.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/entry.client-H2HRWP2O.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6CYWSYWW.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7LE2BQRH.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-JPXX4U3T.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-NT275H7A.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-IPF7GW3Q.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-V4DJHHC5.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-X7NPOM4N.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-LN5QPCJC.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-3NTIV5YB.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6YZ3VS7E.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XXOSYBN.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-WTGORG7T.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-6TDXSAN4.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-MV6O2VAH.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-7XQ7CRVH.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-UWEUPLXG.js"/><link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-XVXD5GDV.js"/>
+        <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/root-YYLKLUW3.js"/>
+        <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/_shared/chunk-FX2FE2YU.js"/>
+        <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/routes/($lang).rooms-HXN6XRE4.js"/>
+        <link rel="modulepreload" href="https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/routes/($lang).rooms.$roomHandle-XB4ZHOB2.js"/>
+        <script>window.__remixContext = {"future":{"v3_fetcherPersist":false,"v3_relativeSplatPath":false,"v3_throwAbortReason":false,"v3_routeConfig":false,"v3_singleFetch":false,"v3_lazyRouteDiscovery":false,"unstable_optimizeDeps":false},"state":{"loaderData":{"root":{"isLoggedIn":false,"layout":{"shop":{"id":"gid://shopify/Shop/45456162972","name":"Drake Related","description":"Drake Related is the official website of Drake. Shop Drake products • Certified Lover Boy • NOCTA • Better World Fragrance House • El Chico Studios","primaryDomain":{"url":"https://checkout.drakerelated.com"},"shipsToCountries":["AC","AD","AE","AF","AG","AI","AL","AM","AO","AR","AT","AU","AW","AX","AZ","BA","BB","BD","BE","BF","BG","BH","BI","BJ","BL","BM","BN","BO","BQ","BR","BS","BT","BW","BY","BZ","CA","CC","CD","CF","CG","CH","CI","CK","CL","CM","CN","CO","CR","CV","CW","CX","CY","CZ","DE","DJ","DK","DM","DO","DZ","EC","EE","EG","EH","ER","ES","ET","FI","FJ","FK","FO","FR","GA","GB","GD","GE","GF","GG","GH","GI","GL","GM","GN","GP","GQ","GR","GS","GT","GW","GY","HK","HN","HR","HT","HU","ID","IE","IL","IM","IN","IO","IQ","IS","IT","JE","JM","JO","JP","KE","KG","KH","KI","KM","KN","KR","KW","KY","KZ","LA","LB","LC","LI","LK","LR","LS","LT","LU","LV","LY","MA","MC","MD","ME","MF","MG","MK","ML","MM","MN","MO","MQ","MR","MS","MT","MU","MV","MW","MX","MY","MZ","NA","NC","NE","NF","NG","NI","NL","NO","NP","NR","NU","NZ","OM","PA","PE","PF","PG","PH","PK","PL","PM","PN","PS","PT","PY","QA","RE","RO","RS","RU","RW","SA","SB","SC","SD","SE","SG","SH","SI","SJ","SK","SL","SM","SN","SO","SR","SS","ST","SV","SX","SZ","TA","TC","TD","TF","TG","TH","TJ","TK","TL","TM","TN","TO","TR","TT","TV","TW","TZ","UA","UG","UM","US","UY","UZ","VA","VC","VE","VG","VN","VU","WF","WS","XK","YE","YT","ZA","ZM","ZW"],"brand":{"logo":{"image":{"url":"https://cdn.shopify.com/s/files/1/0454/5616/2972/files/favicon.webp?v=1686597638"}},"coverImage":{"image":{"url":"https://cdn.shopify.com/s/files/1/0454/5616/2972/files/cover-image_1b6f9254-77d4-4b0a-abdf-e3119f0ff44a.webp?v=1686597752"}}}},"headerMenu":{"id":"gid://shopify/Menu/198930137270","items":[{"id":"gid://shopify/MenuItem/463424028854","resourceId":null,"tags":[],"title":"Albums","type":"HTTP","url":"https://checkout.drakerelated.com#albums","items":[{"id":"gid://shopify/MenuItem/521567436982","resourceId":"gid://shopify/Collection/348316565686","tags":[],"title":"$ome $exy $ongs 4 U","type":"COLLECTION","url":"https://checkout.drakerelated.com/collections/some-sexy-songs-4-u","items":[],"isExternal":false,"target":"_self","to":"/collections/some-sexy-songs-4-u"},{"id":"gid://shopify/MenuItem/463988392118","resourceId":"gid://shopify/Collection/300490555574","tags":[],"title":"For All The Dogs","type":"COLLECTION","url":"https://checkout.drakerelated.com/collections/for-all-the-dogs","items":[],"isExternal":false,"target":"_self","to":"/collections/for-all-the-dogs"},{"id":"gid://shopify/MenuItem/463424061622","resourceId":"gid://shopify/Collection/295017283766","tags":[],"title":"Her Loss","type":"COLLECTION","url":"https://checkout.drakerelated.com/collections/her-loss","items":[],"isExternal":false,"target":"_self","to":"/collections/her-loss"},{"id":"gid://shopify/MenuItem/463424094390","resourceId":"gid://shopify/Collection/291347660982","tags":[],"title":"Honestly, Nevermind","type":"COLLECTION","url":"https://checkout.drakerelated.com/collections/honestly-nevermind","items":[],"isExternal":false,"target":"_self","to":"/collections/honestly-nevermind"},{"id":"gid://shopify/MenuItem/463444738230","resourceId":"gid://shopify/Collection/215174316188","tags":[],"title":"Certified Lover Boy","type":"COLLECTION","url":"https://checkout.drakerelated.com/collections/certified-lover-boy","items":[],"isExternal":false,"target":"_self","to":"/collections/certified-lover-boy"},{"id":"gid://shopify/MenuItem/463424389302","resourceId":"gid://shopify/Collection/299204444342","tags":[],"title":"Dark Lane Demo Tapes","type":"COLLECTION","url":"https://checkout.drakerelated.com/collections/dark-lane-demo-tapes","items":[],"isExternal":false,"target":"_self","to":"/collections/dark-lane-demo-tapes"},{"id":"gid://shopify/MenuItem/463424553142","resourceId":"gid://shopify/Collection/299943788726","tags":[],"title":"Scorpion","type":"COLLECTION","url":"https://checkout.drakerelated.com/collections/scorpion","items":[],"isExternal":false,"target":"_self","to":"/collections/scorpion"},{"id":"gid://shopify/MenuItem/463424422070","resourceId":"gid://shopify/Collection/298574381238","tags":[],"title":"More Life","type":"COLLECTION","url":"https://checkout.drakerelated.com/collections/more-life","items":[],"isExternal":false,"target":"_self","to":"/collections/more-life"},{"id":"gid://shopify/MenuItem/463424454838","resourceId":"gid://shopify/Collection/299194679478","tags":[],"title":"Views","type":"COLLECTION","url":"https://checkout.drakerelated.com/collections/views","items":[],"isExternal":false,"target":"_self","to":"/collections/views"},{"id":"gid://shopify/MenuItem/463424487606","resourceId":"gid://shopify/Collection/282192216246","tags":[],"title":"Take Care","type":"COLLECTION","url":"https://checkout.drakerelated.com/collections/take-care","items":[],"isExternal":false,"target":"_self","to":"/collections/take-care"},{"id":"gid://shopify/MenuItem/463452668086","resourceId":"gid://shopify/Collection/299827101878","tags":[],"title":"Thank Me Later","type":"COLLECTION","url":"https://checkout.drakerelated.com/collections/thank-me-later","items":[],"isExternal":false,"target":"_self","to":"/collections/thank-me-later"},{"id":"gid://shopify/MenuItem/463424520374","resourceId":"gid://shopify/Collection/282193133750","tags":[],"title":"So Far Gone","type":"COLLECTION","url":"https://checkout.drakerelated.com/collections/so-far-gone","items":[],"isExternal":false,"target":"_self","to":"/collections/so-far-gone"},{"id":"gid://shopify/MenuItem/463424585910","resourceId":null,"tags":[],"title":"If You’re Reading This…","type":"HTTP","url":"https://checkout.drakerelated.com#","items":[],"isExternal":false,"target":"_self","to":"/"},{"id":"gid://shopify/MenuItem/463452635318","resourceId":null,"tags":[],"title":"Nothing Was The Same","type":"HTTP","url":"https://checkout.drakerelated.com#","items":[],"isExternal":false,"target":"_self","to":"/"},{"id":"gid://shopify/MenuItem/463437398198","resourceId":"gid://shopify/Collection/287943196854","tags":[],"title":"Shop All","type":"COLLECTION","url":"https://checkout.drakerelated.com/collections/shop-all","items":[],"isExternal":false,"target":"_self","to":"/collections/shop-all"}],"isExternal":false,"target":"_self","to":"/"},{"id":"gid://shopify/MenuItem/463424618678","resourceId":null,"tags":[],"title":"Projects","type":"HTTP","url":"https://checkout.drakerelated.com#projects","items":[{"id":"gid://shopify/MenuItem/463424651446","resourceId":null,"tags":[],"title":"DreamCrew","type":"HTTP","url":"https://dreamcrew.com/","items":[],"isExternal":true,"target":"_blank","to":"https://dreamcrew.com/"},{"id":"gid://shopify/MenuItem/463424684214","resourceId":"gid://shopify/Collection/277735833782","tags":[],"title":"El Chico Studios","type":"COLLECTION","url":"https://checkout.drakerelated.com/collections/el-chico-studios","items":[],"isExternal":false,"target":"_self","to":"/collections/el-chico-studios"},{"id":"gid://shopify/MenuItem/463424716982","resourceId":null,"tags":[],"title":"NOCTA","type":"HTTP","url":"https://www.nocta.com/","items":[],"isExternal":true,"target":"_blank","to":"https://www.nocta.com/"},{"id":"gid://shopify/MenuItem/463424749750","resourceId":null,"tags":[],"title":"October's Very Own","type":"HTTP","url":"https://octobersveryown.com","items":[],"isExternal":true,"target":"_blank","to":"https://octobersveryown.com"},{"id":"gid://shopify/MenuItem/463424782518","resourceId":null,"tags":[],"title":"OVO Sound","type":"HTTP","url":"https://www.ovosound.com/","items":[],"isExternal":true,"target":"_blank","to":"https://www.ovosound.com/"},{"id":"gid://shopify/MenuItem/463424815286","resourceId":null,"tags":[],"title":"Sound42","type":"HTTP","url":"https://player.siriusxm.com/sound42","items":[],"isExternal":true,"target":"_blank","to":"https://player.siriusxm.com/sound42"},{"id":"gid://shopify/MenuItem/463424848054","resourceId":null,"tags":[],"title":"Better World Fragrance House","type":"HTTP","url":"https://www.betterworldfragrancehouse.co/","items":[],"isExternal":true,"target":"_blank","to":"https://www.betterworldfragrancehouse.co/"}],"isExternal":false,"target":"_self","to":"/"},{"id":"gid://shopify/MenuItem/463424946358","resourceId":"gid://shopify/Page/92797239478","tags":[],"title":"Tour","type":"PAGE","url":"https://checkout.drakerelated.com/pages/tour","items":[],"isExternal":false,"target":"_self","to":"/pages/tour"},{"id":"gid://shopify/MenuItem/463724511414","resourceId":"gid://shopify/Collection/287943196854","tags":[],"title":"Shop All","type":"COLLECTION","url":"https://checkout.drakerelated.com/collections/shop-all","items":[],"isExternal":false,"target":"_self","to":"/collections/shop-all"},{"id":"gid://shopify/MenuItem/463425044662","resourceId":null,"tags":[],"title":"Explore","type":"HTTP","url":"https://checkout.drakerelated.com#explore","items":[{"id":"gid://shopify/MenuItem/463425077430","resourceId":null,"tags":[],"title":"Front","type":"HTTP","url":"https://checkout.drakerelated.com/rooms/front","items":[],"isExternal":false,"target":"_self","to":"/rooms/front"},{"id":"gid://shopify/MenuItem/463425110198","resourceId":null,"tags":[],"title":"Studio","type":"HTTP","url":"https://checkout.drakerelated.com/rooms/studio","items":[],"isExternal":false,"target":"_self","to":"/rooms/studio"},{"id":"gid://shopify/MenuItem/463425142966","resourceId":null,"tags":[],"title":"Lounge","type":"HTTP","url":"https://checkout.drakerelated.com/rooms/lounge","items":[],"isExternal":false,"target":"_self","to":"/rooms/lounge"},{"id":"gid://shopify/MenuItem/463425175734","resourceId":null,"tags":[],"title":"Bedroom","type":"HTTP","url":"https://checkout.drakerelated.com/rooms/bedroom","items":[],"isExternal":false,"target":"_self","to":"/rooms/bedroom"},{"id":"gid://shopify/MenuItem/463425208502","resourceId":null,"tags":[],"title":"Closet","type":"HTTP","url":"https://checkout.drakerelated.com/rooms/closet","items":[],"isExternal":false,"target":"_self","to":"/rooms/closet"},{"id":"gid://shopify/MenuItem/463425241270","resourceId":null,"tags":[],"title":"El Chico Studios","type":"HTTP","url":"https://checkout.drakerelated.com/rooms/el-chico-studios","items":[],"isExternal":false,"target":"_self","to":"/rooms/el-chico-studios"},{"id":"gid://shopify/MenuItem/463425274038","resourceId":null,"tags":[],"title":"Air Drake","type":"HTTP","url":"https://checkout.drakerelated.com/rooms/air-drake","items":[],"isExternal":false,"target":"_self","to":"/rooms/air-drake"},{"id":"gid://shopify/MenuItem/463509455030","resourceId":null,"tags":[],"title":"Pool","type":"HTTP","url":"https://checkout.drakerelated.com/rooms/pool","items":[],"isExternal":false,"target":"_self","to":"/rooms/pool"},{"id":"gid://shopify/MenuItem/465377329334","resourceId":null,"tags":[],"title":"Kitchen","type":"HTTP","url":"https://checkout.drakerelated.com/rooms/kitchen","items":[],"isExternal":false,"target":"_self","to":"/rooms/kitchen"},{"id":"gid://shopify/MenuItem/463425306806","resourceId":null,"tags":[],"title":"Court","type":"HTTP","url":"https://checkout.drakerelated.com#","items":[],"isExternal":false,"target":"_self","to":"/"},{"id":"gid://shopify/MenuItem/463425339574","resourceId":null,"tags":[],"title":"Garage","type":"HTTP","url":"https://checkout.drakerelated.com#","items":[],"isExternal":false,"target":"_self","to":"/"}],"isExternal":false,"target":"_self","to":"/"},{"id":"gid://shopify/MenuItem/533189886134","resourceId":null,"tags":[],"title":"Submissions","type":"HTTP","url":"https://checkout.drakerelated.com/submissions","items":[],"isExternal":false,"target":"_self","to":"/submissions"}]},"footerMenu":{"id":"gid://shopify/Menu/158367776924","items":[{"id":"gid://shopify/MenuItem/390696337590","resourceId":"gid://shopify/ShopPolicy/26484703414","tags":[],"title":"Terms \u0026 Conditions","type":"SHOP_POLICY","url":"https://checkout.drakerelated.com/policies/terms-of-service","items":[],"isExternal":false,"target":"_self","to":"/policies/terms-of-service"},{"id":"gid://shopify/MenuItem/390696370358","resourceId":"gid://shopify/ShopPolicy/26484670646","tags":[],"title":"Privacy Policy","type":"SHOP_POLICY","url":"https://checkout.drakerelated.com/policies/privacy-policy","items":[],"isExternal":false,"target":"_self","to":"/policies/privacy-policy"},{"id":"gid://shopify/MenuItem/390696435894","resourceId":"gid://shopify/Page/72528822454","tags":[],"title":"FAQs","type":"PAGE","url":"https://checkout.drakerelated.com/pages/faqs","items":[],"isExternal":false,"target":"_self","to":"/pages/faqs"}]},"footerAlternateMenu":{"id":"gid://shopify/Menu/198930202806","items":[{"id":"gid://shopify/MenuItem/463424258230","resourceId":"gid://shopify/Page/72528789686","tags":[],"title":"Subscribe","type":"PAGE","url":"https://checkout.drakerelated.com/pages/subscribe","items":[],"isExternal":false,"target":"_self","to":"/pages/subscribe"},{"id":"gid://shopify/MenuItem/463424290998","resourceId":"gid://shopify/ShopPolicy/26484703414","tags":[],"title":"Terms","type":"SHOP_POLICY","url":"https://checkout.drakerelated.com/policies/terms-of-service","items":[],"isExternal":false,"target":"_self","to":"/policies/terms-of-service"},{"id":"gid://shopify/MenuItem/463424323766","resourceId":"gid://shopify/ShopPolicy/26484670646","tags":[],"title":"Privacy","type":"SHOP_POLICY","url":"https://checkout.drakerelated.com/policies/privacy-policy","items":[],"isExternal":false,"target":"_self","to":"/policies/privacy-policy"},{"id":"gid://shopify/MenuItem/463424356534","resourceId":"gid://shopify/Page/72528822454","tags":[],"title":"FAQ","type":"PAGE","url":"https://checkout.drakerelated.com/pages/faqs","items":[],"isExternal":false,"target":"_self","to":"/pages/faqs"}]},"socialsMenu":{"id":"gid://shopify/Menu/198930170038","items":[{"id":"gid://shopify/MenuItem/463424127158","resourceId":null,"tags":[],"title":"Instagram","type":"HTTP","url":"https://www.instagram.com/drakerelated/","items":[],"isExternal":true,"target":"_blank","to":"https://www.instagram.com/drakerelated/"},{"id":"gid://shopify/MenuItem/463424159926","resourceId":null,"tags":[],"title":"Facebook","type":"HTTP","url":"https://www.facebook.com/Drakerelated/","items":[],"isExternal":true,"target":"_blank","to":"https://www.facebook.com/Drakerelated/"},{"id":"gid://shopify/MenuItem/463424192694","resourceId":null,"tags":[],"title":"Twitter","type":"HTTP","url":"https://twitter.com/drakerelated","items":[],"isExternal":true,"target":"_blank","to":"https://twitter.com/drakerelated"}]}},"selectedLocale":{"language":"EN","country":"US","pathPrefix":""},"banner":{},"analytics":{"shopifySalesChannel":"hydrogen","shopId":"gid://shopify/Shop/45456162972"},"analyticsExternal":{"gtmTrackingId":"GTM-PT5ZJ6T","gaTrackingId":"G-013B5N24VS","pixelTrackingId":"1607761733076305"},"seo":{"title":"Drake Related","titleTemplate":"Drake Related – The Official Website of Drake","media":"https://cdn.shopify.com/s/files/1/0454/5616/2972/files/cover-image_1b6f9254-77d4-4b0a-abdf-e3119f0ff44a.webp?v=1686597752","description":"Drake Related is the official website of Drake. Shop Drake products • Certified Lover Boy • NOCTA • Better World Fragrance House • El Chico Studios","handle":"@drakerelated","url":"https://drakerelated.com/rooms/bedroom-night","robots":{"noIndex":false,"noFollow":false},"jsonLd":{"@context":"https://schema.org","@type":"Organization","name":"Drake Related","logo":"https://cdn.shopify.com/s/files/1/0454/5616/2972/files/favicon.webp?v=1686597638","sameAs":["https://www.instagram.com/drakerelated/","https://www.facebook.com/Drakerelated/","https://www.instagram.com/drakerelated/"],"url":"https://drakerelated.com/rooms/bedroom-night","potentialAction":{"@type":"SearchAction","target":"https://drakerelated.com/rooms/bedroom-nightsearch?q={search_term}","query":"required name='search_term'"}}}},"routes/($lang).rooms":{"rooms":{"data":{"rooms":{"data":[{"attributes":{"title":"Bedroom","handle":"bedroom"}},{"attributes":{"title":"Studio","handle":"studio"}},{"attributes":{"title":"Bedroom Night","handle":"bedroom-night"}},{"attributes":{"title":"Closet","handle":"closet"}},{"attributes":{"title":"El Chico Studios","handle":"el-chico-studios"}},{"attributes":{"title":"Pool","handle":"pool"}},{"attributes":{"title":"Green Room","handle":"green-room"}},{"attributes":{"title":"Kitchen","handle":"kitchen"}},{"attributes":{"title":"Air Drake","handle":"air-drake"}},{"attributes":{"title":"Lounge","handle":"lounge"}},{"attributes":{"title":"Front","handle":"front"}}]}}}},"routes/($lang).rooms.$roomHandle":{"room":{"title":"Bedroom Night","handle":"bedroom-night","beacons":{"image":"https://calm-charity-0631d2bca7.media.strapiapp.com/230118_bedroom_dark_object_2560x_2x_b33b21c325.jpg","beacons":[{"x":51.981855158044766,"y":179.01457997743003,"url":"/rooms/lounge","type":"arrow","title":"Enter Lounge","disabled":false,"percentX":5.900324081503379,"percentY":32.48903447866244,"direction":"left"},{"x":410.4947038327648,"y":158.5763542157914,"url":"https://betterworldfragrancehouse.co/","type":"circle","title":"Better World Fragrance House","disabled":false,"percentX":46.59417750655673,"percentY":28.779737607221666},{"x":480.4573180197313,"y":74.81872760190508,"url":"/rooms/closet","type":"arrow","title":"Enter Closet","disabled":false,"percentX":54.535450399515476,"percentY":13.578716443176967,"direction":"right"},{"x":834.8598994856031,"y":429.5822564822394,"url":"/rooms/studio","type":"arrow","title":"Enter Studio","disabled":false,"percentX":94.76275817089707,"percentY":77.96411188425398,"direction":"right"},{"x":824.4461117740376,"y":223.57681371736638,"url":"/rooms/bedroom","type":"circle","title":"Lights On","disabled":false,"percentX":93.5807164329214,"percentY":40.576554213678115}]},"isPrimary":false,"isLocked":null,"isClosed":null,"closedRoomFeed":null,"lockType":null,"desktopGalleryForRotating":{"data":[]},"mobileGalleryForRotating":{"data":[]},"intervalBetweenGalleryShow":null,"timeToShowGallery":null,"timePerOneImage":null},"background":{"name":"230118_bedroom_dark_object_2560x_2x.jpg","url":"https://calm-charity-0631d2bca7.media.strapiapp.com/230118_bedroom_dark_object_2560x_2x_b33b21c325.jpg","width":4000,"height":2500},"strapiHost":"https://calm-charity-0631d2bca7.strapiapp.com"}},"actionData":null,"errors":null}};__remixContext.p = function(v,e,p,x) {
+  if (typeof e !== 'undefined') {
+    x=new Error("Unexpected Server Error");
+    x.stack=undefined;
+    p=Promise.reject(x);
+  } else {
+    p=Promise.resolve(v);
   }
+  return p;
+};
+__remixContext.n = function(i,k) {
+  __remixContext.t = __remixContext.t || {};
+  __remixContext.t[i] = __remixContext.t[i] || {};
+  let p = new Promise((r, e) => {__remixContext.t[i][k] = {r:(v)=>{r(v);},e:(v)=>{e(v);}};});
 
-
-  function renderPoints() {
-    box.querySelectorAll('.point').forEach(p => p.remove());
-    pointsData.forEach((pointInfo, index) => {
-      const pointEl = document.createElement('div');
-      pointEl.className = 'point';
-      if (isAdmin) pointEl.classList.add('admin-mode');
-      pointEl.dataset.index = index;
-      box.appendChild(pointEl);
-    });
-    positionPoints();
+  return p;
+};
+__remixContext.r = function(i,k,v,e,p,x) {
+  p = __remixContext.t[i][k];
+  if (typeof e !== 'undefined') {
+    x=new Error("Unexpected Server Error");
+    x.stack=undefined;
+    p.e(x);
+  } else {
+    p.r(v);
   }
+};Object.assign(__remixContext.state.loaderData["root"], {});
+Object.assign(__remixContext.state.loaderData["routes/($lang).rooms"], {});</script><script type="module" async="">import "https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/manifest-AEFF3D31.js";
+import * as route0 from "https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/root-YYLKLUW3.js";
+import * as route1 from "https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/routes/($lang).rooms-HXN6XRE4.js";
+import * as route2 from "https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/routes/($lang).rooms.$roomHandle-XB4ZHOB2.js";
 
-  function positionPoints() {
-    const boxWidth = box.offsetWidth;
-    const boxHeight = box.offsetHeight;
-    document.querySelectorAll('.point').forEach(pointEl => {
-      const index = parseInt(pointEl.dataset.index, 10);
-      const pointInfo = pointsData[index];
-      if (pointInfo) {
-        pointEl.style.left = `${boxWidth * pointInfo.x / 100}px`;
-        pointEl.style.top = `${boxHeight * pointInfo.y / 100}px`;
-      }
-    });
-  }
+window.__remixRouteModules = {"root":route0,"routes/($lang).rooms":route1,"routes/($lang).rooms.$roomHandle":route2};
 
-  function showTooltip(pointElement, name) {
-    tooltip.textContent = name;
-    tooltip.style.left = pointElement.style.left;
-    tooltip.style.top = pointElement.style.top;
-    tooltip.style.display = 'block';
-  }
-
-  function hideTooltip() {
-    tooltip.style.display = 'none';
-  }
-
-  // ... (管理员相关函数 handleAdminClick, save, load 保持不变) ...
-  function handleAdminClick(event) {
-    hideTooltip();
-    if (event.target.classList.contains('point')) {
-      const indexToRemove = parseInt(event.target.dataset.index, 10);
-      const pointName = pointsData[indexToRemove].name;
-      if (confirm(`确定要删除标记点 "${pointName}" 吗？`)) {
-        pointsData.splice(indexToRemove, 1);
-        renderPoints();
-      }
-      return;
-    }
-    if (event.target !== box) return;
-    const boxRect = box.getBoundingClientRect();
-    const clickX_in_box = event.clientX - boxRect.left;
-    const clickY_in_box = event.clientY - boxRect.top;
-    const percentX = (clickX_in_box / box.offsetWidth) * 100;
-    const percentY = (clickY_in_box / box.offsetHeight) * 100;
-    const name = prompt('请输入该标记点的商品名称：', '新款商品');
-    if (name) {
-      pointsData.push({ x: percentX, y: percentY, name: name });
-      renderPoints();
-    }
-  }
-  function savePointsToStorage() {
-    localStorage.setItem('productPointsData', JSON.stringify(pointsData));
-    alert('坐标和名称已成功保存！');
-  }
-  function loadPointsFromStorage() {
-    const storedData = localStorage.getItem('productPointsData');
-    if (storedData) return JSON.parse(storedData);
-    return [{ x: 20, y: 30, name: '潮流双肩包' }, { x: 60, y: 50, name: '经典款卫衣' }];
-  }
-
-
-  // --- 页面加载和事件绑定 ---
-  window.addEventListener('load', () => {
-    pointsData = loadPointsFromStorage();
-
-    const imageUrl = getComputedStyle(box).backgroundImage.replace(/url\((['"])?(.*?)\1\)/gi, '$2');
-    image.src = imageUrl;
-
-    image.onload = () => {
-      // 图片加载完成后，执行首次智能布局
-      updateLayout();
-      renderPoints();
-    };
-
-    if (isAdmin) {
-      document.getElementById('admin-panel').style.display = 'block';
-      box.addEventListener('click', handleAdminClick);
-      document.getElementById('save-button').addEventListener('click', savePointsToStorage);
-    } else {
-      box.addEventListener('click', (event) => {
-        if (event.target.classList.contains('point')) {
-          const index = parseInt(event.target.dataset.index, 10);
-          const name = pointsData[index].name;
-          if (tooltip.style.display === 'block' && tooltip.textContent === name) {
-            hideTooltip();
-          } else {
-            showTooltip(event.target, name);
-          }
-        } else {
-          hideTooltip();
-        }
-      });
-    }
-
-    // 窗口大小变化时，重新计算布局
-    window.addEventListener('resize', updateLayout);
-  });
-</script>
-
-</body>
+import("https://cdn.shopify.com/oxygen-v2/27038/12163/25018/1986801/build/entry.client-H2HRWP2O.js");</script>
+    </body>
 </html>
