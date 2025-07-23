@@ -79,17 +79,74 @@
             font: 500 17px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
+        
+        /* 新增的倒计时样式 */
+        .bluehour {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            color: white;
+            font: 500 24px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            text-align: center;
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        .countdown {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .countdown-item {
+            text-align: center;
+            min-width: 50px;
+        }
+        
+        .countdown-number {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .countdown-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body>
     <!-- 图片容器 -->
     <div id="image-container">
-        < img id="fullscreen-image" src="123.png" alt="全屏背景">
+        <img id="fullscreen-image" src="123.png" alt="全屏背景">
     </div>
     
     <!-- UI元素 -->
     <div class="menu">SADBOISMOKEE</div>
-    <div class="bluehour">BLUE HOUE LOADINGGG</div>
+    <div class="bluehour">
+        BLUE HOUR LOADING
+        <div class="countdown">
+            <div class="countdown-item">
+                <div class="countdown-number" id="countdown-days">00</div>
+                <div class="countdown-label">DAYS</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="countdown-hours">00</div>
+                <div class="countdown-label">HOURS</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="countdown-minutes">00</div>
+                <div class="countdown-label">MIN</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="countdown-seconds">00</div>
+                <div class="countdown-label">SEC</div>
+            </div>
+        </div>
+    </div>
     <div class="time" id="current-time">6:02</div>
     <div class="site-url">NOBODYDODGESMOKE</div>
 
@@ -120,11 +177,38 @@
             img.style.objectFit = 'cover';
         }
         
+        // 倒计时更新
+        function updateCountdown() {
+            const now = new Date();
+            const releaseDate = new Date('2025-12-27T00:00:00');
+            const diff = releaseDate - now;
+            
+            // 计算剩余时间
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000;
+            
+            // 更新显示
+            document.getElementById('countdown-days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
+            
+            // 如果时间到了，更新显示
+            if (diff < 0) {
+                clearInterval(countdownInterval);
+                document.querySelector('.bluehour').innerHTML = 'BLUE HOUR RELEASED';
+            }
+        }
+        
         // 初始化
         function init() {
             enforceFullscreen();
             updateTime();
+            updateCountdown();
             setInterval(updateTime, 1000);
+            const countdownInterval = setInterval(updateCountdown, 1000);
             
             const img = document.getElementById('fullscreen-image');
             if (img.complete) {
