@@ -150,85 +150,84 @@
     <div class="time" id="current-time">6:02</div>
     <div class="site-url">NOBODYDODGESMOKE</div>
 
-    <script>
-        // 强制全屏函数
-        function enforceFullscreen() {
-            const vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
-            
-            // 确保元素尺寸正确
-            document.getElementById('image-container').style.height = 
-                `${window.innerHeight}px`;
-        }
+<script>
+    // 强制全屏函数
+    function enforceFullscreen() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
         
-        // 精确时间更新
-        function updateTime() {
-            const now = new Date();
-            const hours = now.getHours();
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            document.getElementById('current-time').textContent = `${hours}:${minutes}`;
-        }
+        document.getElementById('image-container').style.height = 
+            `${window.innerHeight}px`;
+    }
+    
+    // 精确时间更新
+    function updateTime() {
+        const now = new Date();
+        const hours = now.getHours();
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        document.getElementById('current-time').textContent = `${hours}:${minutes}`;
+    }
+    
+    // 图片加载处理
+    function handleImage() {
+        const img = document.getElementById('fullscreen-image');
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+    }
+    
+    // 倒计时更新
+    function updateCountdown() {
+        const now = new Date();
+        const releaseDate = new Date('2025-12-27T00:00:00');
+        const diff = releaseDate - now;
         
-        // 图片加载处理
-        function handleImage() {
-            const img = document.getElementById('fullscreen-image');
-            img.style.width = '100%';
-            img.style.height = '100%';
-            img.style.objectFit = 'cover';
-        }
+        // 计算剩余时间
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
         
-        // 倒计时更新
-        function updateCountdown() {
-            const now = new Date();
-            const releaseDate = new Date('2025-12-27T00:00:00');
-            const diff = releaseDate - now;
-            
-            // 计算剩余时间
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000;
-            
-            // 更新显示
-            document.getElementById('countdown-days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
-            
-            // 如果时间到了，更新显示
-            if (diff < 0) {
-                clearInterval(countdownInterval);
-                document.querySelector('.bluehour').innerHTML = 'BLUE HOUR RELEASED';
-            }
-        }
+        // 更新显示
+        document.getElementById('countdown-days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
         
-        // 初始化
-        function init() {
-            enforceFullscreen();
-            updateTime();
-            updateCountdown();
-            setInterval(updateTime, 1000);
-            const countdownInterval = setInterval(updateCountdown, 1000);
-            
-            const img = document.getElementById('fullscreen-image');
-            if (img.complete) {
-                handleImage();
-            } else {
-                img.onload = handleImage;
-            }
+        // 如果时间到了，更新显示
+        if (diff < 0) {
+            clearInterval(window.countdownInterval);
+            document.querySelector('.bluehour').innerHTML = 'BLUE HOUR RELEASED';
         }
+    }
+    
+    // 初始化
+    function init() {
+        enforceFullscreen();
+        updateTime();
+        updateCountdown();
+        setInterval(updateTime, 1000);
+        window.countdownInterval = setInterval(updateCountdown, 1000);
         
-        // 事件监听
-        window.addEventListener('load', init);
-        window.addEventListener('resize', enforceFullscreen);
-        
-        // 添加到主屏幕提示
-        if (window.navigator.standalone === false && 
-            /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-            setTimeout(() => {
-                alert('请通过Safari的"分享"按钮，选择"添加到主屏幕"以获得最佳全屏体验');
-            }, 3000);
+        const img = document.getElementById('fullscreen-image');
+        if (img.complete) {
+            handleImage();
+        } else {
+            img.onload = handleImage;
         }
-    </script>
+    }
+    
+    // 事件监听
+    window.addEventListener('load', init);
+    window.addEventListener('resize', enforceFullscreen);
+    
+    // 添加到主屏幕提示
+    if (window.navigator.standalone === false && 
+        /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        setTimeout(() => {
+            alert('请通过Safari的"分享"按钮，选择"添加到主屏幕"以获得最佳全屏体验');
+        }, 3000);
+    }
+</script>
 </body>
 </html>
