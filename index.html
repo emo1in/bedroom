@@ -49,20 +49,28 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
+        /* 修改后的倒计时样式 - 确保完全居中 */
         .bluehour {
-            margin-top: 80px;
-            left: 50%;
-            transform: translateX(-50%);
+            position: absolute;
+            top: 80px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
             z-index: 100;
             text-align: center;
             width: 100%;
             padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         
         .countdown-title {
             font-size: 18px;
             margin-bottom: 5px;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            width: 100%;
         }
         
         .countdown {
@@ -70,6 +78,7 @@
             justify-content: center;
             gap: 15px;
             margin-top: 5px;
+            width: 100%;
         }
         
         .countdown-item {
@@ -89,6 +98,7 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
+        /* 以下所有其他样式保持不变 */
         .section-title {
             text-align: center;
             margin: 20px 0 10px;
@@ -178,7 +188,7 @@
     <!-- UI元素 -->
     <div class="menu clickable" onclick="window.location.href='https://linktr.ee/emo1in'">SADBOISMOKEE</div>
 
-    <!-- 倒计时 - 现在完全居中 -->
+    <!-- 修改后的倒计时部分 - 完全居中 -->
     <div class="bluehour">
         <div class="countdown-title">BLUE HOUR LOADING</div>
         <div class="countdown">
