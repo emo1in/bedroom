@@ -18,21 +18,30 @@
         html, body {
             width: 100%;
             height: 100%;
+            overflow: hidden;
+            position: fixed;
             background: #000;
             color: white;
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            overflow-y: auto;
         }
         
         #image-container {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100vw;
+            height: 100vh;
+            height: -webkit-fill-available;
             overflow: hidden;
             z-index: 1;
         }
         
         #fullscreen-image {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: auto;
+            height: 100%;
             object-fit: cover;
             object-position: center;
         }
@@ -41,37 +50,53 @@
             position: fixed;
             top: constant(safe-area-inset-top, 15px);
             top: env(safe-area-inset-top, 15px);
-            left: 0;
-            width: 100%;
-            text-align: center;
+            left: 15px;
+            z-index: 100;
+            font: 500 17px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+        
+        .site-url {
+            position: fixed;
+            bottom: constant(safe-area-inset-bottom, 15px);
+            bottom: env(safe-area-inset-bottom, 15px);
+            right: 15px;
+            z-index: 100;
+            font: 400 14px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+        
+        .time {
+            position: fixed;
+            top: constant(safe-area-inset-top, 15px);
+            top: env(safe-area-inset-top, 15px);
+            right: 15px;
             z-index: 100;
             font: 500 17px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
         .bluehour {
-            margin-top: 80px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px 0;
+            position: fixed;
+            top: 80px; /* 调整到语言条上方 */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
             text-align: center;
+            width: 100%;
         }
         
         .countdown-title {
             font-size: 18px;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-            width: 100%;
         }
         
         .countdown {
             display: flex;
             justify-content: center;
             gap: 15px;
-            width: 100%;
+            margin-top: 5px;
         }
         
         .countdown-item {
@@ -91,7 +116,40 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
-        /* 其他样式保持不变... */
+        .album-container {
+            position: fixed;
+            bottom: 80px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 100;
+        }
+        
+        .album-cover {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            transition: transform 0.3s;
+        }
+        
+        .album-cover:hover {
+            transform: scale(1.05);
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            z-index: 100;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
     </style>
 </head>
 <body>
@@ -102,8 +160,8 @@
     
     <!-- UI元素 -->
     <div class="menu clickable" onclick="window.location.href='https://linktr.ee/emo1in'">SADBOISMOKEE</div>
+    <div class="time" id="current-time">15:05</div>
     
-    <!-- 倒计时 - 现在完全居中 -->
     <div class="bluehour">
         <div class="countdown-title">BLUE HOUR LOADING</div>
         <div class="countdown">
@@ -125,8 +183,8 @@
             </div>
         </div>
     </div>
-    <!-- 音乐部分 -->
-    <div class="section-title">Music</div>
+    
+    <!-- 专辑封面 -->
     <div class="album-container">
         <a href="http://163cn.tv/HwQYrF5" target="_blank">
             <img src="emotional-cover.jpg" alt="EMOTIONAL" class="album-cover">
@@ -136,18 +194,6 @@
         </a>
     </div>
     
-    <!-- 视频部分 -->
-    <div class="section-title">Video</div>
-    <div class="video-container">
-        <div class="video-placeholder">Video Content Here</div>
-    </div>
-    
-    <!-- 社交媒体链接 -->
-    <div class="social-links">
-        <a href="https://instagram.com/sadboismokee" target="_blank" class="social-link">Instagram</a>
-        <a href="https://twitter.com/sadboismokee" target="_blank" class="social-link">Twitter</a>
-    </div>
-    
     <!-- 底部信息 -->
     <div class="footer">
         <div>NOBODYDODGESMOKE</div>
@@ -155,6 +201,19 @@
     </div>
 
     <script>
+        // 强制全屏函数
+        function enforceFullscreen() {
+            document.getElementById('image-container').style.height = `${window.innerHeight}px`;
+        }
+        
+        // 精确时间更新
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('current-time').textContent = `${hours}:${minutes}`;
+        }
+        
         // 倒计时更新
         function updateCountdown() {
             const now = new Date();
@@ -180,11 +239,15 @@
         
         // 初始化
         function init() {
+            enforceFullscreen();
+            updateTime();
             updateCountdown();
+            setInterval(updateTime, 1000);
             window.countdownInterval = setInterval(updateCountdown, 1000);
         }
         
         window.addEventListener('load', init);
+        window.addEventListener('resize', enforceFullscreen);
     </script>
 </body>
 </html>
