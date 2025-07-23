@@ -49,28 +49,20 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
-        /* 修改后的倒计时样式 - 确保完全居中 */
+        /* 修改后的倒计时样式 - 固定在文档流中 */
         .bluehour {
-            position: absolute;
-            top: 80px;
-            left: 0;
-            right: 0;
-            margin: 0 auto;
-            z-index: 100;
+            margin-top: 80px;  /* 从顶部菜单下移80px */
             text-align: center;
             width: 100%;
             padding: 20px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            z-index: 100;
+            /* 移除了所有固定定位属性 */
         }
         
         .countdown-title {
             font-size: 18px;
             margin-bottom: 5px;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-            width: 100%;
         }
         
         .countdown {
@@ -78,7 +70,6 @@
             justify-content: center;
             gap: 15px;
             margin-top: 5px;
-            width: 100%;
         }
         
         .countdown-item {
@@ -188,7 +179,7 @@
     <!-- UI元素 -->
     <div class="menu clickable" onclick="window.location.href='https://linktr.ee/emo1in'">SADBOISMOKEE Related</div>
 
-    <!-- 修改后的倒计时部分 - 完全居中 -->
+    <!-- 修改后的倒计时部分 - 现在会随页面滚动 -->
     <div class="bluehour">
         <div class="countdown-title">BLUE HOUR LOADING</div>
         <div class="countdown">
@@ -197,15 +188,15 @@
                 <div class="countdown-label">DAYS</div>
             </div>
             <div class="countdown-item">
-                <div class="countdown-number" id="countdown-hours">08</div>
+                <div class="countdown-number" id="countdown-hours">06</div>
                 <div class="countdown-label">HOURS</div>
             </div>
             <div class="countdown-item">
-                <div class="countdown-number" id="countdown-minutes">54</div>
+                <div class="countdown-number" id="countdown-minutes">32</div>
                 <div class="countdown-label">MIN</div>
             </div>
             <div class="countdown-item">
-                <div class="countdown-number" id="countdown-seconds">46</div>
+                <div class="countdown-number" id="countdown-seconds">23</div>
                 <div class="countdown-label">SEC</div>
             </div>
         </div>
