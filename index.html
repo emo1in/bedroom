@@ -21,6 +21,8 @@
             overflow: hidden;
             position: fixed;
             background: #000;
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         }
         
         #image-container {
@@ -31,6 +33,7 @@
             height: 100vh;
             height: -webkit-fill-available;
             overflow: hidden;
+            z-index: 1;
         }
         
         #fullscreen-image {
@@ -49,7 +52,6 @@
             top: env(safe-area-inset-top, 15px);
             left: 15px;
             z-index: 100;
-            color: white;
             font: 500 17px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
@@ -60,7 +62,6 @@
             bottom: env(safe-area-inset-bottom, 15px);
             right: 15px;
             z-index: 100;
-            color: white;
             font: 400 14px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
@@ -71,59 +72,53 @@
             top: env(safe-area-inset-top, 15px);
             right: 15px;
             z-index: 100;
-            color: white;
             font: 500 17px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
         .bluehour {
             position: fixed;
-            top: 50%;
+            top: 80px; /* 调整到语言条上方 */
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
             z-index: 100;
-            color: white;
-            font: 500 24px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
             text-align: center;
             width: 100%;
-            padding: 0 20px;
+        }
+        
+        .countdown-title {
+            font-size: 18px;
+            margin-bottom: 5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
         .countdown {
-            margin-top: 10px;
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 15px;
+            margin-top: 5px;
         }
         
         .countdown-item {
             text-align: center;
-            min-width: 50px;
+            min-width: 40px;
         }
         
         .countdown-number {
             font-size: 24px;
             font-weight: bold;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
         .countdown-label {
             font-size: 12px;
             opacity: 0.8;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
-        .clickable {
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-        
-        .clickable:hover {
-            opacity: 0.8;
-        }
-        
-        .album-links {
+        .album-container {
             position: fixed;
-            bottom: 60px;
+            bottom: 80px;
             left: 0;
             width: 100%;
             display: flex;
@@ -132,14 +127,28 @@
             z-index: 100;
         }
         
-        .album-link {
-            color: white;
-            font: 500 16px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
+        .album-cover {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            transition: transform 0.3s;
+        }
+        
+        .album-cover:hover {
+            transform: scale(1.05);
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            z-index: 100;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-            padding: 8px 15px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 20px;
-            backdrop-filter: blur(5px);
         }
     </style>
 </head>
@@ -151,41 +160,50 @@
     
     <!-- UI元素 -->
     <div class="menu clickable" onclick="window.location.href='https://linktr.ee/emo1in'">SADBOISMOKEE</div>
+    <div class="time" id="current-time">15:05</div>
+    
+    <!-- 倒计时 -->
     <div class="bluehour">
-        BLUE HOUR LOADING
+        <div class="countdown-title">BLUE HOUR LOADING</div>
         <div class="countdown">
             <div class="countdown-item">
-                <div class="countdown-number" id="countdown-days">00</div>
+                <div class="countdown-number" id="countdown-days">156</div>
                 <div class="countdown-label">DAYS</div>
             </div>
             <div class="countdown-item">
-                <div class="countdown-number" id="countdown-hours">00</div>
+                <div class="countdown-number" id="countdown-hours">08</div>
                 <div class="countdown-label">HOURS</div>
             </div>
             <div class="countdown-item">
-                <div class="countdown-number" id="countdown-minutes">00</div>
+                <div class="countdown-number" id="countdown-minutes">54</div>
                 <div class="countdown-label">MIN</div>
             </div>
             <div class="countdown-item">
-                <div class="countdown-number" id="countdown-seconds">00</div>
+                <div class="countdown-number" id="countdown-seconds">46</div>
                 <div class="countdown-label">SEC</div>
             </div>
         </div>
     </div>
-    <div class="time" id="current-time">6:02</div>
-    <div class="site-url">NOBODYDODGESMOKE</div>
     
-    <!-- 新增专辑链接 -->
-    <div class="album-links">
-        <div class="album-link clickable" onclick="window.open('http://163cn.tv/HwQYrF5', '_blank')">EMOTIONAL</div>
-        <div class="album-link clickable" onclick="window.open('http://163cn.tv/HwRcSz5', '_blank')">BLUE HOUR(Prelude)</div>
+    <!-- 专辑封面 -->
+    <div class="album-container">
+        <a href="http://163cn.tv/HwQYrF5" target="_blank">
+            <img src="emotional-cover.jpg" alt="EMOTIONAL" class="album-cover">
+        </a>
+        <a href="http://163cn.tv/HwRcSz5" target="_blank">
+            <img src="bluehour-cover.jpg" alt="BLUE HOUR(Prelude)" class="album-cover">
+        </a>
+    </div>
+    
+    <!-- 底部信息 -->
+    <div class="footer">
+        <div>NOBODYDODGESMOKE</div>
+        <div>sadboismokee.baby</div>
     </div>
 
     <script>
         // 强制全屏函数
         function enforceFullscreen() {
-            const vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
             document.getElementById('image-container').style.height = `${window.innerHeight}px`;
         }
         
@@ -195,14 +213,6 @@
             const hours = now.getHours();
             const minutes = now.getMinutes().toString().padStart(2, '0');
             document.getElementById('current-time').textContent = `${hours}:${minutes}`;
-        }
-        
-        // 图片加载处理
-        function handleImage() {
-            const img = document.getElementById('fullscreen-image');
-            img.style.width = '100%';
-            img.style.height = '100%';
-            img.style.objectFit = 'cover';
         }
         
         // 倒计时更新
@@ -223,7 +233,8 @@
             
             if (diff < 0) {
                 clearInterval(window.countdownInterval);
-                document.querySelector('.bluehour').innerHTML = 'BLUE HOUR RELEASED';
+                document.querySelector('.countdown-title').textContent = 'BLUE HOUR RELEASED';
+                document.querySelector('.countdown').style.display = 'none';
             }
         }
         
@@ -234,33 +245,10 @@
             updateCountdown();
             setInterval(updateTime, 1000);
             window.countdownInterval = setInterval(updateCountdown, 1000);
-            
-            const img = document.getElementById('fullscreen-image');
-            if (img.complete) {
-                handleImage();
-            } else {
-                img.onload = handleImage;
-            }
-            
-            // 链接点击效果
-            document.querySelectorAll('.clickable').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    this.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        this.style.transform = 'scale(1)';
-                    }, 200);
-                });
-            });
         }
         
         window.addEventListener('load', init);
         window.addEventListener('resize', enforceFullscreen);
-        
-        if (window.navigator.standalone === false && /iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-            setTimeout(() => {
-                alert('请通过Safari的"分享"按钮，选择"添加到主屏幕"以获得最佳全屏体验');
-            }, 3000);
-        }
     </script>
 </body>
 </html>
