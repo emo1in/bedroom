@@ -116,6 +116,73 @@
             font-size: 12px;
             opacity: 0.8;
         }
+         <style>
+        /* 在原有样式基础上添加以下样式 */
+        .clickable {
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .clickable:hover {
+            opacity: 0.8;
+        }
+        .album-links {
+            position: fixed;
+            bottom: 60px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 100;
+        }
+        .album-link {
+            color: white;
+            font: 500 16px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            padding: 8px 15px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- 图片容器 -->
+    <div id="image-container">
+        <img id="fullscreen-image" src="123.png" alt="全屏背景">
+    </div>
+    
+    <!-- UI元素 -->
+    <div class="menu clickable" onclick="window.location.href='https://example.com'">SADBOISMOKEE</div>
+    <div class="bluehour">
+        BLUE HOUR LOADING
+        <div class="countdown">
+            <!-- 倒计时元素保持不变 -->
+        </div>
+    </div>
+    <div class="time" id="current-time">6:02</div>
+    <div class="site-url">NOBODYDODGESMOKE</div>
+    
+    <!-- 新增专辑链接 -->
+    <div class="album-links">
+        <div class="album-link clickable" onclick="window.open('http://163cn.tv/HwQYrF5', '_blank')">EMOTIONAL</div>
+        <div class="album-link clickable" onclick="window.open('http://163cn.tv/HwRcSz5', '_blank')">BLUE HOUR(Prelude)</div>
+    </div>
+
+    <script>
+        // 之前的JavaScript代码保持不变
+        
+        // 新增链接交互效果
+        document.querySelectorAll('.clickable').forEach(link => {
+            link.addEventListener('click', function(e) {
+                // 添加点击效果
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 200);
+            });
+        });
+    </script>
     </style>
 </head>
 <body>
