@@ -24,30 +24,17 @@
             overflow-y: auto;
         }
         
-        /* 修改图片容器为视差效果 */
         #image-container {
-            position: relative;
             width: 100vw;
-            height: 100vh; /* 全屏高度 */
             overflow: hidden;
             z-index: 1;
         }
         
         #fullscreen-image {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 120%; /* 比容器高一些以产生视差效果 */
+            height: auto;
             object-fit: cover;
             object-position: center;
-            will-change: transform; /* 优化性能 */
-        }
-        
-        /* 内容容器添加背景色 */
-        .content-container {
-            position: relative;
-            background: #000;
         }
         
         .menu {
@@ -62,7 +49,6 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
-        /* 倒计时样式保持不变 */
         .bluehour {
             margin-top: 80px;
             text-align: center;
@@ -101,7 +87,6 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
-        /* 其他样式保持不变 */
         .section-title {
             text-align: center;
             margin: 20px 0 10px;
@@ -111,6 +96,7 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
+        /* 修改专辑容器样式 */
         .album-container {
             width: 100%;
             display: flex;
@@ -118,8 +104,10 @@
             gap: 20px;
             z-index: 100;
             padding: 10px 0 30px;
+            position: relative;
         }
         
+        /* 添加视差效果的专辑封面 */
         .album-cover {
             width: 80px;
             height: 80px;
@@ -127,6 +115,8 @@
             object-fit: cover;
             box-shadow: 0 2px 10px rgba(0,0,0,0.5);
             transition: transform 0.3s;
+            will-change: transform; /* 优化性能 */
+            position: relative;
         }
         
         .album-cover:hover {
@@ -183,78 +173,90 @@
     </style>
 </head>
 <body>
-    <!-- 图片容器 - 视差效果 -->
+    <!-- 图片容器 -->
     <div id="image-container">
         <img id="fullscreen-image" src="123.png" alt="全屏背景">
     </div>
     
-    <!-- 内容容器 -->
-    <div class="content-container">
-        <!-- UI元素 -->
-        <div class="menu clickable" onclick="window.location.href='https://linktr.ee/emo1in'">SADBOISMOKEE Related</div>
+    <!-- UI元素 -->
+    <div class="menu clickable" onclick="window.location.href='https://linktr.ee/emo1in'">SADBOISMOKEE Related</div>
 
-        <!-- 倒计时部分 -->
-        <div class="bluehour">
-            <div class="countdown-title">BLUE HOUR LOADING</div>
-            <div class="countdown">
-                <div class="countdown-item">
-                    <div class="countdown-number" id="countdown-days">156</div>
-                    <div class="countdown-label">DAYS</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="countdown-hours">06</div>
-                    <div class="countdown-label">HOURS</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="countdown-minutes">32</div>
-                    <div class="countdown-label">MIN</div>
-                </div>
-                <div class="countdown-item">
-                    <div class="countdown-number" id="countdown-seconds">23</div>
-                    <div class="countdown-label">SEC</div>
-                </div>
+    <!-- 倒计时部分 -->
+    <div class="bluehour">
+        <div class="countdown-title">BLUE HOUR LOADING</div>
+        <div class="countdown">
+            <div class="countdown-item">
+                <div class="countdown-number" id="countdown-days">156</div>
+                <div class="countdown-label">DAYS</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="countdown-hours">06</div>
+                <div class="countdown-label">HOURS</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="countdown-minutes">32</div>
+                <div class="countdown-label">MIN</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="countdown-seconds">23</div>
+                <div class="countdown-label">SEC</div>
             </div>
         </div>
-        
-        <!-- 音乐部分 -->
-        <div class="section-title">Music</div>
-        <div class="album-container">
-            <a href="http://163cn.tv/HwQYrF5" target="_blank">
-                <img src="emotional-cover.jpg" alt="EMOTIONAL" class="album-cover">
-            </a>
-            <a href="http://163cn.tv/HwRcSz5" target="_blank">
-                <img src="bluehour-cover.jpg" alt="BLUE HOUR(Prelude)" class="album-cover">
-            </a>
-        </div>
-        
-        <!-- 视频部分 -->
-        <div class="section-title">Video</div>
-        <div class="video-container">
-            <div class="video-placeholder">Video Content Here</div>
-        </div>
-        
-        <!-- 社交媒体链接 -->
-        <div class="social-links">
-            <a href="https://instagram.com/sadboismokee" target="_blank" class="social-link">Instagram</a>
-            <a href="https://twitter.com/sadboismokee" target="_blank" class="social-link">Twitter</a>
-        </div>
-        
-        <!-- 底部信息 -->
-        <div class="footer">
-            <div>NOBODYDODGESMOKE</div>
-            <div>sadboismokee.baby</div>
-        </div>
+    </div>
+    
+    <!-- 音乐部分 -->
+    <div class="section-title">Music</div>
+    <div class="album-container" id="albumContainer">
+        <a href="http://163cn.tv/HwQYrF5" target="_blank" class="album-link">
+            <img src="emotional-cover.jpg" alt="EMOTIONAL" class="album-cover" id="album1">
+        </a>
+        <a href="http://163cn.tv/HwRcSz5" target="_blank" class="album-link">
+            <img src="bluehour-cover.jpg" alt="BLUE HOUR(Prelude)" class="album-cover" id="album2">
+        </a>
+    </div>
+    
+    <!-- 视频部分 -->
+    <div class="section-title">Video</div>
+    <div class="video-container">
+        <div class="video-placeholder">Video Content Here</div>
+    </div>
+    
+    <!-- 社交媒体链接 -->
+    <div class="social-links">
+        <a href="https://instagram.com/sadboismokee" target="_blank" class="social-link">Instagram</a>
+        <a href="https://twitter.com/sadboismokee" target="_blank" class="social-link">Twitter</a>
+    </div>
+    
+    <!-- 底部信息 -->
+    <div class="footer">
+        <div>NOBODYDODGESMOKE</div>
+        <div>sadboismokee.baby</div>
     </div>
 
     <script>
-        // 视差效果
+        // 专辑图片视差效果
         window.addEventListener('scroll', function() {
-            const image = document.getElementById('fullscreen-image');
             const scrollPosition = window.pageYOffset;
+            const albumContainer = document.getElementById('albumContainer');
+            const album1 = document.getElementById('album1');
+            const album2 = document.getElementById('album2');
             
-            // 调整图片位置实现视差效果
-            // 0.5是视差系数，值越小跟随效果越明显
-            image.style.transform = 'translateY(' + scrollPosition * 0.5 + 'px)';
+            // 获取专辑容器相对于视口的位置
+            const containerRect = albumContainer.getBoundingClientRect();
+            const containerTop = containerRect.top + window.pageYOffset;
+            
+            // 只有当专辑容器进入视口时才应用效果
+            if (scrollPosition > containerTop - window.innerHeight && 
+                scrollPosition < containerTop + containerRect.height) {
+                
+                // 计算相对滚动位置 (0到1之间)
+                const scrollPercent = (scrollPosition - containerTop + window.innerHeight) / 
+                                    (window.innerHeight + containerRect.height);
+                
+                // 为两个专辑应用不同的视差效果
+                album1.style.transform = `translateY(${-scrollPercent * 30}px) scale(${1 + scrollPercent * 0.05})`;
+                album2.style.transform = `translateY(${scrollPercent * 30}px) scale(${1 + scrollPercent * 0.05})`;
+            }
         });
 
         // 倒计时更新
