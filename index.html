@@ -49,14 +49,65 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
-        /* 修改后的倒计时样式 - 固定在文档流中 */
+        /* 新增汉堡菜单样式 */
+        .hamburger-menu {
+            position: fixed;
+            top: constant(safe-area-inset-top, 15px);
+            top: env(safe-area-inset-top, 15px);
+            right: 15px;
+            z-index: 101;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+        }
+        
+        .hamburger-menu span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+        
+        /* 社交媒体菜单 */
+        .social-menu {
+            position: fixed;
+            top: 60px;
+            right: 15px;
+            z-index: 100;
+            background: rgba(0,0,0,0.8);
+            border-radius: 8px;
+            padding: 10px;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        .social-menu.active {
+            display: flex;
+        }
+        
+        .social-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px;
+        }
+        
+        /* 倒计时样式保持不变 */
         .bluehour {
-            margin-top: 80px;  /* 从顶部菜单下移80px */
+            margin-top: 80px;
             text-align: center;
             width: 100%;
             padding: 20px 0;
             z-index: 100;
-            /* 移除了所有固定定位属性 */
         }
         
         .countdown-title {
@@ -89,7 +140,7 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
-        /* 以下所有其他样式保持不变 */
+        /* 其他样式保持不变 */
         .section-title {
             text-align: center;
             margin: 20px 0 10px;
@@ -140,21 +191,7 @@
             font-size: 16px;
         }
         
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px 0;
-        }
-        
-        .social-link {
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+        /* 移除底部的社交链接样式 */
         
         .footer {
             width: 100%;
@@ -178,8 +215,21 @@
     
     <!-- UI元素 -->
     <div class="menu clickable" onclick="window.location.href='https://linktr.ee/emo1in'">SADBOISMOKEE Related</div>
+    
+    <!-- 新增汉堡菜单 -->
+    <div class="hamburger-menu" id="hamburgerMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    
+    <!-- 社交媒体菜单 -->
+    <div class="social-menu" id="socialMenu">
+        <a href="https://instagram.com/sadboismokee" target="_blank" class="social-link">Instagram</a>
+        <a href="https://twitter.com/sadboismokee" target="_blank" class="social-link">Twitter</a>
+    </div>
 
-    <!-- 修改后的倒计时部分 - 现在会随页面滚动 -->
+    <!-- 倒计时部分 -->
     <div class="bluehour">
         <div class="countdown-title">BLUE HOUR LOADING</div>
         <div class="countdown">
@@ -219,12 +269,6 @@
         <div class="video-placeholder">Video Content Here</div>
     </div>
     
-    <!-- 社交媒体链接 -->
-    <div class="social-links">
-        <a href="https://instagram.com/sadboismokee" target="_blank" class="social-link">Instagram</a>
-        <a href="https://twitter.com/sadboismokee" target="_blank" class="social-link">Twitter</a>
-    </div>
-    
     <!-- 底部信息 -->
     <div class="footer">
         <div>NOBODYDODGESMOKE</div>
@@ -253,6 +297,22 @@
                 document.querySelector('.countdown').style.display = 'none';
             }
         }
+        
+        // 汉堡菜单点击事件
+        document.getElementById('hamburgerMenu').addEventListener('click', function() {
+            const socialMenu = document.getElementById('socialMenu');
+            socialMenu.classList.toggle('active');
+        });
+        
+        // 点击页面其他区域关闭菜单
+        document.addEventListener('click', function(event) {
+            const socialMenu = document.getElementById('socialMenu');
+            const hamburgerMenu = document.getElementById('hamburgerMenu');
+            
+            if (!socialMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
+                socialMenu.classList.remove('active');
+            }
+        });
         
         // 初始化
         function init() {
