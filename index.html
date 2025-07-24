@@ -26,15 +26,22 @@
         
         #image-container {
             width: 100vw;
+            height: 100vh;
             overflow: hidden;
-            z-index: 1;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
         }
         
         #fullscreen-image {
             width: 100%;
-            height: auto;
+            height: 100%;
             object-fit: cover;
             object-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         
         .menu {
@@ -45,108 +52,125 @@
             width: 100%;
             text-align: center;
             z-index: 100;
-            font: 500 17px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
+            font: 500 24px/1.2 -apple-system, BlinkMacSystemFont, sans-serif;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            padding: 15px 0;
         }
         
-        /* 新增汉堡菜单样式 */
+        /* 汉堡菜单样式 - 更大更明显 */
         .hamburger-menu {
             position: fixed;
-            top: constant(safe-area-inset-top, 15px);
-            top: env(safe-area-inset-top, 15px);
-            right: 15px;
+            top: constant(safe-area-inset-top, 20px);
+            top: env(safe-area-inset-top, 20px);
+            right: 25px;
             z-index: 101;
             cursor: pointer;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            width: 24px;
-            height: 18px;
+            width: 32px;
+            height: 24px;
+            padding: 5px;
         }
         
         .hamburger-menu span {
             display: block;
             width: 100%;
-            height: 2px;
+            height: 3px;
             background-color: white;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+        
+        /* 全屏菜单样式 */
+        .fullscreen-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 200;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .fullscreen-menu.active {
+            display: flex;
+        }
+        
+        .menu-item {
+            color: white;
+            text-decoration: none;
+            font-size: 32px;
+            margin: 20px 0;
+            padding: 15px 30px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
             transition: all 0.3s ease;
         }
         
-        /* 社交媒体菜单 */
-        .social-menu {
-            position: fixed;
-            top: 60px;
-            right: 15px;
-            z-index: 100;
-            background: rgba(0,0,0,0.8);
-            border-radius: 8px;
-            padding: 10px;
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        .menu-item:hover {
+            transform: scale(1.1);
+            color: #ccc;
         }
         
-        .social-menu.active {
-            display: flex;
+        /* 内容区域 - 更大间距 */
+        .content {
+            margin-top: 100vh;
+            padding: 50px 20px;
+            background: #000;
         }
         
-        .social-link {
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 5px 10px;
-        }
-        
-        /* 倒计时样式保持不变 */
+        /* 倒计时样式 - 更大 */
         .bluehour {
-            margin-top: 80px;
+            margin-top: 40px;
             text-align: center;
             width: 100%;
-            padding: 20px 0;
-            z-index: 100;
+            padding: 30px 0;
         }
         
         .countdown-title {
-            font-size: 18px;
-            margin-bottom: 5px;
+            font-size: 24px;
+            margin-bottom: 15px;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            letter-spacing: 2px;
         }
         
         .countdown {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: 5px;
+            gap: 25px;
+            margin-top: 15px;
         }
         
         .countdown-item {
             text-align: center;
-            min-width: 40px;
+            min-width: 60px;
         }
         
         .countdown-number {
-            font-size: 24px;
+            font-size: 36px;
             font-weight: bold;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
         .countdown-label {
-            font-size: 12px;
+            font-size: 16px;
             opacity: 0.8;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            letter-spacing: 1px;
         }
         
-        /* 其他样式保持不变 */
+        /* 专辑部分 - 更大 */
         .section-title {
             text-align: center;
-            margin: 20px 0 10px;
-            font-size: 18px;
+            margin: 60px 0 30px;
+            font-size: 28px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
@@ -154,141 +178,184 @@
             width: 100%;
             display: flex;
             justify-content: center;
-            gap: 20px;
-            z-index: 100;
-            padding: 10px 0 30px;
+            gap: 40px;
+            padding: 30px 0 60px;
+            position: relative;
         }
         
         .album-cover {
-            width: 80px;
-            height: 80px;
-            border-radius: 8px;
+            width: 150px;
+            height: 150px;
+            border-radius: 12px;
             object-fit: cover;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.7);
             transition: transform 0.3s;
+            will-change: transform;
         }
         
         .album-cover:hover {
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
         
+        /* 视频部分 - 更大 */
         .video-container {
             width: 100%;
-            padding: 20px;
+            padding: 40px 20px;
             display: flex;
             justify-content: center;
         }
         
         .video-placeholder {
             width: 90%;
-            height: 200px;
+            max-width: 800px;
+            height: 400px;
             background: #222;
-            border-radius: 10px;
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #555;
-            font-size: 16px;
+            font-size: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
         
-        /* 移除底部的社交链接样式 */
-        
+        /* 底部信息 - 更大 */
         .footer {
             width: 100%;
             text-align: center;
-            font-size: 12px;
-            z-index: 100;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-            padding: 20px 0;
+            font-size: 16px;
+            padding: 40px 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+            letter-spacing: 1px;
         }
-
-        .album-container {
-    position: relative;
-    overflow: visible;
-}
-
-.album-cover {
-    transition: transform 0.2s ease-out;
-    will-change: transform;
-}
     </style>
 </head>
 <body>
-    <!-- 图片容器 -->
+    <!-- 背景图片容器 -->
     <div id="image-container">
         <img id="fullscreen-image" src="123.png" alt="全屏背景">
     </div>
     
-    <!-- UI元素 -->
-    <div class="menu clickable" onclick="window.location.href='https://linktr.ee/emo1in'">SADBOISMOKEE Related</div>
-    
-    <!-- 新增汉堡菜单 -->
-    <div class="hamburger-menu" id="hamburgerMenu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-    
-    <!-- 社交媒体菜单 -->
-    <div class="social-menu" id="socialMenu">
-        <a href="https://instagram.com/sadboismokee" target="_blank" class="social-link">Instagram</a>
-        <a href="https://twitter.com/sadboismokee" target="_blank" class="social-link">Twitter</a>
-        <a href="https://youtube.com/@sadboismokee?si=bapFtLqm4EFbcUrY" target="_blank" class="social-link">YouTube</a>
-        <a href=" https://weibo.com/u/7285956150" target="_blank" class="social-link">Weibo</a>
-        <a href="https://music.apple.com/cn/artist/sadboismokee/1802540701" target="_blank" class="social-link">Apple Music</a>
-        <a href="https://open.spotify.com/artist/4fDzfYzIiC7VtOsOpKvHx1" target="_blank" class="social-link">Spotify</a>
-    </div>
+    <!-- 主内容区域 -->
+    <div class="content">
+        <!-- 顶部标题 -->
+        <div class="menu clickable" onclick="window.location.href='https://linktr.ee/emo1in'">SADBOISMOKEE Related</div>
+        
+        <!-- 汉堡菜单 -->
+        <div class="hamburger-menu" id="hamburgerMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <!-- 全屏菜单 -->
+        <div class="fullscreen-menu" id="fullscreenMenu">
+            <a href="#" class="menu-item">ARTISTS</a>
+            <a href="#" class="menu-item">MUSIC</a>
+            <a href="#" class="menu-item">VIDEOS</a>
+            <a href="#" class="menu-item">LIVE</a>
+            <a href="#" class="menu-item">SHOP</a>
+            <a href="#" class="menu-item">SUBSCRIBE</a>
+        </div>
 
-    <!-- 倒计时部分 -->
-    <div class="bluehour">
-        <div class="countdown-title">BLUE HOUR LOADING</div>
-        <div class="countdown">
-            <div class="countdown-item">
-                <div class="countdown-number" id="countdown-days">156</div>
-                <div class="countdown-label">DAYS</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="countdown-hours">06</div>
-                <div class="countdown-label">HOURS</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="countdown-minutes">32</div>
-                <div class="countdown-label">MIN</div>
-            </div>
-            <div class="countdown-item">
-                <div class="countdown-number" id="countdown-seconds">23</div>
-                <div class="countdown-label">SEC</div>
+        <!-- 倒计时部分 -->
+        <div class="bluehour">
+            <div class="countdown-title">BLUE HOUR LOADING</div>
+            <div class="countdown">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="countdown-days">156</div>
+                    <div class="countdown-label">DAYS</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="countdown-hours">06</div>
+                    <div class="countdown-label">HOURS</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="countdown-minutes">32</div>
+                    <div class="countdown-label">MIN</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="countdown-seconds">23</div>
+                    <div class="countdown-label">SEC</div>
+                </div>
             </div>
         </div>
-    </div>
-    
-    <!-- 音乐部分 -->
-    <div class="section-title">ALBUM</div>
-    <div class="album-container">
-        <a href="http://163cn.tv/HwQYrF5" target="_blank">
-            <img src="emotional-cover.jpg" alt="EMOTIONAL" class="album-cover">
-        </a>
-        <a href="http://163cn.tv/HwRcSz5" target="_blank">
-            <img src="bluehour-cover.jpg" alt="BLUE HOUR(Prelude)" class="album-cover">
-        </a>
-    </div>
-    
-    <!-- 视频部分 -->
-    <div class="section-title">VIDEOS</div>
-    <div class="video-container">
-        <div class="video-placeholder">Video Content Here</div>
-    </div>
-    
-    <!-- 底部信息 -->
-    <div class="footer">
-        <div>NOBODYDODGESMOKE</div>
+        
+        <!-- 音乐部分 -->
+        <div class="section-title">Music</div>
+        <div class="album-container" id="albumContainer">
+            <a href="http://163cn.tv/HwQYrF5" target="_blank">
+                <img src="emotional-cover.jpg" alt="EMOTIONAL" class="album-cover" id="album1">
+            </a>
+            <a href="http://163cn.tv/HwRcSz5" target="_blank">
+                <img src="bluehour-cover.jpg" alt="BLUE HOUR(Prelude)" class="album-cover" id="album2">
+            </a>
+        </div>
+        
+        <!-- 视频部分 -->
+        <div class="section-title">Video</div>
+        <div class="video-container">
+            <div class="video-placeholder">Video Content Here</div>
+        </div>
+        
+        <!-- 底部信息 -->
+        <div class="footer">
+            <div>NOBODYDODGESMOKE</div>
+            <div>sadboismokee.baby</div>
+        </div>
     </div>
 
     <script>
+        // 专辑图片视差效果 - 更大幅度
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.pageYOffset;
+            const album1 = document.getElementById('album1');
+            const album2 = document.getElementById('album2');
+            
+            // 计算移动距离 - 更大幅度
+            const moveDistance = scrollPosition * 0.3;
+            
+            // 两个专辑向相反方向移动
+            album1.style.transform = `translateY(${-moveDistance}px)`;
+            album2.style.transform = `translateY(${moveDistance}px)`;
+        });
+
+        // 全屏菜单控制
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const fullscreenMenu = document.getElementById('fullscreenMenu');
+        
+        hamburgerMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+            fullscreenMenu.classList.toggle('active');
+            
+            // 切换汉堡菜单动画
+            const spans = hamburgerMenu.querySelectorAll('span');
+            if(fullscreenMenu.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -6px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+        
+        // 点击菜单项关闭菜单
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                fullscreenMenu.classList.remove('active');
+                hamburgerMenu.querySelectorAll('span').forEach(span => {
+                    span.style.transform = 'none';
+                    span.style.opacity = '1';
+                });
+            });
+        });
+        
         // 倒计时更新
         function updateCountdown() {
             const now = new Date();
@@ -312,22 +379,6 @@
             }
         }
         
-        // 汉堡菜单点击事件
-        document.getElementById('hamburgerMenu').addEventListener('click', function() {
-            const socialMenu = document.getElementById('socialMenu');
-            socialMenu.classList.toggle('active');
-        });
-        
-        // 点击页面其他区域关闭菜单
-        document.addEventListener('click', function(event) {
-            const socialMenu = document.getElementById('socialMenu');
-            const hamburgerMenu = document.getElementById('hamburgerMenu');
-            
-            if (!socialMenu.contains(event.target) && !hamburgerMenu.contains(event.target)) {
-                socialMenu.classList.remove('active');
-            }
-        });
-        
         // 初始化
         function init() {
             updateCountdown();
@@ -335,19 +386,6 @@
         }
         
         window.addEventListener('load', init);
-
-        // 滚动联动专辑封面移动
-function handleScroll() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const albumCovers = document.querySelectorAll('.album-cover');
-
-    albumCovers.forEach((cover, index) => {
-        const offset = (scrollTop * 0.1) * (index % 2 === 0 ? 1 : -1); // 左右封面交错方向移动
-        cover.style.transform = `translateY(${offset}px)`;
-    });
-}
-
-window.addEventListener('scroll', handleScroll);
     </script>
 </body>
 </html>
