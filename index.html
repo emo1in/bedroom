@@ -205,6 +205,16 @@
             align-items: center;
             gap: 10px;
         }
+
+        .album-container {
+    position: relative;
+    overflow: visible;
+}
+
+.album-cover {
+    transition: transform 0.2s ease-out;
+    will-change: transform;
+}
     </style>
 </head>
 <body>
@@ -321,6 +331,19 @@
         }
         
         window.addEventListener('load', init);
+
+        // 滚动联动专辑封面移动
+function handleScroll() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const albumCovers = document.querySelectorAll('.album-cover');
+
+    albumCovers.forEach((cover, index) => {
+        const offset = (scrollTop * 0.1) * (index % 2 === 0 ? 1 : -1); // 左右封面交错方向移动
+        cover.style.transform = `translateY(${offset}px)`;
+    });
+}
+
+window.addEventListener('scroll', handleScroll);
     </script>
 </body>
 </html>
