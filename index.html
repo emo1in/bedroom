@@ -3,73 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title>SADBOISMOKEE Related</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      overflow: hidden;
+      height: 100%;
+      background-color: #000; /* 防止加载慢时出现白底 */
     }
 
-    #container {
-      height: 100vh;
-      overflow-x: auto;
-      overflow-y: hidden;
-      white-space: nowrap;
-      position: relative;
-      width: max-content; /* ✅ 自动适应图片宽度，防止右边空白 */
+    body {
+      background-image: url('living room.jpg'); /* 替换为你的图片路径 */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
     }
 
-    #panorama {
-      height: 100vh;
-      width: auto;
-      display: block; /* ✅ 防止下面出现额外空白 */
-    }
-
-    .hotspot {
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0); /* 可改为0.2看调试更方便 */
-      cursor: pointer;
-    }
-
-    .label {
-      position: absolute;
-      background: rgba(0,0,0,0.7);
-      color: #fff;
-      padding: 6px 12px;
-      font-size: 14px;
-      border-radius: 6px;
-      display: none;
-      cursor: pointer;
-      white-space: nowrap;
+    /* 禁止选择、缩放等行为 */
+    * {
+      user-select: none;
+      -webkit-user-drag: none;
+      -webkit-touch-callout: none;
     }
   </style>
 </head>
 <body>
-  <div id="container">
-    <img id="panorama" src="bedroom.png" alt="Room">
-
-    <!-- 热区1：EMOTIONAL -->
-    <div class="hotspot" style="left: 621px; top: 576px;" onclick="showLabel('label1')"></div>
-    <div class="label" id="label1" style="left: 621px; top: 540px;" onclick="window.location.href='https://your-link-to-emotional.com'">
-      EMOTIONAL
-    </div>
-
-    <!-- 热区2：BLUE HOUR -->
-    <div class="hotspot" style="left: 1022px; top: 653px;" onclick="showLabel('label2')"></div>
-    <div class="label" id="label2" style="left: 1022px; top: 620px;" onclick="window.location.href='https://your-link-to-bluehour.com'">
-      BLUE HOUR (Prelude)
-    </div>
-  </div>
-
-  <script>
-    function showLabel(id) {
-      const el = document.getElementById(id);
-      el.style.display = (el.style.display === 'block') ? 'none' : 'block';
-    }
-  </script>
 </body>
 </html>
