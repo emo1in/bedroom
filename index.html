@@ -1,33 +1,110 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>SADBOISMOKEE Related</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <style>
     html, body {
       margin: 0;
       padding: 0;
+      overflow: hidden;
+      width: 100%;
       height: 100%;
-      background-color: #000; /* 防止加载慢时出现白底 */
+      background-color: black;
+      font-family: 'Helvetica Neue', sans-serif;
+      color: white;
     }
 
-    body {
-      background-image: url('living room.jpg'); /* 替换为你的图片路径 */
+    #title {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      z-index: 2;
+      transition: opacity 1s ease;
+    }
+
+    #main {
+      width: 100%;
+      height: 100%;
+      background-image: url('living room.jpg');
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
+      position: relative;
+      display: none;
     }
 
-    /* 禁止选择、缩放等行为 */
-    * {
-      user-select: none;
-      -webkit-user-drag: none;
-      -webkit-touch-callout: none;
+    #dot {
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 3;
+      animation: blink 1s infinite;
+      cursor: pointer;
+    }
+
+    #enter-text {
+      position: absolute;
+      top: 18px;
+      right: 40px;
+      color: white;
+      font-size: 14px;
+      display: none;
+      z-index: 3;
+      cursor: pointer;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
     }
   </style>
 </head>
 <body>
+
+  <div id="title">SADBOISMOKEE Related</div>
+
+  <div id="main">
+    <div id="dot"></div>
+    <div id="enter-text">→ Enter Bed</div>
+  </div>
+
+  <script>
+    const titleScreen = document.getElementById("title");
+    const mainContent = document.getElementById("main");
+    const dot = document.getElementById("dot");
+    const enterText = document.getElementById("enter-text");
+
+    // 显示标题 2 秒后进入主画面
+    setTimeout(() => {
+      titleScreen.style.opacity = "0";
+      setTimeout(() => {
+        titleScreen.style.display = "none";
+        mainContent.style.display = "block";
+      }, 1000);
+    }, 2000);
+
+    // 点击小圆点后显示 Enter Bed
+    dot.addEventListener("click", () => {
+      enterText.style.display = "block";
+    });
+
+    // 点击 Enter Bed 后切换背景图
+    enterText.addEventListener("click", () => {
+      mainContent.style.backgroundImage = "url('Bed.png')";
+      enterText.style.display = "none";
+    });
+  </script>
+
 </body>
 </html>
