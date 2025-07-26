@@ -10,16 +10,20 @@
       padding: 0;
       overflow: hidden;
     }
+
     #container {
-      width: 100vw;
       height: 100vh;
       overflow-x: auto;
       overflow-y: hidden;
       white-space: nowrap;
       position: relative;
+      width: max-content; /* ✅ 自动适应图片宽度，防止右边空白 */
     }
+
     #panorama {
       height: 100vh;
+      width: auto;
+      display: block; /* ✅ 防止下面出现额外空白 */
     }
 
     .hotspot {
@@ -27,7 +31,7 @@
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0);
+      background-color: rgba(255, 255, 255, 0); /* 可改为0.2看调试更方便 */
       cursor: pointer;
     }
 
@@ -40,13 +44,14 @@
       border-radius: 6px;
       display: none;
       cursor: pointer;
+      white-space: nowrap;
     }
   </style>
 </head>
 <body>
   <div id="container">
     <img id="panorama" src="bedroom.png" alt="Room">
-    
+
     <!-- 热区1：EMOTIONAL -->
     <div class="hotspot" style="left: 621px; top: 576px;" onclick="showLabel('label1')"></div>
     <div class="label" id="label1" style="left: 621px; top: 540px;" onclick="window.location.href='https://your-link-to-emotional.com'">
