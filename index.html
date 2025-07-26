@@ -5,55 +5,55 @@
   <title>SADBOISMOKEE Related</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: #000;
-  }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000; /* 防止黑边白边 */
+      overflow: hidden;
+    }
 
-  body {
-    overscroll-behavior: none;
-    -webkit-overflow-scrolling: touch;
-  }
+    #container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox 隐藏滚动条 */
+    }
 
-  #container {
-    width: 100vw;
-    height: 100vh;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    position: relative;
-    background-color: #000;
-  }
+    #container::-webkit-scrollbar {
+      display: none; /* Safari/Chrome 隐藏滚动条 */
+    }
 
-  #panorama {
-    height: 100vh;
-    display: block;
-  }
+    #panorama {
+      height: 100vh;
+      display: inline-block;
+    }
 
-  .hotspot {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0);
-    cursor: pointer;
-  }
+    .hotspot {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0);
+      cursor: pointer;
+    }
 
-  .label {
-    position: absolute;
-    background: rgba(0,0,0,0.7);
-    color: #fff;
-    padding: 6px 12px;
-    font-size: 14px;
-    border-radius: 6px;
-    display: none;
-    cursor: pointer;
-  }
-</style>
+    .label {
+      position: absolute;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 6px 12px;
+      font-size: 14px;
+      border-radius: 6px;
+      display: none;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <div id="container">
