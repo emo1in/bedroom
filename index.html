@@ -2,109 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>SADBOISMOKEE Related</title>
   <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
-      margin: 0;
-      padding: 0;
+      height: 100%;
+      width: 100%;
       overflow: hidden;
-      width: 100%;
-      height: 100%;
-      background-color: black;
-      font-family: 'Helvetica Neue', sans-serif;
-      color: white;
+      font-family: sans-serif;
+      background: black;
     }
-
-    #title {
-      position: absolute;
+    .splash {
+      position: fixed;
       width: 100%;
       height: 100%;
-      background-color: black;
+      background: black;
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: 2em;
       z-index: 2;
-      transition: opacity 1s ease;
     }
-
-    #main {
+    .background {
+      position: fixed;
+      top: 0; left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('living room.jpg');
+      background: url('living room.jpg') no-repeat center center;
       background-size: cover;
-      background-position: center;
-      position: relative;
-      display: none;
+      z-index: 1;
     }
-
-    #dot {
-      width: 10px;
-      height: 10px;
-      background-color: white;
-      border-radius: 50%;
+    .arrow-button {
       position: absolute;
       top: 20px;
       right: 20px;
-      z-index: 3;
-      animation: blink 1s infinite;
-      cursor: pointer;
-    }
-
-    #enter-text {
-      position: absolute;
-      top: 18px;
-      right: 40px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid white;
       color: white;
-      font-size: 14px;
-      display: none;
-      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
       cursor: pointer;
+      z-index: 3;
     }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.2; }
+    .label {
+      position: absolute;
+      top: 80px;
+      right: 20px;
+      color: white;
+      font-size: 1em;
+      cursor: pointer;
+      z-index: 3;
+      display: none;
     }
   </style>
 </head>
 <body>
-
-  <div id="title">SADBOISMOKEE Related</div>
-
-  <div id="main">
-    <div id="dot"></div>
-    <div id="enter-text">→ Enter Bed</div>
-  </div>
+  <div class="splash" id="splash">SADBOISMOKEE Related</div>
+  <div class="background"></div>
+  <div class="arrow-button" onclick="showLabel()">→</div>
+  <div class="label" onclick="goToBed()">Enter Bed →</div>
 
   <script>
-    const titleScreen = document.getElementById("title");
-    const mainContent = document.getElementById("main");
-    const dot = document.getElementById("dot");
-    const enterText = document.getElementById("enter-text");
-
-    // 显示标题 2 秒后进入主画面
-    setTimeout(() => {
-      titleScreen.style.opacity = "0";
+    window.onload = () => {
       setTimeout(() => {
-        titleScreen.style.display = "none";
-        mainContent.style.display = "block";
-      }, 1000);
-    }, 2000);
-
-    // 点击小圆点后显示 Enter Bed
-    dot.addEventListener("click", () => {
-      enterText.style.display = "block";
-    });
-
-    // 点击 Enter Bed 后切换背景图
-    enterText.addEventListener("click", () => {
-      mainContent.style.backgroundImage = "url('Bed.png')";
-      enterText.style.display = "none";
-    });
+        document.getElementById("splash").style.display = "none";
+      }, 1500);
+    };
+    function showLabel() {
+      document.querySelector('.label').style.display = 'block';
+    }
+    function goToBed() {
+      window.location.href = "bed.html";
+    }
   </script>
-
 </body>
 </html>
