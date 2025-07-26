@@ -3,35 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <title>SADBOISMOKEE Related</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: #000; /* 防止黑边白边 */
       overflow: hidden;
     }
 
     #container {
-      position: relative;
-      width: 100vw;
       height: 100vh;
       overflow-x: auto;
       overflow-y: hidden;
       white-space: nowrap;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none; /* Firefox 隐藏滚动条 */
-    }
-
-    #container::-webkit-scrollbar {
-      display: none; /* Safari/Chrome 隐藏滚动条 */
+      position: relative;
+      width: max-content; /* ✅ 自动适应图片宽度，防止右边空白 */
     }
 
     #panorama {
       height: 100vh;
-      display: inline-block;
+      width: auto;
+      display: block; /* ✅ 防止下面出现额外空白 */
     }
 
     .hotspot {
@@ -39,7 +31,7 @@
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0);
+      background-color: rgba(255, 255, 255, 0); /* 可改为0.2看调试更方便 */
       cursor: pointer;
     }
 
@@ -52,6 +44,7 @@
       border-radius: 6px;
       display: none;
       cursor: pointer;
+      white-space: nowrap;
     }
   </style>
 </head>
