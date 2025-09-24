@@ -195,14 +195,18 @@
             text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         
-        .album-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            z-index: 100;
-            padding: 10px 0 30px;
-        }
+    .album-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.album-name {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 14px;
+    color: #ccc;
+}
         
         .album-cover {
             width: 80px;
@@ -328,16 +332,22 @@
     </div>
     
     <!-- 音乐部分 -->
-    <div class="section-title">ALBUM</div>
-    <div class="album-container">
-        <a href="http://163cn.tv/HwQYrF5" target="_blank">
-            <img src="emotional-cover.jpg" alt="EMOTIONAL" class="album-cover">
-        </a>
-        <div class="section-title">EP</div>
-        <a href="http://163cn.tv/HwRcSz5" target="_blank">
-            <img src="bluehour-cover.jpg" alt="BLUE HOUR(Prelude)" class="album-cover">
-        </a>
-    </div>
+   <!-- 音乐部分 -->
+<div class="section-title">ALBUM</div>
+<div class="album-container">
+    <a href="http://163cn.tv/HwQYrF5" target="_blank">
+        <img src="emotional-cover.jpg" alt="EMOTIONAL" class="album-cover">
+        <div class="album-name">EMOTIONAL</div>
+    </a>
+</div>
+
+<div class="section-title">EP</div>
+<div class="album-container">
+    <a href="http://163cn.tv/HwRcSz5" target="_blank">
+        <img src="bluehour-cover.jpg" alt="BLUE HOUR(Prelude)" class="album-cover">
+        <div class="album-name">BLUE HOUR(Prelude)</div>
+    </a>
+</div>
     
     <!-- 视频部分 -->
     <div class="section-title">VIDEOS</div>
@@ -413,5 +423,6 @@
     </script>
 </body>
 </html>
+
 
 
