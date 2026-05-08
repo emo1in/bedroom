@@ -1,401 +1,491 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+
 <meta charset="UTF-8" />
+
 <meta name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no,
+viewport-fit=cover">
 
 <title>SADBOISMOKEE Related</title>
 
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 html,body{
-    width:100%;
-    overflow-x:hidden;
-    background:
-    linear-gradient(
-    to bottom,
-    #000000,
-    #050816,
-    #0b1020,
-    #000000
-    );
+width:100%;
+overflow-x:hidden;
 
-    color:white;
-    font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+background:
+linear-gradient(
+to bottom,
+#000000,
+#050816,
+#0b1020,
+#000000
+);
+
+color:white;
+
+font-family:
+-apple-system,
+BlinkMacSystemFont,
+sans-serif;
 }
 
-/* 背景视差 */
+/* 背景 */
 
 #image-container{
-    position:fixed;
-    inset:0;
-    width:100%;
-    height:100vh;
-    overflow:hidden;
-    z-index:-2;
+position:fixed;
+inset:0;
+width:100%;
+height:100vh;
+overflow:hidden;
+z-index:-2;
 }
 
 #fullscreen-image{
-    width:100%;
-    height:120%;
-    object-fit:cover;
-    transform:translateY(0);
-    will-change:transform;
-    opacity:.55;
+width:100%;
+height:120%;
+object-fit:cover;
+transform:translateY(0);
+will-change:transform;
+opacity:.55;
 }
 
-/* 暗层 */
-
 .overlay{
-    position:fixed;
-    inset:0;
-    background:
-    linear-gradient(
-    to bottom,
-    rgba(0,0,0,.2),
-    rgba(0,0,0,.55),
-    rgba(0,0,0,.8)
-    );
-    z-index:-1;
+position:fixed;
+inset:0;
+
+background:
+linear-gradient(
+to bottom,
+rgba(0,0,0,.2),
+rgba(0,0,0,.55),
+rgba(0,0,0,.85)
+);
+
+z-index:-1;
 }
 
 /* 顶部 */
 
 .menu{
-    position:fixed;
-    top:25px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:1000;
+position:fixed;
+top:25px;
+left:50%;
 
-    font-size:17px;
-    font-weight:600;
-    letter-spacing:1px;
+transform:translateX(-50%);
 
-    cursor:pointer;
+z-index:1000;
 
-    text-shadow:0 2px 10px rgba(0,0,0,.8);
+font-size:17px;
+font-weight:600;
+letter-spacing:1px;
+
+cursor:pointer;
+
+text-shadow:
+0 2px 10px rgba(0,0,0,.8);
 }
 
-/* 汉堡菜单 */
+/* 汉堡 */
 
 .hamburger-menu{
-    position:fixed;
-    top:22px;
-    right:24px;
 
-    width:42px;
-    height:42px;
+position:fixed;
 
-    background:rgba(255,255,255,.08);
-    backdrop-filter:blur(12px);
+top:22px;
+right:24px;
 
-    border-radius:12px;
+width:42px;
+height:42px;
 
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    gap:5px;
+background:
+rgba(255,255,255,.08);
 
-    z-index:1001;
-    cursor:pointer;
+backdrop-filter:blur(12px);
+
+border-radius:12px;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+gap:5px;
+
+z-index:1001;
+cursor:pointer;
 }
 
 .hamburger-menu span{
-    width:18px;
-    height:2px;
-    background:white;
-    border-radius:999px;
+width:18px;
+height:2px;
+background:white;
+border-radius:999px;
 }
 
-/* 社交菜单 */
+/* 社交 */
 
 .social-menu{
-    position:fixed;
-    top:78px;
-    right:24px;
 
-    width:200px;
+position:fixed;
 
-    background:rgba(10,10,10,.82);
-    backdrop-filter:blur(25px);
+top:78px;
+right:24px;
 
-    border:1px solid rgba(255,255,255,.08);
+width:200px;
 
-    border-radius:18px;
+background:
+rgba(10,10,10,.82);
 
-    padding:15px;
+backdrop-filter:blur(25px);
 
-    display:none;
-    flex-direction:column;
-    gap:10px;
+border:
+1px solid rgba(255,255,255,.08);
 
-    z-index:999;
+border-radius:18px;
+
+padding:15px;
+
+display:none;
+flex-direction:column;
+gap:10px;
+
+z-index:999;
 }
 
 .social-menu.active{
-    display:flex;
+display:flex;
 }
 
 .social-link{
-    color:white;
-    text-decoration:none;
+color:white;
+text-decoration:none;
 
-    padding:10px 12px;
-    border-radius:10px;
+padding:10px 12px;
 
-    transition:.3s;
+border-radius:10px;
+
+transition:.3s;
 }
 
 .social-link:hover{
-    background:rgba(255,255,255,.08);
+background:
+rgba(255,255,255,.08);
 }
 
 /* HERO */
 
 .hero{
-    position:relative;
-    width:100%;
-    height:100vh;
 
-    display:flex;
-    align-items:flex-end;
+position:relative;
 
-    padding:0 8% 12%;
+width:100%;
+min-height:100vh;
+
+display:flex;
+align-items:flex-end;
+
+padding:
+140px 8% 12%;
 }
 
 .hero-content{
-    max-width:500px;
+max-width:760px;
+}
+
+.hero-cover{
+
+width:220px;
+height:220px;
+
+object-fit:cover;
+
+border-radius:22px;
+
+margin-bottom:35px;
+
+box-shadow:
+0 20px 50px rgba(0,0,0,.65);
+
+transition:
+transform .4s ease;
 }
 
 .hero-title{
-    font-size:62px;
-    font-weight:800;
-    letter-spacing:10px;
-    line-height:1;
+
+font-size:62px;
+font-weight:800;
+
+letter-spacing:8px;
+line-height:1.05;
 }
 
 .hero-sub{
-    margin-top:18px;
 
-    font-size:17px;
-    line-height:1.8;
+margin-top:30px;
 
-    opacity:.72;
+font-size:15px;
+line-height:2;
+
+opacity:.72;
+
+max-width:700px;
 }
 
 /* 倒计时 */
 
 .bluehour{
-    width:100%;
-    padding:80px 20px 50px;
-
-    text-align:center;
+width:100%;
+padding:80px 20px 50px;
+text-align:center;
 }
 
 .countdown-title{
-    font-size:14px;
-    letter-spacing:4px;
-    opacity:.7;
+font-size:14px;
+letter-spacing:4px;
+opacity:.7;
 }
 
 .countdown{
-    display:flex;
-    justify-content:center;
-    gap:24px;
-
-    margin-top:25px;
+display:flex;
+justify-content:center;
+gap:24px;
+margin-top:25px;
 }
 
 .countdown-item{
-    min-width:60px;
+min-width:60px;
 }
 
 .countdown-number{
-    font-size:34px;
-    font-weight:700;
+font-size:34px;
+font-weight:700;
 }
 
 .countdown-label{
-    margin-top:5px;
-    font-size:11px;
-    opacity:.5;
-    letter-spacing:2px;
+margin-top:5px;
+font-size:11px;
+opacity:.5;
+letter-spacing:2px;
 }
 
-/* 专辑区域 */
+/* 专辑 */
 
 .section-title{
-    text-align:center;
 
-    font-size:13px;
-    letter-spacing:6px;
+text-align:center;
 
-    opacity:.65;
+font-size:13px;
+letter-spacing:6px;
 
-    margin-bottom:40px;
+opacity:.65;
+
+margin-bottom:40px;
 }
 
 .albums-section{
-    width:100%;
-    padding:40px 24px 120px;
+width:100%;
+padding:40px 24px 120px;
 }
 
 .music-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:28px;
+
+display:grid;
+
+grid-template-columns:
+repeat(2,1fr);
+
+gap:28px;
 }
 
 .album-card{
-    position:relative;
-    overflow:hidden;
 
-    border-radius:18px;
+position:relative;
 
-    transform:translateY(0);
-    transition:transform .3s ease;
+overflow:hidden;
+
+border-radius:18px;
+
+transform:translateY(0);
+
+transition:
+transform .3s ease;
 }
 
 .album-cover{
-    width:100%;
-    aspect-ratio:1/1;
 
-    object-fit:cover;
+width:100%;
+aspect-ratio:1/1;
 
-    display:block;
+object-fit:cover;
 
-    border-radius:18px;
+display:block;
 
-    box-shadow:
-    0 10px 30px rgba(0,0,0,.55);
+border-radius:18px;
+
+box-shadow:
+0 10px 30px rgba(0,0,0,.55);
 }
 
 .album-info{
-    margin-top:12px;
+margin-top:12px;
 }
 
 .album-name{
-    font-size:15px;
-    font-weight:600;
+font-size:15px;
+font-weight:600;
 }
 
 .album-year{
-    margin-top:4px;
-    font-size:12px;
-    opacity:.5;
+margin-top:4px;
+font-size:12px;
+opacity:.5;
 }
 
 /* 视觉大片 */
 
 .visual-section{
-    position:relative;
-    width:100%;
-    height:100vh;
 
-    overflow:hidden;
+position:relative;
+
+width:100%;
+height:100vh;
+
+overflow:hidden;
 }
 
 .visual-image{
-    width:100%;
-    height:100%;
-    object-fit:cover;
 
-    transform:scale(1.1);
+width:100%;
+height:100%;
+
+object-fit:cover;
+
+transform:scale(1.1);
 }
 
 .visual-text{
-    position:absolute;
-    left:8%;
-    bottom:12%;
+
+position:absolute;
+
+left:8%;
+bottom:12%;
 }
 
 .visual-text h2{
-    font-size:54px;
-    letter-spacing:8px;
+
+font-size:54px;
+letter-spacing:8px;
 }
 
 .visual-text p{
-    margin-top:16px;
-    line-height:1.8;
-    opacity:.7;
+
+margin-top:16px;
+
+line-height:1.8;
+
+opacity:.7;
 }
 
 /* 视频 */
 
 .video-section{
-    padding:120px 20px;
+padding:120px 20px;
 }
 
 .video-placeholder{
-    width:100%;
-    height:240px;
 
-    border-radius:24px;
+width:100%;
+height:240px;
 
-    background:
-    rgba(255,255,255,.04);
+border-radius:24px;
 
-    backdrop-filter:blur(10px);
+background:
+rgba(255,255,255,.04);
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+backdrop-filter:blur(10px);
 
-    color:rgba(255,255,255,.45);
+display:flex;
+align-items:center;
+justify-content:center;
 
-    border:1px solid rgba(255,255,255,.06);
+color:
+rgba(255,255,255,.45);
+
+border:
+1px solid rgba(255,255,255,.06);
 }
 
 /* footer */
 
 .footer{
-    padding:80px 20px 40px;
 
-    text-align:center;
+padding:
+80px 20px 40px;
 
-    font-size:12px;
-    letter-spacing:4px;
+text-align:center;
 
-    opacity:.35;
+font-size:12px;
+
+letter-spacing:4px;
+
+opacity:.35;
 }
 
 /* fade */
 
 .fade-up{
-    opacity:0;
-    transform:translateY(80px);
-    transition:1s ease;
+opacity:0;
+transform:translateY(80px);
+transition:1s ease;
 }
 
 .fade-up.show{
-    opacity:1;
-    transform:translateY(0);
+opacity:1;
+transform:translateY(0);
 }
 
 /* 手机 */
 
 @media(max-width:768px){
 
+.hero{
+padding:
+140px 8% 20%;
+}
+
 .hero-title{
-    font-size:42px;
+font-size:42px;
+}
+
+.hero-cover{
+width:180px;
+height:180px;
+}
+
+.hero-sub{
+font-size:14px;
+line-height:1.9;
 }
 
 .visual-text h2{
-    font-size:38px;
+font-size:38px;
 }
 
 .music-grid{
-    gap:22px;
+gap:22px;
 }
 
 }
@@ -424,44 +514,63 @@ SADBOISMOKEE Related
 
 <!-- 汉堡 -->
 
-<div class="hamburger-menu" id="hamburgerMenu">
+<div class="hamburger-menu"
+id="hamburgerMenu">
+
 <span></span>
 <span></span>
 <span></span>
+
 </div>
 
 <!-- 社交 -->
 
-<div class="social-menu" id="socialMenu">
+<div class="social-menu"
+id="socialMenu">
 
-<a href="https://instagram.com/sophisticatepapi"
+<a
+href="https://instagram.com/sophisticatepapi"
 target="_blank"
 class="social-link">
+
 Instagram
+
 </a>
 
-<a href="https://twitter.com/SADBOISMOKEE"
+<a
+href="https://twitter.com/SADBOISMOKEE"
 target="_blank"
 class="social-link">
+
 Twitter
+
 </a>
 
-<a href="https://youtube.com/@sadboismokee"
+<a
+href="https://youtube.com/@sadboismokee"
 target="_blank"
 class="social-link">
+
 YouTube
+
 </a>
 
-<a href="https://music.apple.com/cn/artist/sadboismokee/1802540701"
+<a
+href="https://music.apple.com/cn/artist/sadboismokee/1802540701"
 target="_blank"
 class="social-link">
+
 Apple Music
+
 </a>
 
-<a href="https://open.spotify.com/artist/4fDzfYzIiC7VtOsOpKvHx1"
+<a
+href="https://open.spotify.com/artist/4fDzfYzIiC7VtOsOpKvHx1"
 target="_blank"
 class="social-link">
+
 Spotify
+
 </a>
 
 </div>
@@ -472,16 +581,48 @@ Spotify
 
 <div class="hero-content fade-up">
 
+<img
+src="bluehour-cover.jpg"
+class="hero-cover"
+/>
+
 <div class="hero-title">
-BLUE HOUR
+
+BLUE HOUR<br>
+COMING SOON
+
 </div>
 
 <div class="hero-sub">
-No signal.<br>
-Just blue.<br><br>
 
-漂浮在无人回应的海面上。<br>
-SADBOISMOKEE Official Visual Archive.
+There's a moment at sea when the light hasn't fully disappeared,
+but the dark has already taken over.<br><br>
+
+That's where "BLUE HOUR" begins.<br><br>
+
+From the surface to the deep,
+from anticipation to numbness,
+from struggle to acceptance —
+these tracks trace the slow descent
+of a feeling sinking over time.<br><br>
+
+The ocean here isn't romantic.<br>
+
+It's cold, quiet and bottomless —
+like certain relationships:
+beautiful, but never something
+you can truly hold onto.<br><br>
+
+"BLUE HOUR" is that moment
+in the night when everything goes still,
+yet your mind is at its clearest.<br><br>
+
+When the outside world finally falls silent,
+you begin to hear yourself slowly sinking.<br><br>
+
+No signal anymore.<br>
+Just blue.
+
 </div>
 
 </div>
@@ -499,26 +640,59 @@ ME MYSELF & I LOADING
 <div class="countdown">
 
 <div class="countdown-item">
-<div class="countdown-number" id="days">00</div>
-<div class="countdown-label">DAYS</div>
+
+<div class="countdown-number"
+id="days">
+00
+</div>
+
+<div class="countdown-label">
+DAYS
+</div>
+
 </div>
 
 <div class="countdown-item">
-<div class="countdown-number" id="hours">00</div>
-<div class="countdown-label">HOURS</div>
+
+<div class="countdown-number"
+id="hours">
+00
+</div>
+
+<div class="countdown-label">
+HOURS
+</div>
+
 </div>
 
 <div class="countdown-item">
-<div class="countdown-number" id="minutes">00</div>
-<div class="countdown-label">MIN</div>
+
+<div class="countdown-number"
+id="minutes">
+00
+</div>
+
+<div class="countdown-label">
+MIN
+</div>
+
 </div>
 
 <div class="countdown-item">
-<div class="countdown-number" id="seconds">00</div>
-<div class="countdown-label">SEC</div>
+
+<div class="countdown-number"
+id="seconds">
+00
+</div>
+
+<div class="countdown-label">
+SEC
 </div>
 
 </div>
+
+</div>
+
 </div>
 
 <!-- 专辑 -->
@@ -531,80 +705,94 @@ DISCOGRAPHY
 
 <div class="music-grid">
 
-<a class="album-card"
-href="http://163cn.tv/HwQYrF5"
+<a
+class="album-card"
+href="https://push.fm/fl/8uvtc1w9"
 target="_blank">
 
-<img src="emotional-cover.jpg"
+<img
+src="cover1.jpg"
 class="album-cover">
 
 <div class="album-info">
+
 <div class="album-name">
-EMOTIONAL
-</div>
-
-<div class="album-year">
-2025
-</div>
-</div>
-
-</a>
-
-<a class="album-card"
-href="http://163cn.tv/HwRcSz5"
-target="_blank">
-
-<img src="bluehour-cover.jpg"
-class="album-cover">
-
-<div class="album-info">
-<div class="album-name">
-BLUE HOUR
-</div>
-
-<div class="album-year">
-Prelude
-</div>
-</div>
-
-</a>
-
-<!-- 新增 -->
-
-<a class="album-card"
-href="#"
-target="_blank">
-
-<img src="cover3.jpg"
-class="album-cover">
-
-<div class="album-info">
-<div class="album-name">
-ME MYSELF & I
-</div>
-
-<div class="album-year">
-COMING SOON
-</div>
-</div>
-
-</a>
-
-<a class="album-card"
-href="#"
-target="_blank">
-
-<img src="cover4.jpg"
-class="album-cover">
-
-<div class="album-info">
-<div class="album-name">
-SEEN 12:27 PM
+Disappoint-Induced Emo Detach
 </div>
 
 <div class="album-year">
 SINGLE
 </div>
+
+</div>
+
+</a>
+
+<a
+class="album-card"
+href="https://push.fm/fl/ff94gicg"
+target="_blank">
+
+<img
+src="cover2.jpg"
+class="album-cover">
+
+<div class="album-info">
+
+<div class="album-name">
+on the blue sea
+</div>
+
+<div class="album-year">
+BLUE HOUR
+</div>
+
+</div>
+
+</a>
+
+<a
+class="album-card"
+href="https://push.fm/fl/ff94gicg"
+target="_blank">
+
+<img
+src="trailer-cover.jpg"
+class="album-cover">
+
+<div class="album-info">
+
+<div class="album-name">
+smoke + coffee
+</div>
+
+<div class="album-year">
+COMING SOON
+</div>
+
+</div>
+
+</a>
+
+<a
+class="album-card"
+href="https://push.fm/fl/wfnwyieo"
+target="_blank">
+
+<img
+src="cover4.jpg"
+class="album-cover">
+
+<div class="album-info">
+
+<div class="album-name">
+sad face
+</div>
+
+<div class="album-year">
+SINGLE
+</div>
+
 </div>
 
 </a>
@@ -613,11 +801,12 @@ SINGLE
 
 </section>
 
-<!-- 视觉大片 -->
+<!-- 视觉 -->
 
 <section class="visual-section fade-up">
 
-<img src="bluehour-world.jpg"
+<img
+src="bluehour-world.jpg"
 class="visual-image">
 
 <div class="visual-text">
@@ -666,21 +855,35 @@ new Date('2026-08-01T00:00:00');
 
 const now = new Date();
 
-const diff = releaseDate - now;
+const diff =
+releaseDate - now;
 
 const days =
-Math.floor(diff / (1000*60*60*24));
+Math.floor(
+diff /
+(1000*60*60*24)
+);
 
 const hours =
-Math.floor((diff%(1000*60*60*24))
-/(1000*60*60));
+Math.floor(
+(diff%(1000*60*60*24))
+/
+(1000*60*60)
+);
 
 const minutes =
-Math.floor((diff%(1000*60*60))
-/(1000*60));
+Math.floor(
+(diff%(1000*60*60))
+/
+(1000*60)
+);
 
 const seconds =
-Math.floor((diff%(1000*60))/1000);
+Math.floor(
+(diff%(1000*60))
+/
+1000
+);
 
 document.getElementById('days')
 .textContent =
@@ -707,54 +910,93 @@ updateCountdown();
 /* 菜单 */
 
 const hamburger =
-document.getElementById('hamburgerMenu');
+document.getElementById(
+'hamburgerMenu'
+);
 
 const socialMenu =
-document.getElementById('socialMenu');
+document.getElementById(
+'socialMenu'
+);
 
-hamburger.addEventListener('click',()=>{
+hamburger.addEventListener(
+'click',
+()=>{
 
-socialMenu.classList.toggle('active');
+socialMenu.classList.toggle(
+'active'
+);
 
 });
 
-document.addEventListener('click',(e)=>{
+document.addEventListener(
+'click',
+(e)=>{
 
 if(
 !socialMenu.contains(e.target)
 &&
 !hamburger.contains(e.target)
 ){
-socialMenu.classList.remove('active');
+
+socialMenu.classList.remove(
+'active'
+);
+
 }
 
 });
 
-/* 背景视差 */
+/* 滚动效果 */
 
-window.addEventListener('scroll',()=>{
+window.addEventListener(
+'scroll',
+()=>{
 
-const scrollY = window.scrollY;
+const scrollY =
+window.scrollY;
+
+/* 背景 */
 
 document.getElementById(
 'fullscreen-image'
 ).style.transform =
 `translateY(${scrollY*0.25}px)`;
 
-/* 封面漂浮 */
+/* HERO 漂浮 */
 
-document.querySelectorAll('.album-card')
+const heroCover =
+document.querySelector(
+'.hero-cover'
+);
+
+if(heroCover){
+
+heroCover.style.transform =
+`translateY(${scrollY * 0.12}px)
+scale(${1 + scrollY * 0.00008})`;
+
+}
+
+/* 专辑漂浮 */
+
+document
+.querySelectorAll('.album-card')
+
 .forEach((card,index)=>{
 
 const speed =
 0.03 + index * 0.015;
 
-const y = scrollY * speed;
+const y =
+scrollY * speed;
 
 const rotate =
 (scrollY * 0.003)
 *
-(index % 2 === 0 ? 1 : -1);
+(index % 2 === 0
+? 1
+: -1);
 
 card.style.transform =
 `translateY(${y}px)
@@ -764,13 +1006,18 @@ rotate(${rotate}deg)`;
 
 /* fade */
 
-document.querySelectorAll('.fade-up')
+document
+.querySelectorAll('.fade-up')
+
 .forEach(el=>{
 
 const top =
 el.getBoundingClientRect().top;
 
-if(top < window.innerHeight - 80){
+if(
+top <
+window.innerHeight - 80
+){
 
 el.classList.add('show');
 
