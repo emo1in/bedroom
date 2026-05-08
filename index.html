@@ -1002,9 +1002,7 @@ socialMenu.classList.remove(
 
 /* 滚动效果 */
 
-window.addEventListener(
-'scroll',
-()=>{
+function handleScroll(){
 
 const scrollY =
 window.scrollY;
@@ -1015,21 +1013,6 @@ document.getElementById(
 'fullscreen-image'
 ).style.transform =
 `translateY(${scrollY*0.25}px)`;
-
-/* HERO 漂浮 */
-
-const heroCover =
-document.querySelector(
-'.hero-cover'
-);
-
-if(heroCover){
-
-heroCover.style.transform =
-`translateY(${scrollY * 0.08}px)
-scale(${1 + scrollY * 0.00005})`;
-
-}
 
 /* 专辑漂浮 */
 
@@ -1078,8 +1061,18 @@ el.classList.add('show');
 
 });
 
-});
+}
 
+/* 页面打开立即执行 */
+
+handleScroll();
+
+/* 滚动继续执行 */
+
+window.addEventListener(
+'scroll',
+handleScroll
+);
 </script>
 
 </body>
