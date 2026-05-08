@@ -60,22 +60,12 @@ height:120%;
 object-fit:cover;
 transform:translateY(0);
 will-change:transform;
-opacity:.55;
+opacity:.72;
 }
 
+/* 去掉开屏黑幕 */
 .overlay{
-position:fixed;
-inset:0;
-
-background:
-linear-gradient(
-to bottom,
-rgba(0,0,0,.2),
-rgba(0,0,0,.55),
-rgba(0,0,0,.85)
-);
-
-z-index:-1;
+display:none;
 }
 
 /* 顶部 */
@@ -195,33 +185,35 @@ width:100%;
 min-height:100vh;
 
 display:flex;
-align-items:flex-end;
+justify-content:center;
+align-items:center;
+text-align:center;
 
 padding:
 140px 8% 12%;
 }
 
 .hero-content{
-max-width:760px;
+max-width:900px;
 }
 
 .hero-cover{
 
 width:100%;
-max-width:420px;
+max-width:560px;
 
 height:auto;
 
 display:block;
 
+margin:0 auto 40px auto;
+
 object-fit:cover;
 
-border-radius:22px;
-
-margin-bottom:35px;
+border-radius:28px;
 
 box-shadow:
-0 20px 50px rgba(0,0,0,.65);
+0 30px 80px rgba(0,0,0,.75);
 
 transition:
 transform .4s ease;
@@ -229,23 +221,25 @@ transform .4s ease;
 
 .hero-title{
 
-font-size:62px;
+font-size:58px;
 font-weight:800;
 
-letter-spacing:8px;
-line-height:1.05;
+letter-spacing:6px;
+line-height:1.1;
+
+white-space:nowrap;
 }
 
 .hero-sub{
 
-margin-top:30px;
+margin-top:34px;
 
 font-size:15px;
 line-height:2;
 
-opacity:.72;
+opacity:.82;
 
-max-width:700px;
+max-width:760px;
 }
 
 /* 倒计时 */
@@ -341,6 +335,22 @@ border-radius:18px;
 
 box-shadow:
 0 10px 30px rgba(0,0,0,.55);
+}
+
+/* 预览图 */
+.preview-image{
+
+width:100%;
+max-width:420px;
+
+display:block;
+
+margin:0 auto;
+
+border-radius:28px;
+
+box-shadow:
+0 20px 50px rgba(0,0,0,.65);
 }
 
 .album-info{
@@ -467,17 +477,17 @@ transform:translateY(0);
 
 .hero{
 padding:
-140px 8% 20%;
+120px 6% 18%;
 }
 
 .hero-title{
-font-size:42px;
+font-size:34px;
+letter-spacing:3px;
 }
 
 .hero-cover{
-width:100%;
-max-width:320px;
-height:auto;
+max-width:92%;
+border-radius:24px;
 }
 
 .hero-sub{
@@ -491,6 +501,10 @@ font-size:38px;
 
 .music-grid{
 gap:22px;
+}
+
+.preview-image{
+max-width:92%;
 }
 
 }
@@ -593,8 +607,7 @@ class="hero-cover"
 
 <div class="hero-title">
 
-BLUE HOUR<br>
-COMING SOON
+BLUE HOUR COMING SOON
 
 </div>
 
@@ -806,6 +819,20 @@ Single
 
 </section>
 
+<!-- 新增预览 -->
+
+<section class="albums-section fade-up">
+
+<div class="section-title">
+PREVIEW
+</div>
+
+<img
+src="preview.jpeg"
+class="preview-image">
+
+</section>
+
 <!-- 视觉 -->
 
 <section class="visual-section fade-up">
@@ -978,8 +1005,8 @@ document.querySelector(
 if(heroCover){
 
 heroCover.style.transform =
-`translateY(${scrollY * 0.12}px)
-scale(${1 + scrollY * 0.00008})`;
+`translateY(${scrollY * 0.08}px)
+scale(${1 + scrollY * 0.00005})`;
 
 }
 
