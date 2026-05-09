@@ -76,37 +76,50 @@ display:none;
 position:fixed;
 
 top:18px;
-left:20px;
+left:50%;
+
+transform:translateX(-50%);
 
 z-index:2000;
 
-font-size:15px;
-font-weight:700;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
 
-line-height:1.05;
+text-align:center;
 
-letter-spacing:.5px;
+line-height:1;
+
+white-space:nowrap;
 
 cursor:pointer;
 
 text-shadow:
 0 2px 10px rgba(0,0,0,.8);
 
-white-space:nowrap;
-
-display:flex;
-flex-direction:column;
-align-items:flex-start;
-
 }
 
 .menu .top-line{
+
+font-size:15px;
+font-weight:800;
+
+letter-spacing:.5px;
+
 white-space:nowrap;
 }
 
 .menu .bottom-line{
-white-space:nowrap;
+
+margin-top:2px;
+
+font-size:13px;
+font-weight:700;
+
 opacity:.9;
+
+white-space:nowrap;
 }
  
 /* 汉堡 */
@@ -346,99 +359,186 @@ box-shadow:
 
 /* DISCOGRAPHY */
 
-.artists-section{
+<!-- DISCOGRAPHY -->
+
+<section class="albums-section fade-up">
+
+<div class="section-title">
+DISCOGRAPHY
+</div>
+
+<div class="artist-wall">
+
+<a
+href="https://push.fm/fl/8uvtc1w9"
+target="_blank"
+class="artist-name"
+style="top:140px;left:6%;">
+
+Disappoint-Induced<br>
+Emo Detach
+
+</a>
+
+<a
+href="https://push.fm/fl/ff94gicg"
+target="_blank"
+class="artist-name"
+style="top:360px;left:6%;">
+
+on the blue sea
+
+</a>
+
+<a
+href="https://push.fm/fl/wfnwyieo"
+target="_blank"
+class="artist-name"
+style="top:560px;left:6%;">
+
+smoke + coffee
+
+</a>
+
+<a
+href="https://push.fm/fl/li2vzfdr"
+target="_blank"
+class="artist-name"
+style="top:760px;left:6%;">
+
+sad face
+
+</a>
+
+<img
+src="IMG_0869.jpeg"
+class="artist-img"
+style="
+top:60px;
+left:0%;
+height:280px;
+">
+
+<img
+src="IMG_5809.jpeg"
+class="artist-img"
+style="
+top:0px;
+left:38%;
+height:360px;
+">
+
+<img
+src="IMG_0787.jpeg"
+class="artist-img"
+style="
+top:220px;
+left:56%;
+height:300px;
+">
+
+<img
+src="IMG_0733.jpeg"
+class="artist-img"
+style="
+top:430px;
+left:8%;
+height:340px;
+">
+
+<img
+src="IMG_2864.jpeg"
+class="artist-img"
+style="
+top:540px;
+left:48%;
+height:340px;
+">
+
+<img
+src="1162EFBC-6A7D-43F7-BE3A-8023D95339C3.png"
+class="artist-img"
+style="
+top:900px;
+left:58%;
+height:360px;
+object-position:left;
+">
+
+</div>
+
+</section>
+
+ /* OVO风格 DISCOGRAPHY */
+
+.artist-wall{
+
 position:relative;
+
 width:100%;
-padding:80px 24px 160px;
+height:1350px;
+
+margin-top:40px;
+
 overflow:hidden;
 }
 
-.artists-wrapper{
-position:relative;
-max-width:1200px;
-margin:0 auto;
-min-height:950px;
-}
-
-.artist-names{
-position:relative;
-z-index:3;
-
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-.artist-name{
-
-font-size:72px;
-font-weight:700;
-line-height:1;
-
-letter-spacing:-2px;
-
-color:white;
-text-decoration:none;
-
-width:fit-content;
-
-transition:.35s ease;
-
-mix-blend-mode:screen;
-}
-
-.artist-name:hover{
-opacity:.45;
-transform:translateX(10px);
-}
-
-/* 漂浮图 */
-
-.floating-gallery{
-position:absolute;
-inset:0;
-pointer-events:none;
-}
-
-.floating-img{
+.artist-img{
 
 position:absolute;
 
-width:260px;
+width:42%;
 
 object-fit:cover;
 
 box-shadow:
-0 20px 50px rgba(0,0,0,.5);
+0 10px 30px rgba(0,0,0,.45);
 
 transition:
 transform .2s linear;
 }
 
-.img1{
-top:40px;
-left:58%;
-width:240px;
+.artist-name{
+
+position:absolute;
+
+z-index:5;
+
+font-size:42px;
+font-weight:700;
+
+line-height:1.05;
+
+letter-spacing:-1px;
+
+color:white;
+
+text-decoration:none;
+
+mix-blend-mode:screen;
+
+text-transform:uppercase;
 }
 
-.img2{
-top:210px;
-left:72%;
-width:270px;
+@media(max-width:768px){
+
+.artist-wall{
+height:1150px;
 }
 
-.img3{
-top:520px;
-left:52%;
-width:230px;
+.artist-name{
+
+font-size:24px;
+
+line-height:1.1;
 }
 
-.img4{
-top:700px;
-left:74%;
-width:250px;
+.artist-img{
+width:46%;
 }
 
+}
+ 
 /* 视频 */
 
 .video-section{
@@ -1004,6 +1104,30 @@ el.classList.add('show');
 }
 
 handleScroll();
+
+ /* DISCOGRAPHY 图片漂浮 */
+
+document
+.querySelectorAll('.artist-img')
+
+.forEach((img,index)=>{
+
+window.addEventListener(
+'scroll',
+()=>{
+
+const scrollY =
+window.scrollY;
+
+const speed =
+0.04 + index * 0.015;
+
+img.style.transform =
+`translateY(${scrollY * speed}px)`;
+
+});
+
+});
 
 window.addEventListener(
 'scroll',
