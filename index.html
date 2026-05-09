@@ -64,6 +64,7 @@ opacity:.72;
 }
 
 /* 去掉开屏黑幕 */
+
 .overlay{
 display:none;
 }
@@ -71,24 +72,43 @@ display:none;
 /* 顶部 */
 
 .menu{
+
 position:fixed;
-top:25px;
-left:50%;
 
-transform:translateX(-50%);
+top:18px;
+left:20px;
 
-z-index:1000;
+z-index:2000;
 
-font-size:17px;
-font-weight:600;
-letter-spacing:1px;
+font-size:15px;
+font-weight:700;
+
+line-height:1.05;
+
+letter-spacing:.5px;
 
 cursor:pointer;
 
 text-shadow:
 0 2px 10px rgba(0,0,0,.8);
+
+white-space:nowrap;
+
+display:flex;
+flex-direction:column;
+align-items:flex-start;
+
 }
 
+.menu .top-line{
+white-space:nowrap;
+}
+
+.menu .bottom-line{
+white-space:nowrap;
+opacity:.9;
+}
+ 
 /* 汉堡 */
 
 .hamburger-menu{
@@ -189,6 +209,8 @@ justify-content:center;
 align-items:center;
 text-align:center;
 
+overflow:hidden;
+
 padding:
 140px 8% 12%;
 }
@@ -214,9 +236,6 @@ border-radius:28px;
 
 box-shadow:
 0 30px 80px rgba(0,0,0,.75);
-
-transition:
-transform .4s ease;
 }
 
 .hero-title{
@@ -224,13 +243,18 @@ transform .4s ease;
 font-size:42px;
 font-weight:800;
 
-letter-spacing:3px;
-line-height:1.2;
+letter-spacing:2px;
+line-height:1.1;
 
-white-space:normal;
+white-space:nowrap;
 
-max-width:100%;
-word-break:break-word;
+width:100%;
+
+overflow:hidden;
+
+text-overflow:ellipsis;
+
+text-align:center;
 }
 
 .hero-sub{
@@ -285,7 +309,7 @@ opacity:.5;
 letter-spacing:2px;
 }
 
-/* 专辑 */
+/* 标题 */
 
 .section-title{
 
@@ -299,51 +323,12 @@ opacity:.65;
 margin-bottom:40px;
 }
 
-.albums-section{
-width:100%;
+/* PREVIEW */
+
+.preview-section{
 padding:40px 24px 120px;
 }
 
-.music-grid{
-
-display:grid;
-
-grid-template-columns:
-repeat(2,1fr);
-
-gap:28px;
-}
-
-.album-card{
-
-position:relative;
-
-overflow:hidden;
-
-border-radius:18px;
-
-transform:translateY(0);
-
-transition:
-transform .3s ease;
-}
-
-.album-cover{
-
-width:100%;
-aspect-ratio:1/1;
-
-object-fit:cover;
-
-display:block;
-
-border-radius:18px;
-
-box-shadow:
-0 10px 30px rgba(0,0,0,.55);
-}
-
-/* 预览图 */
 .preview-image{
 
 width:100%;
@@ -359,98 +344,106 @@ box-shadow:
 0 20px 50px rgba(0,0,0,.65);
 }
 
-.album-info{
-margin-top:12px;
-}
+/* DISCOGRAPHY */
 
-.album-name{
-font-size:15px;
-font-weight:600;
-}
-
-.album-year{
-margin-top:4px;
-font-size:12px;
-opacity:.5;
-}
-
-/* 视觉大片 */
-
-.visual-section{
-
+.artists-section{
 position:relative;
-
 width:100%;
-height:100vh;
-
+padding:80px 24px 160px;
 overflow:hidden;
 }
 
-.visual-image{
-
-width:100%;
-height:100%;
-
-object-fit:cover;
-
-transform:scale(1.1);
+.artists-wrapper{
+position:relative;
+max-width:1200px;
+margin:0 auto;
+min-height:950px;
 }
 
-.visual-text{
+.artist-names{
+position:relative;
+z-index:3;
+
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.artist-name{
+
+font-size:72px;
+font-weight:700;
+line-height:1;
+
+letter-spacing:-2px;
+
+color:white;
+text-decoration:none;
+
+width:fit-content;
+
+transition:.35s ease;
+
+mix-blend-mode:screen;
+}
+
+.artist-name:hover{
+opacity:.45;
+transform:translateX(10px);
+}
+
+/* 漂浮图 */
+
+.floating-gallery{
+position:absolute;
+inset:0;
+pointer-events:none;
+}
+
+.floating-img{
 
 position:absolute;
 
-left:8%;
-bottom:12%;
+width:260px;
+
+object-fit:cover;
+
+box-shadow:
+0 20px 50px rgba(0,0,0,.5);
+
+transition:
+transform .2s linear;
 }
 
-.visual-text h2{
-
-font-size:54px;
-letter-spacing:8px;
+.img1{
+top:40px;
+left:58%;
+width:240px;
 }
 
-.visual-text p{
-
-margin-top:16px;
-
-line-height:1.8;
-
-opacity:.7;
+.img2{
+top:210px;
+left:72%;
+width:270px;
 }
 
-/* 视频 */
+.img3{
+top:520px;
+left:52%;
+width:230px;
+}
+
+.img4{
+top:700px;
+left:74%;
+width:250px;
+}
 
 /* 视频 */
 
 .video-section{
 padding:120px 20px;
 }
-
-.video-placeholder{
-
-width:100%;
-height:240px;
-
-border-radius:24px;
-
-background:
-rgba(255,255,255,.04);
-
-backdrop-filter:blur(10px);
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-color:
-rgba(255,255,255,.45);
-
-border:
-1px solid rgba(255,255,255,.06);
-}
-
-/* 新增视频播放器 */
 
 .video-player{
 
@@ -472,7 +465,7 @@ background:black;
 box-shadow:
 0 20px 60px rgba(0,0,0,.55);
 }
- 
+
 /* footer */
 
 .footer{
@@ -512,9 +505,10 @@ padding:
 }
 
 .hero-title{
-font-size:26px;
+font-size:17px;
 letter-spacing:1px;
-line-height:1.3;
+line-height:1.1;
+white-space:nowrap;
 }
 
 .hero-sub{
@@ -528,21 +522,41 @@ max-width:92%;
 border-radius:24px;
 }
 
-.hero-sub{
-font-size:14px;
-line-height:1.9;
-}
-
-.visual-text h2{
-font-size:38px;
-}
-
-.music-grid{
-gap:22px;
-}
-
 .preview-image{
 max-width:92%;
+}
+
+.artist-name{
+font-size:44px;
+line-height:1.05;
+}
+
+.artists-wrapper{
+min-height:780px;
+}
+
+.floating-img{
+width:150px !important;
+}
+
+.img1{
+top:20px;
+left:52%;
+}
+
+.img2{
+top:180px;
+left:58%;
+}
+
+.img3{
+top:430px;
+left:48%;
+}
+
+.img4{
+top:610px;
+left:60%;
 }
 
 }
@@ -565,7 +579,13 @@ max-width:92%;
 <div class="menu"
 onclick="window.location.href='https://linktr.ee/emo1in'">
 
-SADBOISMOKEE Related
+<div class="top-line">
+SADBOISMOKEE
+</div>
+
+<div class="bottom-line">
+Related
+</div>
 
 </div>
 
@@ -644,9 +664,7 @@ class="hero-cover"
 />
 
 <div class="hero-title">
-
 BLUE HOUR COMING SOON
-
 </div>
 
 <div class="hero-sub">
@@ -662,20 +680,6 @@ from struggle to acceptance —
 these tracks trace the slow descent
 of a feeling sinking over time.<br><br>
 
-The ocean here isn't romantic.<br>
-
-It's cold, quiet and bottomless —
-like certain relationships:
-beautiful, but never something
-you can truly hold onto.<br><br>
-
-"BLUE HOUR" is that moment
-in the night when everything goes still,
-yet your mind is at its clearest.<br><br>
-
-When the outside world finally falls silent,
-you begin to hear yourself slowly sinking.<br><br>
-
 No signal anymore.<br>
 Just blue.
 
@@ -690,61 +694,29 @@ Just blue.
 <div class="bluehour fade-up">
 
 <div class="countdown-title">
- BLUE HOUR LOADING
+BLUE HOUR LOADING
 </div>
 
 <div class="countdown">
 
 <div class="countdown-item">
-
-<div class="countdown-number"
-id="days">
-00
-</div>
-
-<div class="countdown-label">
-DAYS
-</div>
-
+<div class="countdown-number" id="days">00</div>
+<div class="countdown-label">DAYS</div>
 </div>
 
 <div class="countdown-item">
-
-<div class="countdown-number"
-id="hours">
-00
-</div>
-
-<div class="countdown-label">
-HOURS
-</div>
-
+<div class="countdown-number" id="hours">00</div>
+<div class="countdown-label">HOURS</div>
 </div>
 
 <div class="countdown-item">
-
-<div class="countdown-number"
-id="minutes">
-00
-</div>
-
-<div class="countdown-label">
-MIN
-</div>
-
+<div class="countdown-number" id="minutes">00</div>
+<div class="countdown-label">MIN</div>
 </div>
 
 <div class="countdown-item">
-
-<div class="countdown-number"
-id="seconds">
-00
-</div>
-
-<div class="countdown-label">
-SEC
-</div>
-
+<div class="countdown-number" id="seconds">00</div>
+<div class="countdown-label">SEC</div>
 </div>
 
 </div>
@@ -753,7 +725,7 @@ SEC
 
 <!-- PREVIEW -->
 
-<section class="albums-section fade-up">
+<section class="preview-section fade-up">
 
 <div class="section-title">
 PREVIEW
@@ -765,107 +737,75 @@ class="preview-image">
 
 </section>
 
-<!-- 专辑 -->
+<!-- DISCOGRAPHY -->
 
-<section class="albums-section fade-up">
+<section class="artists-section fade-up">
 
 <div class="section-title">
 DISCOGRAPHY
 </div>
 
-<div class="music-grid">
+<div class="artists-wrapper">
+
+<div class="artist-names">
 
 <a
-class="album-card"
 href="https://push.fm/fl/8uvtc1w9"
-target="_blank">
+target="_blank"
+class="artist-name">
+
+Disappoint-Induced Emo Detach
+
+</a>
+
+<a
+href="https://push.fm/fl/ff94gicg"
+target="_blank"
+class="artist-name">
+
+on the blue sea
+
+</a>
+
+<a
+href="https://push.fm/fl/wfnwyieo"
+target="_blank"
+class="artist-name">
+
+smoke + coffee
+
+</a>
+
+<a
+href="https://push.fm/fl/li2vzfdr"
+target="_blank"
+class="artist-name">
+
+sad face
+
+</a>
+
+</div>
+
+<div class="floating-gallery">
 
 <img
 src="IMG_0869.jpeg"
-class="album-cover">
-
-<div class="album-info">
-
-<div class="album-name">
-Disappoint-Induced Emo Detach
-</div>
-
-<div class="album-year">
-Single
-</div>
-
-</div>
-
-</a>
-
-<a
-class="album-card"
-href="https://push.fm/fl/ff94gicg"
-target="_blank">
+class="floating-img img1">
 
 <img
 src="IMG_5809.jpeg"
-class="album-cover">
-
-<div class="album-info">
-
-<div class="album-name">
-on the blue sea
-</div>
-
-<div class="album-year">
-Single
-</div>
-
-</div>
-
-</a>
-
-<a
-class="album-card"
-href="https://push.fm/fl/wfnwyieo"
-target="_blank">
+class="floating-img img2">
 
 <img
 src="IMG_0787.jpeg"
-class="album-cover">
-
-<div class="album-info">
-
-<div class="album-name">
-smoke + cofe
-</div>
-
-<div class="album-year">
-Single
-</div>
-
-</div>
-
-</a>
-
-<a
-class="album-card"
-href="https://push.fm/fl/li2vzfdr"
-target="_blank">
+class="floating-img img3">
 
 <img
 src="IMG_0733.jpeg"
-class="album-cover">
-
-<div class="album-info">
-
-<div class="album-name">
-sad face
-</div>
-
-<div class="album-year">
-Single
-</div>
+class="floating-img img4">
 
 </div>
-
-</a>
 
 </div>
 
@@ -1014,27 +954,27 @@ document.getElementById(
 ).style.transform =
 `translateY(${scrollY*0.25}px)`;
 
-/* 专辑漂浮 */
+/* DISCOGRAPHY 漂浮 */
 
 document
-.querySelectorAll('.album-card')
+.querySelectorAll('.floating-img')
 
-.forEach((card,index)=>{
+.forEach((img,index)=>{
 
 const speed =
-0.03 + index * 0.015;
+0.04 + index * 0.02;
 
 const y =
 scrollY * speed;
 
 const rotate =
-(scrollY * 0.003)
+(scrollY * 0.002)
 *
 (index % 2 === 0
 ? 1
 : -1);
 
-card.style.transform =
+img.style.transform =
 `translateY(${y}px)
 rotate(${rotate}deg)`;
 
@@ -1063,16 +1003,13 @@ el.classList.add('show');
 
 }
 
-/* 页面打开立即执行 */
-
 handleScroll();
-
-/* 滚动继续执行 */
 
 window.addEventListener(
 'scroll',
 handleScroll
 );
+
 </script>
 
 </body>
