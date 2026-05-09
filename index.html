@@ -419,6 +419,76 @@ line-height:1.8;
 opacity:.7;
 }
 
+ /* OVO风格 DISCOGRAPHY */
+
+.artist-wall{
+
+position:relative;
+
+width:100%;
+height:1350px;
+
+margin-top:40px;
+
+overflow:hidden;
+}
+
+.artist-img{
+
+position:absolute;
+
+width:42%;
+
+object-fit:cover;
+
+box-shadow:
+0 10px 30px rgba(0,0,0,.45);
+
+transition:
+transform .2s linear;
+}
+
+.artist-name{
+
+position:absolute;
+
+z-index:5;
+
+font-size:42px;
+font-weight:700;
+
+line-height:1.05;
+
+letter-spacing:-1px;
+
+color:white;
+
+text-decoration:none;
+
+mix-blend-mode:screen;
+
+text-transform:uppercase;
+}
+
+@media(max-width:768px){
+
+.artist-wall{
+height:1150px;
+}
+
+.artist-name{
+
+font-size:24px;
+
+line-height:1.1;
+}
+
+.artist-img{
+width:46%;
+}
+
+}
+
 /* 视频 */
 
 .video-section{
@@ -900,59 +970,113 @@ class="preview-image">
 
 <!-- DISCOGRAPHY -->
 
-<section class="discography-section fade-up">
+<section class="albums-section fade-up">
 
 <div class="section-title">
 DISCOGRAPHY
 </div>
 
-<div class="discography-layout">
+<div class="artist-wall">
 
-<!-- 大文字 -->
+<a
+href="https://push.fm/fl/8uvtc1w9"
+target="_blank"
+class="artist-name"
+style="top:140px;left:6%;">
 
-<div class="discography-text">
-
-<a href="https://push.fm/fl/8uvtc1w9" target="_blank">
 Disappoint-Induced<br>
 Emo Detach
+
 </a>
 
-<a href="https://push.fm/fl/ff94gicg" target="_blank">
+<a
+href="https://push.fm/fl/ff94gicg"
+target="_blank"
+class="artist-name"
+style="top:360px;left:6%;">
+
 on the blue sea
+
 </a>
 
-<a href="https://push.fm/fl/wfnwyieo" target="_blank">
-smoke + cofe
+<a
+href="https://push.fm/fl/wfnwyieo"
+target="_blank"
+class="artist-name"
+style="top:560px;left:6%;">
+
+smoke + coffee
+
 </a>
 
-<a href="https://push.fm/fl/li2vzfdr" target="_blank">
+<a
+href="https://push.fm/fl/li2vzfdr"
+target="_blank"
+class="artist-name"
+style="top:760px;left:6%;">
+
 sad face
+
 </a>
-
-</div>
-
-<!-- 漂浮封面 -->
 
 <img
 src="IMG_0869.jpeg"
-class="floating-cover floating-1">
+class="artist-img"
+style="
+top:60px;
+left:0%;
+height:280px;
+">
 
 <img
 src="IMG_5809.jpeg"
-class="floating-cover floating-2">
+class="artist-img"
+style="
+top:0px;
+left:38%;
+height:360px;
+">
 
 <img
 src="IMG_0787.jpeg"
-class="floating-cover floating-3">
+class="artist-img"
+style="
+top:220px;
+left:56%;
+height:300px;
+">
 
 <img
 src="IMG_0733.jpeg"
-class="floating-cover floating-4">
+class="artist-img"
+style="
+top:430px;
+left:8%;
+height:340px;
+">
+
+<img
+src="IMG_2864.jpeg"
+class="artist-img"
+style="
+top:540px;
+left:48%;
+height:340px;
+">
+
+<img
+src="1162EFBC-6A7D-43F7-BE3A-8023D95339C3.png"
+class="artist-img"
+style="
+top:900px;
+left:58%;
+height:360px;
+object-position:left;
+">
 
 </div>
 
 </section>
-
 <!-- 视频 -->
 
 <section class="video-section fade-up">
@@ -1113,27 +1237,21 @@ img.style.transform =
 
 });
 
-document
-.querySelectorAll('.album-card')
+/* 图片漂浮 */
 
-.forEach((card,index)=>{
+document
+.querySelectorAll('.artist-img')
+
+.forEach((img,index)=>{
 
 const speed =
-0.03 + index * 0.015;
+0.04 + index * 0.015;
 
 const y =
 scrollY * speed;
 
-const rotate =
-(scrollY * 0.003)
-*
-(index % 2 === 0
-? 1
-: -1);
-
-card.style.transform =
-`translateY(${y}px)
-rotate(${rotate}deg)`;
+img.style.transform =
+`translateY(${y}px)`;
 
 });
 
