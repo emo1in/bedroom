@@ -443,8 +443,6 @@ aspect-ratio:1/1;
 
 object-fit:cover;
 
-will-change:transform;
-
 box-shadow:
 0 10px 30px rgba(0,0,0,.45);
 
@@ -1235,44 +1233,26 @@ img.style.transform =
 
 });
 
-/* DISCOGRAPHY 丝滑漂浮 */
+/* 图片漂浮 */
 
-const artistImgs =
-document.querySelectorAll('.artist-img');
+document
+.querySelectorAll('.artist-img')
 
-let currentScroll = 0;
-let targetScroll = 0;
-
-window.addEventListener('scroll',()=>{
-
-targetScroll = window.scrollY;
-
-});
-
-function animate(){
-
-currentScroll +=
-(targetScroll - currentScroll) * 0.08;
-
-artistImgs.forEach((img,index)=>{
+.forEach((img,index)=>{
 
 const speed =
-40 + index * 18;
+0.18 + index * 0.06;
 
 const y =
-Math.sin(currentScroll * 0.0015)
-* speed;
+scrollY * speed;
 
 img.style.transform =
 `translate3d(0,${y}px,0)`;
 
 });
 
-requestAnimationFrame(animate);
+});
 
-}
-
-animate();
 /* fade */
 
 document
