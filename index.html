@@ -1241,15 +1241,13 @@ document
 .forEach((img,index)=>{
 
 const speed =
-0.18 + index * 0.06;
+0.04 + index * 0.015;
 
 const y =
 scrollY * speed;
 
 img.style.transform =
-`translate3d(0,${y}px,0)`;
-
-});
+`translateY(${y}px)`;
 
 });
 
